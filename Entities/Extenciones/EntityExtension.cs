@@ -10,6 +10,13 @@ namespace Entities.Extenciones
   public static class EntityExtension
     {
 
+        public static void Map(this LugarCena itemDb, LugarCena item)
+        {
+            itemDb.Lugar = item.Lugar;
+            itemDb.HotelId = item.HotelId;
+        }
+
+
         public static void Map(this Usuario itemDb, Usuario itemNuevo)
         {
             itemDb.UserName = itemNuevo.UserName;

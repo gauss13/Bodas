@@ -65,8 +65,8 @@ namespace ApiBodas
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    ValidIssuer = "https://localhost:44392",
-                    ValidAudience = "https://localhost:44392",
+                    ValidIssuer = "https://localhost:44392, http://localhost:50271",
+                    ValidAudience = "https://localhost:44392, http://localhost:50271",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superCretetdfadfgdfgdgwefrwR54WE#43d#$%@13"))
                 };
 
@@ -85,7 +85,7 @@ namespace ApiBodas
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
+               // app.UseHsts(); //abc
             }
 
             app.UseHttpsRedirection();

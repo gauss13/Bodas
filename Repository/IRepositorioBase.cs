@@ -20,7 +20,7 @@ namespace Repository
 
         Task<IEnumerable<T>> FindAsyc(Expression<Func<T, bool>> predicado);
 
-       Task<T> AddAsync(T entity);
+        Task<T> AddAsync(T entity);
 
         Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
 

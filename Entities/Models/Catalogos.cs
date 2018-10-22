@@ -48,6 +48,7 @@ namespace Entities.Models.Catalogos
         [StringLength(150)]
         public string Lugar { get; set; }
         public int HotelId { get; set; }
+        public bool Activo { get; set; }
         public Hotel Hotel { get; set; }
         public List<Agenda> Agendas { get; set; }
     }
