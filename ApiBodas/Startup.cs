@@ -85,10 +85,10 @@ namespace ApiBodas
             else
             {
                 app.UseExceptionHandler("/Error");
-               // app.UseHsts(); //abc
+                app.UseHsts(); //abc
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

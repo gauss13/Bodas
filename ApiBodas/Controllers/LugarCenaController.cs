@@ -34,7 +34,7 @@ namespace ApiBodas.Controllers
                 var objB = new
                 {
                     ok = false,
-                    mensaje = $"No se encontró el lugar Cena con id {id}",
+                    mensaje = $"No se encontró el registro con id {id}",
                     errors = ""
                 };
 
@@ -59,7 +59,7 @@ namespace ApiBodas.Controllers
                 var objB = new
                 {
                     ok = false,
-                    mensaje = "No se encontrarón Lugares de cena",
+                    mensaje = "No se encontrarón Registros",
                     errors = ""
                 };
                 return BadRequest(objB);
@@ -88,7 +88,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    Role = r
+                    LugarCena = r
                 };
 
                 return Created("", obj);
@@ -117,12 +117,12 @@ namespace ApiBodas.Controllers
             {
                 itemNuevo.Id = id;
 
-                //buscar la Role 
+                
                 var itemEncontrado = await this.Repositorio.LugaresCena.GetByIdAsync(id);
 
                 if (itemEncontrado == null)
                 {
-                    return BadRequest(new { ok = false, mensaje = "No se encontró la Role", erros = "" });
+                    return BadRequest(new { ok = false, mensaje = "No se encontró el registro a actulizar", erros = "" });
                 }
 
                 itemEncontrado.Map(itemNuevo);
@@ -133,7 +133,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    Role = itemEncontrado
+                    LugarCena = itemEncontrado
                 };
 
                 return Created("", obj);
@@ -145,7 +145,7 @@ namespace ApiBodas.Controllers
                 return BadRequest(new
                 {
                     ok = false,
-                    mensaje = "Se produjo un error al Actualizar los datos de la Role",
+                    mensaje = "Se produjo un error al Actualizar el registro",
                     errors = new { mensaje = ex.Message }
 
                 });
@@ -162,7 +162,7 @@ namespace ApiBodas.Controllers
 
             if (itemEncontrado == null)
             {
-                return BadRequest(new { ok = false, mensaje = $"No se encontró el Role con Id {id}", erros = "" });
+                return BadRequest(new { ok = false, mensaje = $"No se encontró el registro con Id {id}", erros = "" });
             }
 
             // no se borra fisicamente el registro, solo se cambia de estatus
@@ -173,8 +173,8 @@ namespace ApiBodas.Controllers
             var obj = new
             {
                 ok = true,
-                mensaje = $"Se Desactivo el Role {id}, correctamente",
-                Role = itemEncontrado
+                mensaje = $"Se Desactivo el registro {id}, correctamente",
+                LugarCena = itemEncontrado
             };
 
             return Ok(obj);
