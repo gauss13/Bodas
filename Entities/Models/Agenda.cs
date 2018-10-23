@@ -21,15 +21,15 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public int EstadoAgendaId { get; set; }
-        public int EjecutivoId { get; set; }
+        public int EjecutivoId { get; set; } // de la tabla de usuarios
 
         [Column(TypeName = "Date")]
         public DateTime? FechaConfirmada { get; set; } //Fecha de venta
 
-        public int CordinadorId { get; set; }
+        public int CordinadorId { get; set; } // de la tabla de usuarios
 
         [Column(TypeName = "Date")]     
-        public DateTime FechaBoda { get; set; }
+        public DateTime? FechaBoda { get; set; }
 
         [StringLength(20)]
         public string HoraBoda { get; set; }
@@ -47,7 +47,7 @@ namespace Entities.Models
         public string NombrePareja { get; set; }
         [StringLength(50)]
         public string CorreoPareja { get; set; }
-        [StringLength(3)]
+        [StringLength(2)]
         public string Nacionalidad { get; set; }
         [StringLength(50)]
         public string NombreAgente { get; set; }
@@ -67,10 +67,10 @@ namespace Entities.Models
         public DateTime FechaSelloAuditoria { get; set; }
 
         [Column(TypeName = "Date")]
-        public DateTime FechaPago { get; set; }
+        public DateTime? FechaPago { get; set; }
 
         [Column(TypeName = "Date")]
-        public DateTime FechaLlegada { get; set; }
+        public DateTime? FechaLlegada { get; set; }
 
         public int HotelId { get; set; }
 
@@ -79,8 +79,8 @@ namespace Entities.Models
         // Usuario
         public int UsuarioId { get; set; }
         public DateTime FechaReg { get; set; }
-        public int UsuarioMod { get; set; }
-        public DateTime FechaMod { get; set; }
+        public int? UsuarioMod { get; set; }
+        public DateTime? FechaMod { get; set; }
 
         //Propiedad Nav
         public Hotel Hotel { get; set; }

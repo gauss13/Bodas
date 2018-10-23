@@ -81,7 +81,8 @@ namespace ApiBodas.Controllers
         {
             try
             {
-
+                item.FechaReg = DateTime.Now;
+                item.Activo = true;
                 var r = await this.Repositorio.Agendas.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
 
@@ -127,6 +128,7 @@ namespace ApiBodas.Controllers
 
                 itemEncontrado.Map(itemNuevo);
 
+                itemEncontrado.FechaMod = DateTime.Now;
                 var r = this.Repositorio.Agendas.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 
