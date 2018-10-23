@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Entities.Models.Extras
@@ -9,8 +10,9 @@ namespace Entities.Models.Extras
   public  class DiasBloqueados
     {
         public int Id { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "Date")]
         public DateTime Fecha { get; set; }
         public bool Parcial { get; set; }
         [StringLength(20)]
@@ -32,6 +34,7 @@ namespace Entities.Models.Extras
         public string Comentarios { get; set; }
         public int UsuarioId { get; set; }
         public DateTime FechaReg { get; set; }
+        public bool Activo { get; set; }
 
     }
 

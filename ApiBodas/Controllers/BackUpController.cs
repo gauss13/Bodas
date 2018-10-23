@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
@@ -13,14 +12,15 @@ namespace ApiBodas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LugarCenaController : ControllerBase
+    public class BackUpController : ControllerBase
     {
         public IRepositorioWrapper Repositorio { get; }
 
-        public LugarCenaController(IRepositorioWrapper rw)
+        public BackUpController(IRepositorioWrapper rw)
         {
             Repositorio = rw;
         }
+
 
 
         // ->> ACTIONS
@@ -28,7 +28,7 @@ namespace ApiBodas.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var item = await this.Repositorio.LugaresCena.GetByIdAsync(id);
+            var item = await this.Repositorio.BackUps.GetByIdAsync(id);
 
             if (item == null)
             {
@@ -52,7 +52,7 @@ namespace ApiBodas.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var lista = await this.Repositorio.LugaresCena.GetAllAsyc();
+            var lista = await this.Repositorio.BackUps.GetAllAsyc();
 
             // BAD REQUEST
             if (!lista.Any())
@@ -71,25 +71,25 @@ namespace ApiBodas.Controllers
             {
                 ok = true,
                 total = lista.Count(),
-                LugarCena = lista
+                BackUp = lista
             };
 
             return Ok(obj);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear([FromBody] LugarCena item)
+        public async Task<IActionResult> Crear([FromBody] BackUp item)
         {
             try
             {
 
-                var r = await this.Repositorio.LugaresCena.AddAsync(item);
+                var r = await this.Repositorio.BackUps.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
 
                 var obj = new
                 {
                     ok = true,
-                    LugarCena = r
+                    BackUp = r
                 };
 
                 return Created("", obj);
@@ -111,15 +111,15 @@ namespace ApiBodas.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Actualizar([FromBody] LugarCena itemNuevo, int id)
+        public async Task<IActionResult> Actualizar([FromBody] BackUp itemNuevo, int id)
         {
 
             try
             {
                 itemNuevo.Id = id;
 
-                
-                var itemEncontrado = await this.Repositorio.LugaresCena.GetByIdAsync(id);
+
+                var itemEncontrado = await this.Repositorio.BackUps.GetByIdAsync(id);
 
                 if (itemEncontrado == null)
                 {
@@ -128,13 +128,13 @@ namespace ApiBodas.Controllers
 
                 itemEncontrado.Map(itemNuevo);
 
-                var r = this.Repositorio.LugaresCena.Update(itemEncontrado);
+                var r = this.Repositorio.BackUps.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 
                 var obj = new
                 {
                     ok = true,
-                    LugarCena = itemEncontrado
+                    BackUp = itemEncontrado
                 };
 
                 return Created("", obj);
@@ -159,7 +159,7 @@ namespace ApiBodas.Controllers
         public async Task<IActionResult> Eliminar(int id)
         {
             //buscar la Role 
-            var itemEncontrado = await this.Repositorio.LugaresCena.GetByIdAsync(id);
+            var itemEncontrado = await this.Repositorio.BackUps.GetByIdAsync(id);
 
             if (itemEncontrado == null)
             {
@@ -168,14 +168,14 @@ namespace ApiBodas.Controllers
 
             // no se borra fisicamente el registro, solo se cambia de estatus
             itemEncontrado.Activo = false;
-            var r = this.Repositorio.LugaresCena.Update(itemEncontrado);
+            var r = this.Repositorio.BackUps.Update(itemEncontrado);
             await this.Repositorio.CompleteAsync();
 
             var obj = new
             {
                 ok = true,
                 mensaje = $"Se Desactivo el registro {id}, correctamente",
-                LugarCena = itemEncontrado
+                BackUp = itemEncontrado
             };
 
             return Ok(obj);
@@ -184,7 +184,6 @@ namespace ApiBodas.Controllers
 
 
         // <<- ACTIONS
-
 
     }
 }

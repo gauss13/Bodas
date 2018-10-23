@@ -4,14 +4,16 @@ using Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181023140132_BackUpActivo")]
+    partial class BackUpActivo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,8 +134,6 @@ namespace ApiBodas.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Activo");
 
                     b.Property<string>("Correo")
                         .HasMaxLength(50);
@@ -262,8 +262,6 @@ namespace ApiBodas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Activo");
-
                     b.Property<string>("Descripcion")
                         .HasMaxLength(50);
 
@@ -277,8 +275,6 @@ namespace ApiBodas.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Activo");
 
                     b.Property<int>("AgendaId");
 
@@ -302,8 +298,7 @@ namespace ApiBodas.Migrations
 
                     b.Property<bool>("Activo");
 
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("Date");
+                    b.Property<DateTime>("Fecha");
 
                     b.Property<string>("HoraFinal")
                         .HasMaxLength(20);
