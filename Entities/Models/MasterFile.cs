@@ -12,6 +12,8 @@ namespace Entities.Models.Masterfiles
         public int Id { get; set; }
         public string Hotel { get; set; }
         public int AgendaId { get; set; }
+        public bool Activo { get; set; }
+        public string  Descripcion { get; set; }
 
     }
 
@@ -28,7 +30,7 @@ namespace Entities.Models.Masterfiles
         [StringLength(150)]
         public string Img { get; set; }
         public int DivisaId { get; set; }
-        public Divisa Divisa { get; set; }
+       // public Divisa Divisa { get; set; }
 
     }
 

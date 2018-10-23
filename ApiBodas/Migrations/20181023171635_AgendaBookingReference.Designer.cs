@@ -4,14 +4,16 @@ using Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181023171635_AgendaBookingReference")]
+    partial class AgendaBookingReference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -381,11 +383,7 @@ namespace ApiBodas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Activo");
-
                     b.Property<int>("AgendaId");
-
-                    b.Property<string>("Descripcion");
 
                     b.Property<string>("Hotel");
 
@@ -418,6 +416,8 @@ namespace ApiBodas.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DivisaId");
 
                     b.ToTable("MasterFileContenido");
                 });
@@ -473,8 +473,6 @@ namespace ApiBodas.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Activo");
 
                     b.Property<int>("CategoriaServicioId");
 
@@ -630,6 +628,14 @@ namespace ApiBodas.Migrations
                     b.HasOne("Entities.Models.Catalogos.Hotel", "Hotel")
                         .WithMany("LugaresCeremonia")
                         .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Entities.Models.Masterfiles.MasterFileContent", b =>
+                {
+                    b.HasOne("Entities.Models.Catalogos.Divisa", "Divisa")
+                        .WithMany()
+                        .HasForeignKey("DivisaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

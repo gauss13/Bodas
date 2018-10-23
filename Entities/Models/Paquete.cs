@@ -32,9 +32,11 @@ namespace Entities.Models.Paquetes
         [StringLength(250)]
         public string Img { get; set; }
         public int CategoriaServicioId { get; set; }
+        public bool Activo { get; set; }
         public CategoriaServicio Categoria { get; set; }
         public int DivisaId { get; set; }
-        public Divisa Divisa { get; set; }      
+        public Divisa Divisa { get; set; }
+       
     }
 
     public class PaqueteServicio

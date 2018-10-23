@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Entities.Models.Extras;
+using Entities.Models.Masterfiles;
+using Entities.Models.Paquetes;
 
 namespace Entities.Extenciones
 {
@@ -45,7 +47,7 @@ namespace Entities.Extenciones
             itemDb.UsuarioId = item.UsuarioId;
             itemDb.FechaReg = item.FechaReg;
             itemDb.UsuarioMod = item.UsuarioMod;
-            itemDb.FechaMod = item.FechaMod;      
+            itemDb.FechaMod = item.FechaMod;
             itemDb.EstadoAgendaId = item.EstadoAgendaId;
             itemDb.Pax3raEdad = item.Pax3raEdad;
 
@@ -117,10 +119,61 @@ namespace Entities.Extenciones
             itemDb.Comentarios = item.Comentarios;
         }
 
-        //public static void Map(this Ejecutivo itemDb, Ejecutivo itemNuevo)
-        //{
-        //    itemDb.Nombre = itemNuevo.Nombre;
-        //    itemDb.Iniciales = itemNuevo.Iniciales;
-        //}
-    }
+        //MASTER FILE
+
+        public static void Map(this MasterFile itemDb, MasterFile item)
+        {
+            itemDb.Hotel = item.Hotel;
+            itemDb.Descripcion = item.Descripcion;
+
+        }
+
+        public static void Map(this MasterFileContent itemDb, MasterFileContent item)
+        {
+            itemDb.PrecioUnitario = item.PrecioUnitario;
+            itemDb.Cantidad = item.Cantidad;
+            itemDb.Total = item.Total;
+            itemDb.Img = item.Img;
+            itemDb.DivisaId = item.DivisaId;
+        }
+
+        //PAQUETES
+        public static void Map(this CategoriaServicio itemDb, CategoriaServicio item)
+        {
+            itemDb.Descripcion = item.Descripcion;
+        }
+
+        public static void Map(this PaqueteServicio itemDb, PaqueteServicio item)
+        {
+            itemDb.PaqueteId = item.PaqueteId;
+            itemDb.ServicioId= item.ServicioId;
+        }
+
+        public static void Map(this Servicio itemDb, Servicio item)
+        {
+            itemDb.Descripcion = item.Descripcion;
+            itemDb.PrecioSugerido = item.PrecioSugerido;
+            itemDb.Nota = item.Nota;
+            itemDb.Img = item.Img;
+            itemDb.CategoriaServicioId = item.CategoriaServicioId;
+            itemDb.DivisaId = item.DivisaId;
+        }
+
+        public static void Map(this Paquete itemDb, Paquete item)
+        {
+            itemDb.Descripcion = item.Descripcion;
+            itemDb.Clave = item.Clave ;
+            itemDb.Activo = item.Activo;
+    
+        }
+
+
+
+
+            //public static void Map(this Ejecutivo itemDb, Ejecutivo itemNuevo)
+            //{
+            //    itemDb.Nombre = itemNuevo.Nombre;
+            //    itemDb.Iniciales = itemNuevo.Iniciales;
+            //}
+        }
 }
