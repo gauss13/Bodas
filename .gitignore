@@ -1,0 +1,12 @@
+
+.vs/
+ApiBodas/obj
+ApiBodas/bin
+
+Entities/obj
+Entities/bin
+
+Repository/obj
+Repository/bin
+
+ApiBodas/ClientApp/node_modules
