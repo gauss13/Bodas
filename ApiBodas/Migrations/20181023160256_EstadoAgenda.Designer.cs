@@ -4,14 +4,16 @@ using Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181023160256_EstadoAgenda")]
+    partial class EstadoAgenda
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +26,6 @@ namespace ApiBodas.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Activo");
 
                     b.Property<int>("AgenciaId");
 
@@ -106,7 +106,9 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Promocion")
                         .HasMaxLength(20);
 
-                    b.Property<int>("TipoCeremoniaId");
+                    b.Property<int>("TipoCereminiaId");
+
+                    b.Property<int?>("TipoCeremoniaId");
 
                     b.Property<int>("UsuarioId");
 
@@ -283,7 +285,7 @@ namespace ApiBodas.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Acronimo")
-                        .HasMaxLength(3);
+                        .HasMaxLength(2);
 
                     b.Property<string>("Descripcion");
 
@@ -592,8 +594,7 @@ namespace ApiBodas.Migrations
 
                     b.HasOne("Entities.Models.Catalogos.TipoCeremonia", "TipoCeremonia")
                         .WithMany()
-                        .HasForeignKey("TipoCeremoniaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TipoCeremoniaId");
                 });
 
             modelBuilder.Entity("Entities.Models.Catalogos.BackUp", b =>

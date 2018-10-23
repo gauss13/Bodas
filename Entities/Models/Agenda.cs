@@ -9,10 +9,18 @@ using System.Text;
 
 namespace Entities.Models
 {
+    public class EstadoAgenda
+    {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        [StringLength(3)]
+        public string Acronimo { get; set; }
+    }
+
   public  class Agenda
     {
         public int Id { get; set; }
-        public int EstadoAgenda { get; set; }
+        public int EstadoAgendaId { get; set; }
         public int EjecutivoId { get; set; }
 
         [Column(TypeName = "Date")]
@@ -28,10 +36,12 @@ namespace Entities.Models
         public int LugarCeremoniaId { get; set; }
         public int LugarCenaId { get; set; }
         public int BackUpId { get; set; }
-        public int TipoCereminiaId { get; set; }
+        public int TipoCeremoniaId { get; set; }
+        public int Pax3raEdad { get; set; } // R= AD Adultos, SE Señor (3era edad se usa mayormente en España), JR Junior (Adolescentes), NI Niños, CU Cunas (bebés).
         public int PaxAdultos { get; set; }
-        public int PaxMenores { get; set; }
-        public int PaxBebes { get; set; }
+        public int PaxJunior { get; set; }
+        public int PaxNinos { get; set; }
+        public int PaxCunas { get; set; }
         public int PaqueteId { get; set; }
         [StringLength(50)]
         public string NombrePareja { get; set; }
@@ -63,6 +73,8 @@ namespace Entities.Models
         public DateTime FechaLlegada { get; set; }
 
         public int HotelId { get; set; }
+
+        public bool Activo { get; set; }
 
         // Usuario
         public int UsuarioId { get; set; }

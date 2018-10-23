@@ -11,6 +11,7 @@ namespace Entities.Models.Masterfiles
     {
         public int Id { get; set; }
         public string Hotel { get; set; }
+        public int AgendaId { get; set; }
 
     }
 

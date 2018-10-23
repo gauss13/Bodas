@@ -70,5 +70,6 @@ namespace Entities.Contexts
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Divisa> Divisas { get; set; }
+        public DbSet<EstadoAgenda> EstadosAgenda { get; set; }
     }
 }
