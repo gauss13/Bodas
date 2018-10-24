@@ -47,7 +47,7 @@ namespace ApiBodas
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/dist";
+              //  configuration.RootPath = "ClientApp/dist"; //descomentar
             });
 
 
@@ -88,9 +88,9 @@ namespace ApiBodas
                 app.UseHsts(); //abc
             }
 
-            //app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseHttpsRedirection(); ////descomentar para https
+            //app.UseStaticFiles(); //descomentar
+            //app.UseSpaStaticFiles(); //descomentar
 
             app.UseAuthentication();
 
@@ -101,18 +101,22 @@ namespace ApiBodas
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+            //descomentar este config
+            //app.UseSpa(spa =>
+            //{
+            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            //    // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
+            //    //descomentar las 5 lineas
+            //    spa.Options.SourcePath = "ClientApp";
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseAngularCliServer(npmScript: "start");
+            //    }
+
+
+            //});
         }
     }
 }

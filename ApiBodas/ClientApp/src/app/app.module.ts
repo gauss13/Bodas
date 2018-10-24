@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { PagesComponent } from './pages/pages.component';
 import { SharedModule } from './shared/shared.module';
 import { APP_ROUTES } from './app.routes';
+import { ServiceModule } from './services/services.modules';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { APP_ROUTES } from './app.routes';
     BrowserModule,
     APP_ROUTES,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    ServiceModule
   ],
   providers: [],
   bootstrap: [AppComponent]
