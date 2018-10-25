@@ -49,13 +49,13 @@
           </button>
             </div>
 
-            <form (ngSubmit)="save()" novalidate [formGroup]="formGroup">
+            <form [formGroup]="fg" (ngSubmit)="save()">
                 <div class="modal-body">
 
 
                     <div class="form-group" [ngClass]="{'has-error': errorCampos.ingreso}">
-                        <label for="nuevoLugar">Lugar Cena</label>
-                        <input type="text" class="form-control" (blur)="mostrarError('ingreso')" id="nuevoLugar" name="nuevoLugar" formControlName="nuevoLugar" aria-describedby="lugarlHelp" placeholder="Escriba El Lugar">
+                        <label for="lugar">Lugar Cena</label>
+                        <input type="text" class="form-control" (blur)="mostrarError('ingreso')" id="lugar" name="lugar" formControlName="lugar" aria-describedby="lugarlHelp" placeholder="Escriba El Lugar">
                         <small id="lugarlHelp" class="form-text text-muted" *ngIf="errorCampos.ingreso" [innerHTML]="errorCampos.ingreso">...</small>
                     </div>
 
@@ -65,7 +65,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary">Save changes</button>
+                    <button type="submit" [disabled]="!fg.valid" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
 

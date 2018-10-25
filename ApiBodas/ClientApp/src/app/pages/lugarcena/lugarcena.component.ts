@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LugarCena } from '../../models/lugarcena.model';
 import { LugarcenaService } from 'src/app/services/service.index';
-import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 
 @Component({
   selector: 'app-lugarcena',
@@ -25,6 +25,13 @@ ignorarExistenCambiosPendientes: boolean = false;
 lugares:LugarCena[] = [];// array vacio
 totalRegistros : number =0;
 
+
+// formGroup = new  FormGroup({
+//   lugar : new FormControl(''),
+//   hotelid : new FormControl(''),
+//   activo : new FormControl('')
+// });
+
 constructor(public _servicio: LugarcenaService, private fb: FormBuilder) { 
 
 // ***************************************************************************************
@@ -41,11 +48,13 @@ this.textoDeValidacion = {
 // ***************************************************************************************
 this.errorCampos = {
   Lugar: '',
-  fechaNacimiento: '',
+  HotelId: '',
   activo: ''
 }
 
 } // <- contructor
+
+fg : FormGroup;
 
 ngOnInit() {
   this.construirFormulario();
@@ -54,11 +63,6 @@ ngOnInit() {
 
 
 
-formGroup = new  FormGroup({
-  lugar : new FormControl(''),
-  hotelid : new FormControl(''),
-  activo : new FormControl('')
-});
 // captura evento
  formChangesSub: any;
 
@@ -69,15 +73,13 @@ formGroup = new  FormGroup({
 // ***************************************************************************************
 construirFormulario() {
 
-this.formGroup = this.fb.group({
-  lugar: ['', Validators.required],
-  hotelid:['', Validators.required],
-  activo:true
+this.fg = this.fb.group({
+  lugar: ['', Validators.required]
 });
 
-this.formChangesSub = this.formGroup.valueChanges.subscribe( data => this.onCambioValor());
+this.formChangesSub = this.fg.valueChanges.subscribe( data => this.onCambioValor());
 
-this.formGroup.touched;
+this.fg.touched;
 
 }
 
@@ -87,12 +89,12 @@ this.formGroup.touched;
 mostrarError(campo) {
 
 
-  if (!this.formGroup) { return; }
-  if (this.formGroup.get(campo).valid) { return; }
+  if (!this.fg) { return; }
+  if (this.fg.get(campo).valid) { return; }
 
 
   //if (this.formGroup.get(campo).touched || this.formGroup.get(campo).dirty && !this.formGroup.get(campo).valid)
-  if (this.formGroup.get(campo).touched && this.errorCampos[campo] === '' && !this.formGroup.get(campo).valid) {
+  if (this.fg.get(campo).touched && this.errorCampos[campo] === '' && !this.fg.get(campo).valid) {
 
     if (this.textoDeValidacion[campo].required !== 'undefined')
       this.errorCampos[campo] = this.textoDeValidacion[campo].required;
@@ -110,7 +112,7 @@ onCambioValor() {
   console.log(' cambio valor');
 
   // no hacer nada
-  if (!this.formGroup) { return; }
+  if (!this.fg) { return; }
 
   // funcion set error
   const _setTextoError = (control: AbstractControl, errorCampo: any, campo: string) => {
@@ -142,7 +144,7 @@ onCambioValor() {
       // establecemos a vacio el mensaje del campo
       this.errorCampos[campo] = '';
       //
-      _setTextoError(this.formGroup.get(campo), this.errorCampos, campo);
+      _setTextoError(this.fg.get(campo), this.errorCampos, campo);
 
     }
 
@@ -160,7 +162,7 @@ existenCambiosPendientes(): boolean {
 
   if (this.ignorarExistenCambiosPendientes) { return false;}
 
-  return !this.formGroup.pristine; //pristine indica si el formulario ha sido editado
+  return !this.fg.pristine; //pristine indica si el formulario ha sido editado
 
 }
 
@@ -200,6 +202,17 @@ console.log(resp.lugarCena);
 crearLugarCena(formulario)
 {
 console.log(formulario.nuevoLugar);
+}
+
+save() {
+  this.ignorarExistenCambiosPendientes = true;
+
+  // "10000".replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") # => "10,000"
+  let itemLugar: LugarCena = Object.assign({}, this.fg.value)
+
+console.log(itemLugar);
+
+
 }
 
 
