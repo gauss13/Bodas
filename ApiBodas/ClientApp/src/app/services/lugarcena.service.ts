@@ -28,7 +28,8 @@ return this.http.get(url).pipe(
 map((resp:any) => {
 
   this.totalLugaresCena = resp.total;
-  return resp.lugarCena;
+  //return resp.lugarCena;
+  return resp;
 
 })
 
