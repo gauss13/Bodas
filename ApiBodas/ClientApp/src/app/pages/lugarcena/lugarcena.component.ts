@@ -25,9 +25,13 @@ totalRegistros : number =0;
 //  Cargar los lugares de cena 
 // ***************************************************************************************
 
-cargarLugares()
-{
+cargarLugares() {
+
+  console.log('carga inicial');
+
   this._servicio.GetLugaresCena().subscribe( (resp:any) => {
+
+    console.log(resp);
 
 this.totalRegistros = this._servicio.totalLugaresCena;
 this.lugares = resp;

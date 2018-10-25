@@ -44,6 +44,18 @@ namespace ApiBodas
              });
 
 
+            // Configura CORS
+            services.AddCors(options => {
+
+                options.AddPolicy("EnableCORS", builder => {
+
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
+                });
+
+            });
+
+
+            //SPA
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -65,8 +77,8 @@ namespace ApiBodas
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    ValidIssuer = "https://localhost:44392, http://localhost:50271",
-                    ValidAudience = "https://localhost:44392, http://localhost:50271",
+                    ValidIssuer = "https://localhost:44392, http://localhost:50271, http://localhost:4200",
+                    ValidAudience = "https://localhost:44392, http://localhost:50271, http://localhost:4200",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superCretetdfadfgdfgdgwefrwR54WE#43d#$%@13"))
                 };
 
@@ -92,6 +104,7 @@ namespace ApiBodas
             //app.UseStaticFiles(); //descomentar
             //app.UseSpaStaticFiles(); //descomentar
 
+            app.UseCors("EnableCORS"); // activamos cors para toda la aplicacion
             app.UseAuthentication();
 
             app.UseMvc(routes =>
