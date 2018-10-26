@@ -4,6 +4,8 @@ import { LugarcenaService } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 import { HotelService } from 'src/app/services/hotel.service';
 import { Hotel } from 'src/app/models/hotel.model';
+import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
+ 
 
 @Component({
   selector: 'app-lugarcena',
@@ -30,12 +32,6 @@ totalRegistros : number =0;
 hoteles:Hotel[] = [];// array vacio
 
 
-// formGroup = new  FormGroup({
-//   lugar : new FormControl(''),
-//   hotelid : new FormControl(''),
-//   activo : new FormControl('')
-// });
-
 constructor(public _servicio: LugarcenaService,
             private fb: FormBuilder,
             private _servicioHotel: HotelService) { 
@@ -45,6 +41,7 @@ constructor(public _servicio: LugarcenaService,
 // ***************************************************************************************
 this.textoDeValidacion = {
   lugar: { required: 'El campo Lugar es <strong>requerido</strong>.' },
+  otro: { required: 'El campo otro es <strong>requerido</strong>.' },
   hotelid: { required: 'Seleccione un Hotel <strong>requerido</strong>.' },
   activo: { required: 'El campo activo es <strong>requerido</strong>.'  }
 }
@@ -54,6 +51,7 @@ this.textoDeValidacion = {
 // ***************************************************************************************
 this.errorCampos = {
   lugar: '',
+  otro: '',
   hotelid: '',
   activo: ''
 }
@@ -81,6 +79,7 @@ construirFormulario() {
 
 this.fg = this.fb.group({
   lugar: ['', Validators.required],
+  otro: ['', Validators.required],
   hotelid: ['', Validators.required],
   activo: ['', Validators.required]
 });
@@ -93,73 +92,88 @@ this.fg.touched;
 }
 
 // ***************************************************************************************
-//   Muestra el mensaje de error
+//   Muestra el mensaje de error 123
 // ***************************************************************************************
-mostrarError(campo) {
-
-
-  if (!this.fg) { return; }
-  if (this.fg.get(campo).valid) { return; }
-
-
-  //if (this.formGroup.get(campo).touched || this.formGroup.get(campo).dirty && !this.formGroup.get(campo).valid)
-  if (this.fg.get(campo).touched && this.errorCampos[campo] === '' && !this.fg.get(campo).valid) {
-
-    if (this.textoDeValidacion[campo].required !== 'undefined')
-      this.errorCampos[campo] = this.textoDeValidacion[campo].required;
-
-  }
-
-
+mostrarError(campo){
+mostrarErrorx(campo, this.fg, this.textoDeValidacion, this.errorCampos);
 }
+
+// mostrarError(campo)
+// {
+//   if (!this.fg) { return; }
+
+//   if (this.fg.get(campo).valid) { return; }
+
+//   //if (this.formGroup.get(campo).touched || this.formGroup.get(campo).dirty && !this.formGroup.get(campo).valid)
+//   if (this.fg.get(campo).touched && this.errorCampos[campo] === '' && !this.fg.get(campo).valid) {
+
+//     if (this.textoDeValidacion[campo].required !== 'undefined')
+//       this.errorCampos[campo] = this.textoDeValidacion[campo].required;
+
+//   }
+
+// }
+
+
 
 // ***************************************************************************************
 //   Cambio Valor
 // ***************************************************************************************
-onCambioValor() {
 
-  console.log(' cambio valor');
-
-  // no hacer nada
-  if (!this.fg) { return; }
-
-  // funcion set error
-  const _setTextoError = (control: AbstractControl, errorCampo: any, campo: string) => {
-
-    if (control && control.dirty && control.invalid) {
-
-      // devuleve un objeto con los mensajes de validacion
-      const mensajeError = this.textoDeValidacion[campo];
-
-      for (const item in control.errors) {
-
-        // revisamos si errors tiene la propiedad con el nombre del item
-        if (control.errors.hasOwnProperty(item)) {
-          // buscamos en 
-          errorCampo[campo] = mensajeError[item] + '<br>';
-        }
-
-      }
-
-    }
-
-  };
-
-  // Revisamos los errors por campo
-  for (const campo in this.errorCampos) {
-    // si en 
-    if (this.errorCampos.hasOwnProperty(campo)) {
-
-      // establecemos a vacio el mensaje del campo
-      this.errorCampos[campo] = '';
-      //
-      _setTextoError(this.fg.get(campo), this.errorCampos, campo);
-
-    }
-
-  }
-
+onCambioValor()
+{
+  onCambioValorx( this.fg, this.textoDeValidacion, this.errorCampos);
 }
+
+// onCambioValor() {
+
+//   console.log(' cambio valor');
+
+//   // console.log(this.errorCampos);
+
+//   //console.log(this.textoDeValidacion);
+
+
+//   // no hacer nada
+//   if (!this.fg) { return; }
+
+//   // funcion set error
+//   const _setTextoError = (control: AbstractControl, errorCampo: any, campo: string) => {
+
+//     if (control && control.dirty && control.invalid) {
+
+//       // devuleve un objeto con los mensajes de validacion
+//       const mensajeError = this.textoDeValidacion[campo];
+
+//       for (const item in control.errors) {
+
+//         // revisamos si errors tiene la propiedad con el nombre del item
+//         if (control.errors.hasOwnProperty(item)) {
+//           // buscamos en 
+//           errorCampo[campo] = mensajeError[item] + '<br>';
+//         }
+
+//       }
+
+//     }
+
+//   };
+
+//   // Revisamos los errors por campo
+//   for (const campo in this.errorCampos) {
+//     // si en 
+//     if (this.errorCampos.hasOwnProperty(campo)) {
+
+//       // establecemos a vacio el mensaje del campo
+//       this.errorCampos[campo] = '';
+//       //
+//       _setTextoError(this.fg.get(campo), this.errorCampos, campo);
+
+//     }
+
+//   }
+
+// }
 
 
 
@@ -190,16 +204,16 @@ existenCambiosPendientes(): boolean {
 
 cargarLugares() {
 
-  console.log('carga inicial');
+  //console.log('carga inicial');
 
   this._servicio.GetLugaresCena().subscribe( (resp:any) => {
 
-    console.log(resp);
+   // console.log(resp);
 
 this.totalRegistros = this._servicio.totalRegistros;
 this.lugares = resp.lugarCena;
 
-console.log(resp.lugarCena);
+//console.log(resp.lugarCena);
 
   });
 }
