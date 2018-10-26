@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LugarCena } from '../../models/lugarcena.model';
 import { LugarcenaService } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
+import { HotelService } from 'src/app/services/hotel.service';
+import { Hotel } from 'src/app/models/hotel.model';
 
 @Component({
   selector: 'app-lugarcena',
@@ -19,11 +21,13 @@ modoEdicion: boolean= false;
 lugarId : number;
 lugaresABorrar: number[] = [];
 ignorarExistenCambiosPendientes: boolean = false;
-
+// 
+fg : FormGroup;
 
 //Definicion de variables
 lugares:LugarCena[] = [];// array vacio
 totalRegistros : number =0;
+hoteles:Hotel[] = [];// array vacio
 
 
 // formGroup = new  FormGroup({
@@ -32,14 +36,16 @@ totalRegistros : number =0;
 //   activo : new FormControl('')
 // });
 
-constructor(public _servicio: LugarcenaService, private fb: FormBuilder) { 
+constructor(public _servicio: LugarcenaService,
+            private fb: FormBuilder,
+            private _servicioHotel: HotelService) { 
 
 // ***************************************************************************************
 // 2 Mensaje de validacion del formulario 
 // ***************************************************************************************
 this.textoDeValidacion = {
-  Lugar: { required: 'El campo Lugar es <strong>requerido</strong>.' },
-  HotelId: { required: 'Seleccione un Hotel <strong>requerido</strong>.' },
+  lugar: { required: 'El campo Lugar es <strong>requerido</strong>.' },
+  hotelid: { required: 'Seleccione un Hotel <strong>requerido</strong>.' },
   activo: { required: 'El campo activo es <strong>requerido</strong>.'  }
 }
 
@@ -47,20 +53,20 @@ this.textoDeValidacion = {
 //  3 Validacion inicial
 // ***************************************************************************************
 this.errorCampos = {
-  Lugar: '',
-  HotelId: '',
+  lugar: '',
+  hotelid: '',
   activo: ''
 }
 
 } // <- contructor
 
-fg : FormGroup;
+
 
 ngOnInit() {
   this.construirFormulario();
   this.cargarLugares();
+  this.cargarHoteles();
 }
-
 
 
 // captura evento
@@ -74,9 +80,12 @@ ngOnInit() {
 construirFormulario() {
 
 this.fg = this.fb.group({
-  lugar: ['', Validators.required]
+  lugar: ['', Validators.required],
+  hotelid: ['', Validators.required],
+  activo: ['', Validators.required]
 });
 
+// manejador del evento de cambio de valor en los inputs
 this.formChangesSub = this.fg.valueChanges.subscribe( data => this.onCambioValor());
 
 this.fg.touched;
@@ -187,10 +196,20 @@ cargarLugares() {
 
     console.log(resp);
 
-this.totalRegistros = this._servicio.totalLugaresCena;
+this.totalRegistros = this._servicio.totalRegistros;
 this.lugares = resp.lugarCena;
 
 console.log(resp.lugarCena);
+
+  });
+}
+
+cargarHoteles()
+{
+  this._servicioHotel.GetHoteles().subscribe(  (resp:any) => {
+  this.hoteles = resp;
+
+  console.log(resp);
 
   });
 }

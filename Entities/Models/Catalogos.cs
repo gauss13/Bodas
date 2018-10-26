@@ -15,6 +15,7 @@ namespace Entities.Models.Catalogos
         public string Clave { get; set; }
         [StringLength(250)]
         public string Img { get; set; }
+        public bool Activo { get; set; }
         public List<LugarCena> LugaresCena { get; set; }
         public List<LugarCeremonia> LugaresCeremonia { get; set; }
         //public List<Coordinador> Coordinadores { get; set; }

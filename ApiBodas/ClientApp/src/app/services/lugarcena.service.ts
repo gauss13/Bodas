@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators'; // version 6 en adelante
 export class LugarcenaService {
 
   lugarCena:LugarCena;
-  totalLugaresCena: number = 0;
+  totalRegistros: number = 0;
 
   constructor( public http: HttpClient, public router: Router) { }
 
@@ -28,7 +28,7 @@ GetLugaresCena() {
 return this.http.get(url).pipe(
 map((resp:any) => {
 
-  this.totalLugaresCena = resp.total;
+  this.totalRegistros = resp.total;
   //return resp.lugarCena;
   return resp;
 

@@ -45,18 +45,55 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Nuevo Lugar Cena</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+
 
             <form [formGroup]="fg" (ngSubmit)="save()">
                 <div class="modal-body">
 
+                    <div class="form-group" [ngClass]=" errorCampos.lugar  ? 'has-danger' : 'has-success' ">
+                        <label class="control-label">Lugar Cena</label>
+                        <input type="text " class="form-control " id="exampleInputEmail1 " aria-describedby="emailHelp " (blur)="mostrarError( 'lugar') " formControlName="lugar" placeholder="">
+                        <!-- <small id="emailHelp " class="form-text text-muted ">Escriba el nombre del nuevo lugar.</small> -->
+                        <small class="text-muted " *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar"></small>
+                        <span class="form-control-feedback"><i class="material-icons">{{errorCampos.lugar  ? 'close' : 'done'}}</i> </span>
+                    </div>
 
-                    <div class="form-group" [ngClass]="{'has-error': errorCampos.ingreso}">
-                        <label for="lugar">Lugar Cena</label>
-                        <input type="text" class="form-control" (blur)="mostrarError('ingreso')" id="lugar" name="lugar" formControlName="lugar" aria-describedby="lugarlHelp" placeholder="Escriba El Lugar">
-                        <small id="lugarlHelp" class="form-text text-muted" *ngIf="errorCampos.ingreso" [innerHTML]="errorCampos.ingreso">...</small>
+                    <!-- <div class="form-group " [ngClass]="{ 'has-error': errorCampos.ingreso} ">
+                            <label class="col-md-2 control-label " for="ingreso ">ingreso</label>
+                            <div class="col-md-8 ">
+                              <input class="form-control " (blur)="mostrarError( 'ingreso') " id="ingreso " type="text " formControlName="ingreso " />
+                              <span class="help-block " *ngIf="errorCampos.ingreso " [innerHTML]="errorCampos.ingreso "></span>
+                            </div>
+                          </div> -->
+
+                    <!-- <div class="form-group ">
+                        <label for="hotelidl "> Hotel</label>
+                        <select class="custom-select custom-select-md mb-3 " formControlName="hotelid " id="hotelidl ">
+                                    <option *ngFor="let hotel of hoteles " [value]="hotel.id ">{{hotel.nombre}}</option>
+                            </select>
+                    </div> -->
+
+
+
+                    <div class="form-group " [ngClass]=" errorCampos.hotelid  ? 'has-danger' : 'has-success' ">
+                        <label class="control-label"> Hotel</label>
+                        <select class="form-control " formControlName="hotelid" id="hotelid">
+                            <option *ngFor="let hotel of hoteles " [value]="hotel.id">{{hotel.nombre}}</option>
+                         </select>
+                        <small class="text-muted " *ngIf="errorCampos.hotelid" [innerHTML]="errorCampos.hotelid"></small>
+                        <span class="form-control-feedback"><i class="material-icons">{{errorCampos.hotelid  ? 'close' : 'done'}}</i> </span>
+                    </div>
+
+
+                    <div class="form-check ">
+                        <label class="form-check-label ">
+                                <input class="form-check-input" type="checkbox" value="" formControlName="activo">
+                                Activo
+                                <span class="form-check-sign "><span class="check"></span> </span>
+                            </label>
                     </div>
 
 
@@ -64,10 +101,12 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" [disabled]="!fg.valid" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+                    <button type="submit" [disabled]="!fg.valid" class="btn btn-primary"> Guardar Cambios</button>
                 </div>
             </form>
+
+
 
 
         </div>
