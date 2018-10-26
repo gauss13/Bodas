@@ -13,7 +13,7 @@
 
 
 
-                <h3 class=card-title>Lugar Cenas registrados (<small>{{totalRegistros}}</small>)</h3>
+                <h3 class="card-title">Lugar Cenas registrados (<small>{{totalRegistros}}</small>)</h3>
 
                 <table class="table table-hover">
                     <thead>
@@ -28,7 +28,7 @@
                         <tr>
                             <td>{{ lugar.id }}</td>
                             <td>{{ lugar.lugar }}</td>
-                            <td> {{ lugar.activo}}</td>
+                            <td>{{ lugar.activo}}</td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -56,17 +56,17 @@
 
                     <div class="form-group" [ngClass]=" errorCampos.lugar  ? 'has-danger' : 'has-success' ">
                         <label class="control-label">Lugar Cena</label>
-                        <input type="text " class="form-control " id="exampleInputEmail1 " aria-describedby="emailHelp " (blur)="mostrarError( 'lugar') " formControlName="lugar" placeholder="">
+                        <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError( 'lugar') " formControlName="lugar" placeholder="">
                         <!-- <small id="emailHelp " class="form-text text-muted ">Escriba el nombre del nuevo lugar.</small> -->
-                        <small class="text-muted " *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar"></small>
+                        <small id="emailHelp" class="text-muted " *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar"></small>
                         <span class="form-control-feedback"><i class="material-icons">{{errorCampos.lugar  ? 'close' : 'done'}}</i> </span>
                     </div>
 
                     <div class="form-group" [ngClass]=" errorCampos.otro  ? 'has-danger' : 'has-success' ">
                         <label class="control-label">otro Cena</label>
-                        <input type="text " class="form-control " id="exampleInputEmail1 " aria-describedby="emailHelp " (blur)="mostrarError( 'otro') " formControlName="otro" placeholder="">
-                        <small class="text-muted " *ngIf="errorCampos.otro" [innerHTML]="errorCampos.otro"></small>
-                        <span class="form-control-feedback"><i class="material-icons">{{errorCampos.otro  ? 'close' : 'done'}}</i> </span>
+                        <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError('otro')" formControlName="otro" placeholder="">
+                        <small class="text-muted form-text" *ngIf="errorCampos.otro" [innerHTML]="errorCampos.otro"></small>
+                        <span class="form-control-feedback"><i class="material-icons">{{errorCampos.otro  ? 'close' : 'done'}}</i></span>
                     </div>
 
                     <!-- <div class="form-group " [ngClass]="{ 'has-error': errorCampos.ingreso} ">
@@ -86,20 +86,19 @@
 
 
 
-                    <div class="form-group " [ngClass]=" errorCampos.hotelid  ? 'has-danger' : 'has-success' ">
+                    <div class="form-group" [ngClass]=" errorCampos.hotelid  ? 'has-danger' : 'has-success' ">
                         <label class="control-label"> Hotel</label>
-                        <select class="form-control " formControlName="hotelid" id="hotelid">
+                        <select class="form-control" formControlName="hotelid" aria-placeholder="prueba">
                             <option *ngFor="let hotel of hoteles " [value]="hotel.id">{{hotel.nombre}}</option>
                          </select>
-                        <small class="text-muted " *ngIf="errorCampos.hotelid" [innerHTML]="errorCampos.hotelid"></small>
+                        <small class="text-muted" *ngIf="errorCampos.hotelid" [innerHTML]="errorCampos.hotelid"></small>
                         <span class="form-control-feedback"><i class="material-icons">{{errorCampos.hotelid  ? 'close' : 'done'}}</i> </span>
                     </div>
 
-
+                    <br>
                     <div class="form-check ">
-                        <label class="form-check-label ">
-                                <input class="form-check-input" type="checkbox" value="" formControlName="activo">
-                                Activo
+                        <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" value="" formControlName="activo">Activo
                                 <span class="form-check-sign "><span class="check"></span> </span>
                             </label>
                     </div>

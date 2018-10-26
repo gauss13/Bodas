@@ -47,13 +47,13 @@ this.textoDeValidacion = {
 }
 
 // ***************************************************************************************
-//  3 Validacion inicial
+//  3 - Validacion inicial - 
 // ***************************************************************************************
 this.errorCampos = {
-  lugar: '',
-  otro: '',
-  hotelid: '',
-  activo: ''
+  lugar: ' ',
+  otro: ' ',
+  hotelid: ' ',
+  activo: ' '
 }
 
 } // <- contructor
@@ -88,6 +88,8 @@ this.fg = this.fb.group({
 this.formChangesSub = this.fg.valueChanges.subscribe( data => this.onCambioValor());
 
 this.fg.touched;
+
+this.fg.markAsTouched();
 
 }
 
@@ -127,20 +129,15 @@ onCambioValor()
 
 // onCambioValor() {
 
-//   console.log(' cambio valor');
-
-//   // console.log(this.errorCampos);
-
-//   //console.log(this.textoDeValidacion);
-
-
 //   // no hacer nada
 //   if (!this.fg) { return; }
 
 //   // funcion set error
 //   const _setTextoError = (control: AbstractControl, errorCampo: any, campo: string) => {
 
-//     if (control && control.dirty && control.invalid) {
+// console.log('cmv :', control);
+
+//     if (control && control.dirty && control.invalid || control.touched) {
 
 //       // devuleve un objeto con los mensajes de validacion
 //       const mensajeError = this.textoDeValidacion[campo];
@@ -189,13 +186,6 @@ existenCambiosPendientes(): boolean {
 
 }
 
-
-
-
-
-
-
-  
 
 
 // ***************************************************************************************

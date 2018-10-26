@@ -31,7 +31,7 @@ function mostrarErrorx(campo:string, fg:FormGroup, textoDeValidacion: any, error
     // funcion set error
     const _setTextoError = (control: AbstractControl, errorCampo: any, campo: string) => {
   
-      if (control && control.dirty && control.invalid) {
+      if (control && control.dirty && control.invalid || control.touched) {
   
         // devuleve un objeto con los mensajes de validacion
         const mensajeError = textoDeValidacion[campo];
