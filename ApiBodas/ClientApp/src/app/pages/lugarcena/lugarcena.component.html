@@ -54,8 +54,9 @@
 
                 <div class="modal-body">
 
+
                     <div class="form-group" [ngClass]=" errorCampos.lugar  ? 'has-danger' : 'has-success' ">
-                        <label class="control-label">Lugar Cena</label>
+                        <label class="control-label">LUGAR CENA</label>
                         <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError( 'lugar') " formControlName="lugar" placeholder="">
                         <!-- <small id="emailHelp " class="form-text text-muted ">Escriba el nombre del nuevo lugar.</small> -->
                         <small id="emailHelp" class="text-muted " *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar"></small>
@@ -63,7 +64,7 @@
                     </div>
 
                     <div class="form-group" [ngClass]=" errorCampos.otro  ? 'has-danger' : 'has-success' ">
-                        <label class="control-label">otro Cena</label>
+                        <label class="control-label">OTRO LUGAR Cena</label>
                         <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError('otro')" formControlName="otro" placeholder="">
                         <small class="text-muted form-text" *ngIf="errorCampos.otro" [innerHTML]="errorCampos.otro"></small>
                         <span class="form-control-feedback"><i class="material-icons">{{errorCampos.otro  ? 'close' : 'done'}}</i></span>
@@ -87,7 +88,7 @@
 
 
                     <div class="form-group" [ngClass]=" errorCampos.hotelid  ? 'has-danger' : 'has-success' ">
-                        <label class="control-label"> Hotel</label>
+                        <label class=""> HOTEL :</label>
                         <select class="form-control" formControlName="hotelid" aria-placeholder="prueba">
                             <option *ngFor="let hotel of hoteles " [value]="hotel.id">{{hotel.nombre}}</option>
                          </select>
@@ -95,6 +96,7 @@
                         <span class="form-control-feedback"><i class="material-icons">{{errorCampos.hotelid  ? 'close' : 'done'}}</i> </span>
                     </div>
 
+                    <br>
                     <br>
                     <div class="form-check ">
                         <label class="form-check-label">

@@ -12,3 +12,7 @@ Repository/obj
 Repository/bin
 
 ApiBodas/ClientApp/node_modules
+
+
+ApiBodas/ClientApp/package-lock.json
+
