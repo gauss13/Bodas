@@ -39,8 +39,25 @@ map((resp:any) => {
   
 }
 
+// ***************************************************************************************
+//  POST - Guardar Lugar Cena 
+// ***************************************************************************************
 
+Crear(lugar:LugarCena)
+{
+  
+  const url = URL_SERVICIOS + '/api/LugarCena';
 
+ return this.http.post(url, lugar ).pipe(
+
+    map((resp:any ) => {
+
+return resp.lugarCena;
+
+    })
+
+  );
+}
 
 
 

@@ -6,6 +6,7 @@ import { HotelService } from 'src/app/services/hotel.service';
 import { Hotel } from 'src/app/models/hotel.model';
 import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
  
+declare var $: any;
 
 @Component({
   selector: 'app-lugarcena',
@@ -61,11 +62,23 @@ this.errorCampos = {
 
 
 ngOnInit() {
+
   this.construirFormulario();
   this.cargarLugares();
   this.cargarHoteles();
+
+  $(document).ready(function(){
+    $('.modal').modal();  
+  });
+        
 }
 
+initSelect()
+{
+
+
+  $('select').formSelect();
+}
 
 // captura evento
  formChangesSub: any;
@@ -228,6 +241,7 @@ console.log(formulario.nuevoLugar);
 }
 
 save() {
+
   this.ignorarExistenCambiosPendientes = true;
 
   // "10000".replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") # => "10,000"
@@ -235,6 +249,12 @@ save() {
 
 console.log(itemLugar);
 
+this._servicio.Crear(itemLugar).subscribe( (resp:any) => {
+
+
+  console.log(resp);
+
+});
 
 }
 
