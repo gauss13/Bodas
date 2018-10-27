@@ -1,6 +1,6 @@
 export class LugarCena {
 
-    constructor(
+constructor(
  public  Id:number,
 public Lugar:string,
 public HotelId:number,

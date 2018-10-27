@@ -1,21 +1,39 @@
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top collapsing" id="navigation-example" style="height: 70px;">
-    <div class="container-fluid">
-        <div class="navbar-wrapper">
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+    <li><a routerLinkActive="active" routerLink="/lugarcena">Lugar Cena</a></li>
+    <li><a href="#">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#">three</a></li>
+</ul>
+<ul id="dropdown11" class="dropdown-content">
+    <li><a href="#">one</a></li>
+    <li><a href="#">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#">three</a></li>
+</ul>
+<!-- Dropdown Structure -->
+<ul id="dropdown2" class="dropdown-content">
+    <li><a href="#">Azul</a></li>
+    <li><a href="#">Verde</a></li>
+    <li class="divider"></li>
+    <li><a href="#">Rojo</a></li>
+</ul>
+<div class="navbar-fixed">
+    <nav class=" cyan darken-4" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Titulo ventana</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#">Navbar Link</a></li>
+                <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Catalogos<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-trigger" href="#" data-target="dropdown2">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a href="#">Salir</a></li>
+            </ul>
 
-            <a class="navbar-brand" href="#pepito">TITULO DE LA VENTANA</a>
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="#">Navbar Link</a></li>
+                <li><a class="dropdown-trigger" href="#" data-target="dropdown11">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a href="#">Salir</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="true" aria-label="Toggle navigation" data-target="#navigation-example">
-    
-  <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon icon-bar"></span>
-        <span class="navbar-toggler-icon icon-bar"></span>
-        <span class="navbar-toggler-icon icon-bar"></span>
-    </button>
-
-        <div class="collapse navbar-collapse justify-content-end">
-            <!-- form buscador -->
-            <a class="navbar-brand" href="#pepito">TITULO DE LA VENTANA</a>
-        </div>
-    </div>
-</nav>
+    </nav>
+</div>
