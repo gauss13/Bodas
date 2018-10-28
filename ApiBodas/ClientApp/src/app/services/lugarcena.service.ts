@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LugarCena } from '../models/lugarcena.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { URL_SERVICIOS } from '../config/config';
 import { map } from 'rxjs/operators'; // version 6 en adelante
@@ -46,9 +46,15 @@ map((resp:any) => {
 Crear(lugar:LugarCena)
 {
   
+  console.log('desde servicr' , lugar);
   const url = URL_SERVICIOS + '/api/LugarCena';
 
- return this.http.post(url, lugar ).pipe(
+  const headerss = new HttpHeaders({'Content-Type':'application/json'});
+
+// const body = JSON.parse(lugar);
+
+
+ return this.http.post(url, lugar, {headers: headerss} ).pipe(
 
     map((resp:any ) => {
 

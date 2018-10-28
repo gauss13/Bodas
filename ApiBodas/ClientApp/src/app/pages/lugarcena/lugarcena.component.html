@@ -1,0 +1,240 @@
+<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <!-- Modal Trigger -->
+                    <button data-target="modal1" class="btn modal-trigger" (click)="initSelect()">Crear</button>
+                </div>
+
+                <h4 class="card-title">Lugar Cenas registrados ({{totalRegistros}})</h4>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Lugar</th>
+                            <th>Activo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let lugar of lugares">
+                        <tr>
+                            <td>{{ lugar.id }}</td>
+                            <td>{{ lugar.lugar }}</td>
+                            <td>{{ lugar.activo }}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+
+    <form [formGroup]="fg" (ngSubmit)="save()">
+        <div class="modal-content">
+            <h4>Nuevo</h4>
+
+
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="lugac" type="text" class="validate" (blur)="mostrarError( 'lugar') " formControlName="lugar">
+                    <label for="lugarc">Lugar Cena</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input id="lugac" type="text" class="validate" (blur)="mostrarError('otro')" formControlName="otro">
+                    <label for="lugarc">Otro</label>
+                </div>
+            </div>
+
+
+            <!-- <div class="input-field col s12">
+                <select>
+                      <option value="" disabled selected>Choose your option</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                      <option value="3">Option 3</option>
+                    </select>
+                <label>Materialize Select</label>
+            </div> -->
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <select formControlName="hotelid">
+                        <option value="" disabled selected>Seleccionar hotel</option>
+                                <option *ngFor="let hotel of hoteles " [value]="hotel.id" >{{hotel.nombre}}</option>
+                             </select>
+                    <label>Hotel</label>
+                </div>
+            </div>
+
+
+
+
+            <p>
+                <label>
+                      <input type="checkbox" class="filled-in" checked="checked" formControlName="activo" />
+                      <span>Activo</span>
+                    </label>
+            </p>
+
+
+
+
+            <br> <br>
+
+            <!-- <div class="form-group" [ngClass]=" errorCampos.lugar  ? 'has-danger' : 'has-success' ">
+                <label class="control-label">Lugar Cena</label>
+                <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError( 'lugar') " formControlName="lugar" placeholder="">
+            
+                <small id="emailHelp" class="text-muted " *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar"></small>
+                <span class="form-control-feedback"><i class="material-icons">{{errorCampos.lugar  ? 'close' : 'done'}}</i> </span>
+            </div> -->
+
+            <!-- <div class="form-group" [ngClass]=" errorCampos.otro  ? 'has-danger' : 'has-success' ">
+                <label class="control-label">otro Cena</label>
+                <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError('otro')" formControlName="otro" placeholder="">
+                <small class="text-muted form-text" *ngIf="errorCampos.otro" [innerHTML]="errorCampos.otro"></small>
+                <span class="form-control-feedback"><i class="material-icons">{{errorCampos.otro  ? 'close' : 'done'}}</i></span>
+            </div> -->
+
+            <!-- <div class="form-group " [ngClass]="{ 'has-error': errorCampos.ingreso} ">
+                            <label class="col-md-2 control-label " for="ingreso ">ingreso</label>
+                            <div class="col-md-8 ">
+                              <input class="form-control " (blur)="mostrarError( 'ingreso') " id="ingreso " type="text " formControlName="ingreso " />
+                              <span class="help-block " *ngIf="errorCampos.ingreso " [innerHTML]="errorCampos.ingreso "></span>
+                            </div>
+                          </div> -->
+
+            <!-- <div class="form-group ">
+                        <label for="hotelidl "> Hotel</label>
+                        <select class="custom-select custom-select-md mb-3 " formControlName="hotelid " id="hotelidl ">
+                                    <option *ngFor="let hotel of hoteles " [value]="hotel.id ">{{hotel.nombre}}</option>
+                            </select>
+                    </div> -->
+
+
+
+            <!-- <div class="form-group" [ngClass]=" errorCampos.hotelid  ? 'has-danger' : 'has-success' ">
+                <label class="control-label"> Hotel</label>
+                <select class="form-control" formControlName="hotelid" aria-placeholder="prueba">
+                            <option *ngFor="let hotel of hoteles " [value]="hotel.id">{{hotel.nombre}}</option>
+                         </select>
+                <small class="text-muted" *ngIf="errorCampos.hotelid" [innerHTML]="errorCampos.hotelid"></small>
+                <span class="form-control-feedback"><i class="material-icons">{{errorCampos.hotelid  ? 'close' : 'done'}}</i> </span>
+            </div> -->
+
+            <br>
+
+
+
+            <br>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
+            <button type="submit" [disabled]="!fg.valid" class="btn">  Guardar</button>
+        </div>
+    </form>
+
+
+
+
+
+
+    <!-- <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">Guardar</a>
+    </div> -->
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Lugar Cena</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+
+            <!-- <form [formGroup]="fg" (ngSubmit)="save()">
+
+                <div class="modal-body">
+
+                    <div class="form-group" [ngClass]=" errorCampos.lugar  ? 'has-danger' : 'has-success' ">
+                        <label class="control-label">Lugar Cena</label>
+                        <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError( 'lugar') " formControlName="lugar" placeholder=""> -->
+            <!-- <small id="emailHelp " class="form-text text-muted ">Escriba el nombre del nuevo lugar.</small> -->
+            <!-- <small id="emailHelp" class="text-muted " *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar"></small>
+                        <span class="form-control-feedback"><i class="material-icons">{{errorCampos.lugar  ? 'close' : 'done'}}</i> </span>
+                    </div>
+
+                    <div class="form-group" [ngClass]=" errorCampos.otro  ? 'has-danger' : 'has-success' ">
+                        <label class="control-label">otro Cena</label>
+                        <input type="text " class="form-control " aria-describedby="emailHelp " (blur)="mostrarError('otro')" formControlName="otro" placeholder="">
+                        <small class="text-muted form-text" *ngIf="errorCampos.otro" [innerHTML]="errorCampos.otro"></small>
+                        <span class="form-control-feedback"><i class="material-icons">{{errorCampos.otro  ? 'close' : 'done'}}</i></span>
+                    </div> -->
+
+
+            <!--ABCtest <div class="form-group " [ngClass]="{ 'has-error': errorCampos.ingreso} ">
+                            <label class="col-md-2 control-label " for="ingreso ">ingreso</label>
+                            <div class="col-md-8 ">
+                              <input class="form-control " (blur)="mostrarError( 'ingreso') " id="ingreso " type="text " formControlName="ingreso " />
+                              <span class="help-block " *ngIf="errorCampos.ingreso " [innerHTML]="errorCampos.ingreso "></span>
+                            </div>
+                          </div> -->
+
+            <!-- <div class="form-group ">
+                        <label for="hotelidl "> Hotel</label>
+                        <select class="custom-select custom-select-md mb-3 " formControlName="hotelid " id="hotelidl ">
+                                    <option *ngFor="let hotel of hoteles " [value]="hotel.id ">{{hotel.nombre}}</option>
+                            </select>
+                    </div> abc test-->
+
+
+
+            <!-- <div class="form-group" [ngClass]=" errorCampos.hotelid  ? 'has-danger' : 'has-success' ">
+                        <label class="control-label"> Hotel</label>
+                        <select class="form-control" formControlName="hotelid" aria-placeholder="prueba">
+                            <option *ngFor="let hotel of hoteles " [value]="hotel.id">{{hotel.nombre}}</option>
+                         </select>
+                        <small class="text-muted" *ngIf="errorCampos.hotelid" [innerHTML]="errorCampos.hotelid"></small>
+                        <span class="form-control-feedback"><i class="material-icons">{{errorCampos.hotelid  ? 'close' : 'done'}}</i> </span>
+                    </div>
+
+                    <br>
+                    <div class="form-check ">
+                        <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" value="" formControlName="activo">Activo
+                                <span class="form-check-sign "><span class="check"></span> </span>
+                            </label>
+                    </div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+                    <button type="submit" [disabled]="!fg.valid" class="btn btn-primary"> Guardar Cambios</button>
+                </div>
+            </form> -->
+
+
+
+
+        </div>
+    </div>
+</div>
