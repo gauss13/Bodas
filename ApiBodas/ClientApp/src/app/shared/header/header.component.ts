@@ -8,6 +8,7 @@ declare var $: any;
 })
 export class HeaderComponent implements OnInit {
 
+  titulo = 'inicial';
   constructor() { }
 
   ngOnInit() {

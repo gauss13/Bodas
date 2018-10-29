@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LugarCena } from '../../models/lugarcena.model';
-import { LugarcenaService } from 'src/app/services/service.index';
+import { LugarcenaService, HeaderService } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 import { HotelService } from 'src/app/services/hotel.service';
 import { Hotel } from 'src/app/models/hotel.model';
@@ -35,7 +35,8 @@ hoteles:Hotel[] = [];// array vacio
 
 constructor(public _servicio: LugarcenaService,
             private fb: FormBuilder,
-            private _servicioHotel: HotelService) { 
+            private _servicioHotel: HotelService,
+            private _headerService: HeaderService) { 
 
 // ***************************************************************************************
 // 2 Mensaje de validacion del formulario 
@@ -62,6 +63,8 @@ this.errorCampos = {
 
 
 ngOnInit() {
+
+  this._headerService.setTitle('lugar Cena xx');
 
   this.construirFormulario();
   this.cargarLugares();
