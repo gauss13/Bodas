@@ -5,7 +5,7 @@
             <div class="card-body">
                 <div class="text-right">
                     <!-- Modal Trigger -->
-                    <button data-target="modal1" class="btn modal-trigger" (click)="initSelect()">Crear</button>
+                    <button data-target="modal1" class="btn modal-trigger" (click)="modalCrear()">Crear</button>
                 </div>
 
                 <h4 class="card-title">Lugar Cenas registrados ({{totalRegistros}})</h4>
@@ -15,6 +15,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Lugar</th>
+                            <th>Hotel</th>
                             <th>Activo</th>
                             <th></th>
                         </tr>
@@ -23,8 +24,12 @@
                         <tr>
                             <td>{{ lugar.id }}</td>
                             <td>{{ lugar.lugar }}</td>
+                            <td>{{ lugar.hotel.nombre }}</td>
                             <td>{{ lugar.activo }}</td>
-                            <td></td>
+                            <td>
+                                <button (click)="borrarLugar(lugar)" class="btn  red  lighten-1">Borrar</button>
+                                <button (click)="modalEdicion(lugar)" data-target="modal1" class="btn indigo  lighten-1 modal-trigger">Editar</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -39,45 +44,27 @@
 
     <form [formGroup]="fg" (ngSubmit)="save()">
         <div class="modal-content">
-            <h4>Nuevo</h4>
-
-
-
+            <h4> {{ modoEdicion ? 'Editar' : 'Agregar Nuevo'}}</h4>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="lugac" type="text" class="validate" (blur)="mostrarError( 'lugar') " formControlName="lugar">
-                    <label for="lugarc">Lugar Cena</label>
+                    <input id="lugarc" type="text" class="validate" (blur)="mostrarError( 'lugar') " formControlName="lugar">
+                    <label for="lugarc" class="active">Lugar Cena</label>
                 </div>
 
                 <div class="input-field col s6">
-                    <input id="lugac" type="text" class="validate" (blur)="mostrarError('otro')" formControlName="otro">
-                    <label for="lugarc">Otro</label>
+                    <input id="lugaro" type="text" class="validate" (blur)="mostrarError('otro')" formControlName="otro">
+                    <label for="lugaro" class="active">Otro</label>
                 </div>
             </div>
-
-
-            <!-- <div class="input-field col s12">
-                <select>
-                      <option value="" disabled selected>Choose your option</option>
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                      <option value="3">Option 3</option>
-                    </select>
-                <label>Materialize Select</label>
-            </div> -->
-
             <div class="row">
                 <div class="input-field col s6">
                     <select formControlName="hotelid">
-                        <option value="" disabled selected>Seleccionar hotel</option>
-                                <option *ngFor="let hotel of hoteles " [value]="hotel.id" >{{hotel.nombre}}</option>
+                        <option value="" disabled [selected]="!modoEdicion">Seleccionar hotel</option>
+                                <option *ngFor="let hotel of hoteles " [value]="hotel.id" [selected]="selectedId == hotel.id"  >{{hotel.nombre}}</option>
                              </select>
-                    <label>Hotel</label>
+                    <label class="active">Hotel</label>
                 </div>
             </div>
-
-
-
 
             <p>
                 <label>
@@ -133,26 +120,16 @@
             </div> -->
 
             <br>
-
-
-
             <br>
 
         </div>
         <div class="modal-footer">
+            <button type="button" class="btn " (click)="focusInput()">Focus </button>
             <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
-            <button type="submit" [disabled]="!fg.valid" class="btn">  Guardar</button>
+            <button type="submit" [disabled]="!fg.valid" class="btn modal-close">  Guardar</button>
         </div>
     </form>
 
-
-
-
-
-
-    <!-- <div class="modal-footer">
-        <a href="#" class="modal-close waves-effect waves-green btn-flat">Guardar</a>
-    </div> -->
 </div>
 
 

@@ -1,10 +1,10 @@
 export class LugarCena {
 
 constructor(
- public  Id:number,
-public Lugar:string,
-public HotelId:number,
-public Activo:boolean
+ public  id:number,
+public lugar:string,
+public hotelId:number,
+public activo:boolean
 	  
     )
     {}

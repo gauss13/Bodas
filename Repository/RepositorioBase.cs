@@ -147,6 +147,26 @@ namespace Repository
         {
             get { return Context as AppDbContext; }
         }
+
+
+        public async Task<IEnumerable<LugarCena>> GetLugarCenaConHotelAsync()
+        {
+            //return await appDbContext.LugaresCena.Include(x => x.Hotel ).ThenInclude(y => y.Nombre).ToListAsync();
+            return await appDbContext.LugaresCena.Include(h => h.Hotel)
+                .Where(l => l.Activo == true)
+                .Select(h => new LugarCena { Id = h.Id, Lugar = h.Lugar, HotelId = h.HotelId, Hotel = h.Hotel, Activo = h.Activo })
+                .ToListAsync();
+        }
+
+        public async Task<LugarCena> GetLugarCenaConHotelByIdAsync(int id)
+        {
+            //return await Context.Set<T>().FindAsync(id);
+
+            return await appDbContext.LugaresCena.Include(x => x.Hotel)
+                .Where(l => l.Id == id && l.Activo == true)
+                .Select(h => new LugarCena { Id = h.Id, Lugar = h.Lugar, HotelId = h.HotelId, Hotel = h.Hotel, Activo = h.Activo })
+                .FirstOrDefaultAsync();
+        }
     }
 
 

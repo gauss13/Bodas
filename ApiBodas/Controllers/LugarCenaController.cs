@@ -52,7 +52,8 @@ namespace ApiBodas.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var lista = await this.Repositorio.LugaresCena.GetAllAsyc();
+            //var lista = await this.Repositorio.LugaresCena.GetAllAsyc();
+            var lista = await this.Repositorio.LugaresCena.GetLugarCenaConHotelAsync();
 
             // BAD REQUEST
             if (!lista.Any())
@@ -86,13 +87,21 @@ namespace ApiBodas.Controllers
                 var r = await this.Repositorio.LugaresCena.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
 
+                var db = await this.Repositorio.LugaresCena.GetLugarCenaConHotelByIdAsync(r.Id);
+
+                db.Hotel.LugaresCena = null;
+                db.Hotel.LugaresCeremonia = null;
+                db.Hotel.Agendas = null;
+                db.Hotel.BackUps = null;
+                db.Hotel.UsuariosHotel = null;
+
                 var obj = new
                 {
                     ok = true,
-                    LugarCena = r
+                    LugarCena = db
                 };
 
-                return Created("", obj);
+                return Ok( obj);
 
             }
             catch (Exception ex)
@@ -131,15 +140,22 @@ namespace ApiBodas.Controllers
                 var r = this.Repositorio.LugaresCena.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 
+                var db = await this.Repositorio.LugaresCena.GetLugarCenaConHotelByIdAsync(r.Id);
+
+                db.Hotel.LugaresCena = null;
+                db.Hotel.LugaresCeremonia = null;
+                db.Hotel.Agendas = null;
+                db.Hotel.BackUps = null;
+                db.Hotel.UsuariosHotel = null;
+
+
                 var obj = new
                 {
                     ok = true,
-                    LugarCena = itemEncontrado
+                    LugarCena = db
                 };
 
                 return Created("", obj);
-
-
             }
             catch (Exception ex)
             {

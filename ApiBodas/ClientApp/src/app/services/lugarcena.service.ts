@@ -28,6 +28,9 @@ GetLugaresCena() {
 return this.http.get(url).pipe(
 map((resp:any) => {
 
+
+  console.log('serv', resp);
+
   this.totalRegistros = resp.total;
   //return resp.lugarCena;
   return resp;
@@ -46,18 +49,15 @@ map((resp:any) => {
 Crear(lugar:LugarCena)
 {
   
-  console.log('desde servicr' , lugar);
+  
   const url = URL_SERVICIOS + '/api/LugarCena';
 
   const headerss = new HttpHeaders({'Content-Type':'application/json'});
 
 // const body = JSON.parse(lugar);
-
-
  return this.http.post(url, lugar, {headers: headerss} ).pipe(
 
     map((resp:any ) => {
-
 return resp.lugarCena;
 
     })
@@ -66,8 +66,45 @@ return resp.lugarCena;
 }
 
 
+// ***************************************************************************************
+//  ACTUALIZAR 
+// ***************************************************************************************
+Actualizar(id:number, lugar:LugarCena)
+{
+  const url = URL_SERVICIOS + '/api/LugarCena/'+ id;
+  const headerss = new HttpHeaders({'Content-Type':'application/json'});
 
+  return this.http.put(url, lugar, {headers: headerss}).pipe(
+      map((resp:any) => {
 
+        return resp.lugarCena;
+
+      })
+
+  );
+
+}
+
+// ***************************************************************************************
+//  DELETE 
+// ***************************************************************************************
+Borrar(id:number)
+{
+  const url = URL_SERVICIOS + '/api/LugarCena/'+ id;
+  const headerss = new HttpHeaders({'Content-Type':'application/json'});
+
+return this.http.delete(url).pipe(
+
+  map(resp =>  {
+    
+    
+
+    return true;
+  })
+
+);
+
+}
 
 
 

@@ -4,11 +4,12 @@ import { SharedModule } from "../shared/shared.module";
 import { LugarcenaComponent } from './lugarcena/lugarcena.component';
 import { PAGES_ROUTES } from "./pages.routes";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AutofocusDirective } from "../directives/autofocus.directive";
 
 
 
 @NgModule({
-    declarations:[LugarcenaComponent],
+    declarations:[LugarcenaComponent, AutofocusDirective],
     exports:[LugarcenaComponent],
     imports:[CommonModule, FormsModule, ReactiveFormsModule,
             SharedModule,

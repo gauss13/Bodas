@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { LugarCena } from '../../models/lugarcena.model';
 import { LugarcenaService, HeaderService } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 import { HotelService } from 'src/app/services/hotel.service';
 import { Hotel } from 'src/app/models/hotel.model';
 import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
+import { ObjectUnsubscribedError } from 'rxjs';
  
 declare var $: any;
 
@@ -15,6 +16,8 @@ declare var $: any;
 })
 export class LugarcenaComponent implements OnInit {
 
+  @ViewChild("lugarh") nameField: ElementRef;
+
   // ***************************************************************************************
   //  1 - VARIABLES - Validacion formulario
   // ***************************************************************************************
@@ -24,6 +27,8 @@ modoEdicion: boolean= false;
 lugarId : number;
 lugaresABorrar: number[] = [];
 ignorarExistenCambiosPendientes: boolean = false;
+selectedId: number=0;
+idEdicion: number = 0;
 // 
 fg : FormGroup;
 
@@ -36,7 +41,9 @@ hoteles:Hotel[] = [];// array vacio
 constructor(public _servicio: LugarcenaService,
             private fb: FormBuilder,
             private _servicioHotel: HotelService,
-            private _headerService: HeaderService) { 
+            private _headerService: HeaderService,
+            private renderer: Renderer
+     ) { 
 
 // ***************************************************************************************
 // 2 Mensaje de validacion del formulario 
@@ -64,22 +71,25 @@ this.errorCampos = {
 
 ngOnInit() {
 
-  this._headerService.setTitle('lugar Cena xx');
+  //this._headerService.setTitle('lugar Cena xx');
 
   this.construirFormulario();
   this.cargarLugares();
   this.cargarHoteles();
 
   $(document).ready(function(){
-    $('.modal').modal();  
+ 
+    $('.modal').modal({ onOpenEnd: function () {  $('#lugarc').focus(); }});  
+ 
   });
         
 }
 
+// ***************************************************************************************
+//  Inicializar el Select 
+// ***************************************************************************************
 initSelect()
 {
-
-
   $('select').formSelect();
 }
 
@@ -214,7 +224,7 @@ cargarLugares() {
 
   this._servicio.GetLugaresCena().subscribe( (resp:any) => {
 
-   // console.log(resp);
+    console.log('func cargar',resp);
 
 this.totalRegistros = this._servicio.totalRegistros;
 this.lugares = resp.lugarCena;
@@ -229,7 +239,7 @@ cargarHoteles()
   this._servicioHotel.GetHoteles().subscribe(  (resp:any) => {
   this.hoteles = resp;
 
-  console.log(resp);
+
 
   });
 }
@@ -247,18 +257,127 @@ save() {
 
   this.ignorarExistenCambiosPendientes = true;
 
+
+if(!this.modoEdicion)
+{
   // "10000".replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") # => "10,000"
   let itemLugar: LugarCena = Object.assign({}, this.fg.value)
+  this._servicio.Crear(itemLugar).subscribe( (resp:any) => {
+
+// var objR:  LugarCena = {
+//   id : resp.id,
+//   lugar : resp.lugar,
+//   hotelId : resp.hotelId,
+//   activo : resp.activo,
+//   hotel: { resp.hotel }
+// };
+
+this.lugares.push(resp);
+this.resetFormulario();
+});
+}
+else
+{
+
+  let itemEdit: LugarCena = Object.assign({}, this.fg.value);
+
+  this._servicio.Actualizar(this.idEdicion, itemEdit).subscribe(
+    (resp:any) =>{
+
+      let itemEncontrado = this.lugares.find( item => item.id === this.idEdicion);
+
+      let pos = this.lugares.indexOf(itemEncontrado);
+      
+      this.lugares[pos] = resp;
 
 
+    });
 
-this._servicio.Crear(itemLugar).subscribe( (resp:any) => {
+}
 
 
-  console.log('subs' ,resp);
+}
+
+// ***************************************************************************************
+//  BORRAR Lugar Cena 
+// ***************************************************************************************
+borrarLugar(lugar: LugarCena)
+{
+
+
+this._servicio.Borrar(lugar.id).subscribe( borrado => {
+
+let itemEncontrado = this.lugares.find( item => item.id === lugar.id);
+
+let pos = this.lugares.indexOf(itemEncontrado);
+
+this.lugares.splice(pos, 1);
+
 
 });
 
+}
+
+// ***************************************************************************************
+//  MODAL  
+// ***************************************************************************************
+modalCrear()
+{  
+  
+  this.resetFormulario();
+  this.initSelect();
+  this.modoEdicion = false;
+  this.idEdicion = 0;
+  this.selectedId = 0;
+
+
+
+  //this.nameField.nativeElement.focus();
+ // this.renderer.invokeElementMethod(this.nameField.nativeElement,"focus");
+}
+
+
+// ***************************************************************************************
+//  Focus input 
+// ***************************************************************************************
+ focusInput()
+{
+  $('#lugarc').focus();
+}
+
+
+// ***************************************************************************************
+//  MODAL EDITAR 
+// ***************************************************************************************
+modalEdicion(itemE: LugarCena)
+{
+
+this.modoEdicion = true;
+this.idEdicion = itemE.id;
+this.selectedId = itemE.hotelId;
+
+this.resetFormulario();
+
+
+
+this.fg.patchValue({
+  lugar :itemE.lugar,
+  otro: 'otro x',
+  hotelid: itemE.hotelId,
+  activo: itemE.activo
+});
+
+
+this.initSelect();
+$('#lugarc').focus();
+}
+
+// ***************************************************************************************
+//  RESET 
+// ***************************************************************************************
+resetFormulario() {
+  this.fg.reset();
+  this.selectedId = 0;
 }
 
 

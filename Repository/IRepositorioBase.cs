@@ -57,10 +57,16 @@ namespace Repository
 
     public interface IRepositorioLugarCena : IRepositorioBase<LugarCena>
     {
+        Task<LugarCena> GetLugarCenaConHotelByIdAsync(int id);
+        Task<IEnumerable<LugarCena>> GetLugarCenaConHotelAsync();
+
+     
+
     }
 
     public interface IRepositorioLugarCeremonia : IRepositorioBase<LugarCeremonia>
     {
+
     }
 
     public interface IRepositorioBackUp : IRepositorioBase<BackUp>
