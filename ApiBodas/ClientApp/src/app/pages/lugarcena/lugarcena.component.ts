@@ -78,10 +78,14 @@ ngOnInit() {
   this.cargarHoteles();
 
   $(document).ready(function(){
- 
+
     $('.modal').modal({ onOpenEnd: function () {  $('#lugarc').focus(); }});  
  
   });
+
+
+
+
         
 }
 

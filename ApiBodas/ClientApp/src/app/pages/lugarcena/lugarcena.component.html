@@ -10,7 +10,7 @@
 
                 <h4 class="card-title">Lugar Cenas registrados ({{totalRegistros}})</h4>
 
-                <table class="table table-hover">
+                <table id="tblLugares" class="  ">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -20,19 +20,24 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody *ngFor="let lugar of lugares">
-                        <tr>
+                    <tbody>
+                        <tr *ngFor="let lugar of lugares">
                             <td>{{ lugar.id }}</td>
                             <td>{{ lugar.lugar }}</td>
                             <td>{{ lugar.hotel.nombre }}</td>
                             <td>{{ lugar.activo }}</td>
                             <td>
-                                <button (click)="borrarLugar(lugar)" class="btn  red  lighten-1">Borrar</button>
-                                <button (click)="modalEdicion(lugar)" data-target="modal1" class="btn indigo  lighten-1 modal-trigger">Editar</button>
+                                <button (click)="borrarLugar(lugar)" class="btn  red  lighten-1">
+                                        <i class="material-icons prefix">delete</i>
+                                </button>
+                                <button (click)="modalEdicion(lugar)" data-target="modal1" class="btn indigo  lighten-1 modal-trigger">
+                                        <i class="material-icons prefix">create</i>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
@@ -46,15 +51,28 @@
         <div class="modal-content">
             <h4> {{ modoEdicion ? 'Editar' : 'Agregar Nuevo'}}</h4>
             <div class="row">
+
+
                 <div class="input-field col s6">
-                    <input id="lugarc" type="text" class="validate" (blur)="mostrarError( 'lugar') " formControlName="lugar">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="lugarc" type="text" [ngClass]=" errorCampos.lugar  ? 'invalid' : 'valid' " (blur)="mostrarError( 'lugar') " formControlName="lugar">
+
                     <label for="lugarc" class="active">Lugar Cena</label>
+
+                    <span class="helper-text" *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar">Helper text</span>
+                    <!-- <span class="helper-text" [data-error]="errorCampos.lugar" data-success="right">Helper text</span> -->
+                    <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper text</span> -->
+                    <!-- *ngIf="errorCampos.lugar" [innerHTML]="errorCampos.lugar" -->
                 </div>
+
+
 
                 <div class="input-field col s6">
                     <input id="lugaro" type="text" class="validate" (blur)="mostrarError('otro')" formControlName="otro">
                     <label for="lugaro" class="active">Otro</label>
                 </div>
+
+
             </div>
             <div class="row">
                 <div class="input-field col s6">
@@ -72,9 +90,6 @@
                       <span>Activo</span>
                     </label>
             </p>
-
-
-
 
             <br> <br>
 
@@ -124,7 +139,6 @@
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn " (click)="focusInput()">Focus </button>
             <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
             <button type="submit" [disabled]="!fg.valid" class="btn modal-close">  Guardar</button>
         </div>
