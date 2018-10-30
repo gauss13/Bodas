@@ -12,9 +12,18 @@ import { UsuarioService } from 'src/app/services/service.index';
 })
 export class LoginComponent implements OnInit {
 
+  username:string;
+reacuerdame: boolean = false;
+
+
   constructor(public router: Router, public _usuarioService: UsuarioService) { }
 
   ngOnInit() {
+
+    this.username = localStorage.getItem('username') || '';
+    if(this.username.length > 0){
+      this.reacuerdame = true;
+    }
   }
 
 

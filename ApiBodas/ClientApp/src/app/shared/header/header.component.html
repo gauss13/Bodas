@@ -13,7 +13,7 @@
 </ul>
 <!-- Dropdown Structure -->
 <ul id="dropdown2" class="dropdown-content">
-    <li><a href="#">Azul</a></li>
+    <li><a routerLinkActive="active" routerLink="/agenda">Agenda</a></li>
     <li><a href="#">Verde</a></li>
     <li class="divider"></li>
     <li><a href="#">Rojo</a></li>
@@ -24,7 +24,7 @@
             <ul class="right hide-on-med-and-down">
                 <li><a routerLinkActive="active" routerLink="/dashboard"> Inicio</a></li>
                 <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Catalogos<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a class="dropdown-trigger" href="#" data-target="dropdown2">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-trigger" href="#" data-target="dropdown2">Registros<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a (click)="_usuarioService.logout()">Salir</a></li>
             </ul>
 

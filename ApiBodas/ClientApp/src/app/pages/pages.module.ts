@@ -6,11 +6,12 @@ import { PAGES_ROUTES } from "./pages.routes";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutofocusDirective } from "../directives/autofocus.directive";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AgendaComponent } from './agenda/agenda.component';
 
 
 
 @NgModule({
-    declarations:[LugarcenaComponent, AutofocusDirective, DashboardComponent],
+    declarations:[LugarcenaComponent, AutofocusDirective, DashboardComponent, AgendaComponent],
     exports:[LugarcenaComponent],
     imports:[CommonModule, FormsModule, ReactiveFormsModule,
             SharedModule,

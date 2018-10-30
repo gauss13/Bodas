@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/service.index';
-declare var $: any;
+ declare var $: any;
+//import * as $ from 'jquery';
 
 @Component({
   selector: 'app-header',

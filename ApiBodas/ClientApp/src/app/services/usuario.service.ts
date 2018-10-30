@@ -90,9 +90,9 @@ estaLogueado() {
 // ***************************************************************************************
 guardarStorage(id: string, token: string, usuario: Usuario) {
 
-  localStorage.setItem('idb', id);
-  localStorage.setItem('tokenb', token);
-  localStorage.setItem('usuariob', JSON.stringify(usuario));
+  localStorage.setItem('id', id);
+  localStorage.setItem('token', token);
+  localStorage.setItem('usuario', JSON.stringify(usuario));
 
   this.usuario = usuario;
   this.token = token;
