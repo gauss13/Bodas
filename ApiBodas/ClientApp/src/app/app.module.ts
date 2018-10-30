@@ -11,12 +11,13 @@ import { SharedModule } from './shared/shared.module';
 import { APP_ROUTES } from './app.routes';
 import { ServiceModule } from './services/services.modules';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login/login.component';
 // import { AutofocusDirective } from './directives/autofocus.directive';
 
 @NgModule({
   declarations: [
     AppComponent,    
-    PagesComponent
+    PagesComponent, LoginComponent
   ],
   imports: [
     BrowserModule,

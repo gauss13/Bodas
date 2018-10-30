@@ -6776,7 +6776,7 @@ textarea.materialize-textarea+label:after,
     position: absolute;
     top: 0;
     left: 0;
-    font-size: 1rem;
+    font-size: 1.3rem;
     cursor: text;
     -webkit-transition: color .2s ease-out, -webkit-transform .2s ease-out;
     transition: color .2s ease-out, -webkit-transform .2s ease-out;
@@ -7485,7 +7485,8 @@ select {
 .select-wrapper+label {
     position: absolute;
     top: -26px;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
+    /*abc  0.8rem*/
 }
 
 select:disabled {

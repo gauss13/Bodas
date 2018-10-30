@@ -38,6 +38,8 @@ namespace ApiBodas.Controllers
             }
             else
             {
+                usuario.Password = ":)";
+
                 var token = GenerarToken(usuario);
 
                 return Ok(new

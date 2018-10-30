@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from 'src/app/services/service.index';
 declare var $: any;
 
 @Component({
@@ -9,7 +10,7 @@ declare var $: any;
 export class HeaderComponent implements OnInit {
 
   titulo = 'inicial';
-  constructor() { }
+  constructor(public _usuarioService: UsuarioService) { }
 
   ngOnInit() {
 
