@@ -281,7 +281,7 @@ if(!this.modoEdicion)
 this.lugares.push(resp);
 this.resetFormulario();
 
-M.toast({html: 'Se guardo el registro correctamente!'});
+//M.toast({html: 'Se guardo el registro correctamente!'});
 
 });
 }
@@ -299,7 +299,7 @@ else
       
       this.lugares[pos] = resp;
 
-      M.toast({html: 'Se edito el registro correctamente!', outDuration:400 });
+     // M.toast({html: 'Se edito el registro correctamente!', outDuration:400 });
 
     });
 

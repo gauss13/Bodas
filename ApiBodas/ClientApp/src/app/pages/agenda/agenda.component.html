@@ -1,11 +1,21 @@
-<p>
-    agenda works!
-</p>
-<button (click)="IniciarCal()">Iniciar</button>
-<button (click)="DestroyCal()">destruir</button>
+<!-- <button (click)="IniciarCal()">Iniciar</button>
+<button (click)="DestroyCal()">destruir</button> -->
 
-<a class="waves-effect waves-light btn">button</a>
-<a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>button</a>
-<a class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>button</a>
+
+<a (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>Iniciar Cal</a>
+
+<!-- Modal Trigger -->
+<button data-target="modal1" class="btn modal-trigger">Abrir</button>
 
 <div id='calendar'></div>
+
+<!-- Modal Registrar Fecha tentativo -->
+<div id="modalt" class="modal">
+    <div class="modal-content">
+        <h4>Registrar Tentativo</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-green btn-flat">Agregar Fecha</a>
+    </div>
+</div>

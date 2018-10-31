@@ -35,6 +35,7 @@ namespace Repository
 
     public interface IRepositorioAgenda : IRepositorioBase<Agenda>
     {
+        Task<IEnumerable<Agenda>> GetFechasByMes(int anio, int mes);
     }
 
     public interface IRepositorioHotel : IRepositorioBase<Hotel>

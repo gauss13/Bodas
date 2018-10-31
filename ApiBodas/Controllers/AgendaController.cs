@@ -76,6 +76,74 @@ namespace ApiBodas.Controllers
             return Ok(obj);
         }
 
+        
+        [HttpGet("fechas/{a:int}/{m:int}")]
+        public async Task<IActionResult> GetFechasPorMes(int a, int m)
+        {
+            var lista = await this.Repositorio.Agendas.GetFechasByMes(a, m);
+            var listaFechas = new List<AgendaFechas>();
+
+            if (!lista.Any())
+            {
+                var objB = new
+                {
+                    ok = false,
+                    mensaje = "No se encontrarón Registros",
+                    errors = ""
+                };
+                return BadRequest(objB);
+            }
+            else
+            {
+                foreach (var ag in lista)
+                {
+                    if (!ag.FechaBoda.HasValue) continue;
+
+                    AgendaFechas iagenda = new AgendaFechas();
+                    iagenda.idagenda = ag.Id;
+                    iagenda.start = $"{ag.FechaBoda.Value.ToString("yyyy-MM-dd")}T{ag.HoraBoda}";
+                    iagenda.end = "";
+                    iagenda.title = $"{ ag.FechaBoda.Value.ToString("yyyy-MM-dd")} {TipoEstatus(ag.EstadoAgendaId)} ";
+                    iagenda.estatus = ag.EstadoAgendaId;
+                    iagenda.url = "";
+
+                    listaFechas.Add(iagenda);
+                }
+            }
+
+
+            // OK
+            var obj = new
+            {
+                ok = true,
+                total = listaFechas.Count(),
+                fechas = listaFechas
+            };
+
+            return Ok(obj);
+
+
+        }
+
+        private string TipoEstatus(int e)
+        {
+            switch (e)
+            {
+                case 1:
+                    return "Tentativo";                    
+                case 2:
+                    return "Confirmado";
+                case 3:
+                    return "Cancelado";
+                case 4:
+                    return "Bloqueado";
+                default:
+                    return "v";
+                    
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Crear([FromBody] Agenda item)
         {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import * as $ from 'jquery';
 declare var $: any;
-
+declare var M: any;
 //import 'fullcalendar';
 
 
@@ -18,6 +18,8 @@ export class AgendaComponent implements OnInit {
 
     $(document).ready(function(){
 
+      $('.modal').modal();  
+
       // var calendar = $('#calendar').fullCalendar('getCalendar');
 
     }); // <- ready
@@ -26,18 +28,23 @@ export class AgendaComponent implements OnInit {
 
   IniciarCal()
   {
-    M.toast({html: 'I am a toast!'});
+    $('#calendar').fullCalendar('destroy');
+
+   
     
     $('#calendar').fullCalendar( {
       // put your options and callbacks here
       locale: 'es',
+      defaultView: 'month',
       weekends: false,
       dayClick: function() {
-        alert('a day has been clicked!');
+        // alert('a day has been clicked!');
+        $('#modalt').modal('open');
       },
     //  hiddenDays: [ 2, 4 ]
     events: [
       {
+        id: 5,
         title  : 'event1',
         start  : '2018-10-01',
         color : 'yellow',
@@ -57,6 +64,9 @@ export class AgendaComponent implements OnInit {
     ]
 
     });
+
+
+    M.toast({html: 'Calendario iniciado!'});
   }
 
 
