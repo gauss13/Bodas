@@ -3,7 +3,11 @@
 
         <div class="card">
             <div class="card-body">
-                <div class="text-right">
+                <div class="progress" *ngIf="cargando">
+                    <div class="indeterminate"></div>
+                </div>
+
+                <div class="text-right" *ngIf="!cargando">
                     <!-- Modal Trigger -->
                     <button data-target="modal1" class="btn modal-trigger" (click)="modalCrear()">Crear</button>
                 </div>
@@ -37,6 +41,8 @@
                         </tr>
                     </tbody>
                 </table>
+
+
 
             </div>
         </div>

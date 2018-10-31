@@ -29,6 +29,7 @@ lugaresABorrar: number[] = [];
 ignorarExistenCambiosPendientes: boolean = false;
 selectedId: number=0;
 idEdicion: number = 0;
+cargando: boolean = true;
 // 
 fg : FormGroup;
 
@@ -224,16 +225,16 @@ existenCambiosPendientes(): boolean {
 
 cargarLugares() {
 
-  //console.log('carga inicial');
+
 
   this._servicio.GetLugaresCena().subscribe( (resp:any) => {
 
-    console.log('func cargar',resp);
+    
 
 this.totalRegistros = this._servicio.totalRegistros;
 this.lugares = resp.lugarCena;
 
-//console.log(resp.lugarCena);
+this.cargando = false;
 
   });
 }
@@ -276,8 +277,12 @@ if(!this.modoEdicion)
 //   hotel: { resp.hotel }
 // };
 
+
 this.lugares.push(resp);
 this.resetFormulario();
+
+M.toast({html: 'Se guardo el registro correctamente!'});
+
 });
 }
 else
@@ -294,6 +299,7 @@ else
       
       this.lugares[pos] = resp;
 
+      M.toast({html: 'Se edito el registro correctamente!', outDuration:400 });
 
     });
 
@@ -309,6 +315,10 @@ borrarLugar(lugar: LugarCena)
 {
 
 
+  var r = confirm("¿Esta seguro que desea eliminar " + lugar.lugar  +'?');
+
+  if(r)
+  {
 this._servicio.Borrar(lugar.id).subscribe( borrado => {
 
 let itemEncontrado = this.lugares.find( item => item.id === lugar.id);
@@ -319,7 +329,7 @@ this.lugares.splice(pos, 1);
 
 
 });
-
+}
 }
 
 // ***************************************************************************************

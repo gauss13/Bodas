@@ -18,22 +18,22 @@
     <li class="divider"></li>
     <li><a href="#">Rojo</a></li>
 </ul>
-<div class="navbar-fixed">
-    <nav class=" cyan darken-4" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Titulo ventana {{titulo}}</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a routerLinkActive="active" routerLink="/dashboard"> Inicio</a></li>
-                <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Catalogos<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a class="dropdown-trigger" href="#" data-target="dropdown2">Registros<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a (click)="_usuarioService.logout()">Salir</a></li>
-            </ul>
+<!-- <div class="navbar-fixed"> -->
+<nav class=" cyan darken-4" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Titulo ventana {{titulo}}</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a routerLinkActive="active" routerLink="/dashboard"> Inicio</a></li>
+            <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Catalogos<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-trigger" href="#" data-target="dropdown2">Registros<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a (click)="_usuarioService.logout()">Salir</a></li>
+        </ul>
 
-            <ul id="nav-mobile" class="sidenav">
-                <li><a href="#">Navbar Link</a></li>
-                <li><a class="dropdown-trigger" href="#" data-target="dropdown11">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a (click)="_usuarioService.logout()">Salir</a></li>
-            </ul>
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        </div>
-    </nav>
-</div>
+        <ul id="nav-mobile" class="sidenav">
+            <li><a href="#">Navbar Link</a></li>
+            <li><a class="dropdown-trigger" href="#" data-target="dropdown11">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a (click)="_usuarioService.logout()">Salir</a></li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+<!-- </div> -->
