@@ -1,11 +1,16 @@
-<!-- <button (click)="IniciarCal()">Iniciar</button>
-<button (click)="DestroyCal()">destruir</button> -->
-
+<!-- <button (click)="IniciarCal()">Iniciar</button> -->
+<button (click)="GetFecha()">getfecha</button>
 
 <a (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>Iniciar Cal</a>
 
+<button (click)="GoToday()" class="waves-effect waves-light btn">Hoy</button>
+<button (click)="GoAnterior()" class="waves-effect waves-light btn"> Ant. </button>
+<button (click)="GoSiguiente()" class="waves-effect waves-light btn">Sig. </button>
+
+
+
 <!-- Modal Trigger -->
-<button data-target="modal1" class="btn modal-trigger">Abrir</button>
+<button data-target="modalt" class="btn modal-trigger">Abrir</button>
 
 <div id='calendar'></div>
 
@@ -13,7 +18,7 @@
 <div id="modalt" class="modal">
     <div class="modal-content">
         <h4>Registrar Tentativo</h4>
-        <p>A bunch of text</p>
+        <p>Formulario</p>
     </div>
     <div class="modal-footer">
         <a class="modal-close waves-effect waves-green btn-flat">Agregar Fecha</a>

@@ -4,7 +4,9 @@ import { HttpClientModule } from "@angular/common/http";
 // import { LugarcenaService } from "./lugarcena.service";
 import { HeaderService } from "./header.service";
 
-import { LoginGuardGuard, LugarcenaService, UsuarioService } from './service.index';
+import { LoginGuardGuard, LugarcenaService, UsuarioService,
+    AgendaService } from './service.index';
+
 
 
 
@@ -12,7 +14,7 @@ import { LoginGuardGuard, LugarcenaService, UsuarioService } from './service.ind
 @NgModule({
 
     imports:[CommonModule, HttpClientModule],
-    providers:[LugarcenaService, HeaderService, LoginGuardGuard, UsuarioService],
+    providers:[LugarcenaService, HeaderService, LoginGuardGuard, UsuarioService, AgendaService],
     declarations:[]
 
 })

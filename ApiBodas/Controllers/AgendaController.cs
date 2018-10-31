@@ -100,12 +100,17 @@ namespace ApiBodas.Controllers
                     if (!ag.FechaBoda.HasValue) continue;
 
                     AgendaFechas iagenda = new AgendaFechas();
+
+                    var tipo = TipoEstatus(ag.EstadoAgendaId);
+
                     iagenda.idagenda = ag.Id;
                     iagenda.start = $"{ag.FechaBoda.Value.ToString("yyyy-MM-dd")}T{ag.HoraBoda}";
                     iagenda.end = "";
-                    iagenda.title = $"{ ag.FechaBoda.Value.ToString("yyyy-MM-dd")} {TipoEstatus(ag.EstadoAgendaId)} ";
+                    iagenda.title = tipo.tipoFecha;
                     iagenda.estatus = ag.EstadoAgendaId;
                     iagenda.url = "";
+                    iagenda.color = tipo.color;
+                    iagenda.textColor = tipo.colortexto;
 
                     listaFechas.Add(iagenda);
                 }
@@ -125,24 +130,29 @@ namespace ApiBodas.Controllers
 
         }
 
-        private string TipoEstatus(int e)
+
+        private (string tipoFecha, string color, string colortexto)  TipoEstatus(int e)
         {
+           // (string Alpha, string Beta) letrasTuple = ("Al", "Be");
+
+
             switch (e)
             {
                 case 1:
-                    return "Tentativo";                    
+                    return ("Tentativo", "blue", "white"); 
                 case 2:
-                    return "Confirmado";
+                    return ("Confirmado", "green", "white");  
                 case 3:
-                    return "Cancelado";
+                    return ("Cancelado", "red", "white"); 
                 case 4:
-                    return "Bloqueado";
+                    return ("Bloqueado", "gray", "black"); 
                 default:
-                    return "v";
-                    
+                    return ("otro", "blue", "white"); 
+
             }
         }
 
+   
 
         [HttpPost]
         public async Task<IActionResult> Crear([FromBody] Agenda item)

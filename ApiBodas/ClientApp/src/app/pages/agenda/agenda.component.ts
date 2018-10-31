@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AgendaService } from 'src/app/services/service.index';
 //import * as $ from 'jquery';
 declare var $: any;
 declare var M: any;
@@ -12,20 +13,58 @@ declare var M: any;
 })
 export class AgendaComponent implements OnInit {
 
-  constructor() { }
+  arrEventos = [];
+
+  constructor(public _servicioAgenda: AgendaService) { }
 
   ngOnInit() {
 
+    
     $(document).ready(function(){
 
       $('.modal').modal();  
 
-      // var calendar = $('#calendar').fullCalendar('getCalendar');
+     $('body').on('click', 'button.fc-prev-button', function() {
+     // ejecutar servicio fechas por mes
+   
+    });
+
 
     }); // <- ready
 
   }
 
+
+CargarFechas(yyyy:number, mm:number)
+{
+  this._servicioAgenda.GetFechasPorMes(yyyy,mm).subscribe(
+    (resp:any) => {
+    
+    if(resp.ok == true)
+    {
+      console.log(resp.fechas);
+      this.arrEventos = resp.fechas;
+
+      $('#calendar').fullCalendar('removeEvents');
+      $('#calendar').fullCalendar('addEventSource', this.arrEventos);
+
+    }
+    else
+    {
+      this.arrEventos = [];
+      $('#calendar').fullCalendar('removeEvents');
+      $('#calendar').fullCalendar('addEventSource', this.arrEventos);
+
+    }
+
+
+
+});
+}
+
+  // ***************************************************************************************
+  //  Inicializar el calendario 
+  // ***************************************************************************************
   IniciarCal()
   {
     $('#calendar').fullCalendar('destroy');
@@ -37,10 +76,14 @@ export class AgendaComponent implements OnInit {
       locale: 'es',
       defaultView: 'month',
       weekends: false,
+      
+      header: {left:'title', right:'', center:''},
       dayClick: function() {
         // alert('a day has been clicked!');
         $('#modalt').modal('open');
       },
+
+
     //  hiddenDays: [ 2, 4 ]
     events: [
       {
@@ -69,10 +112,57 @@ export class AgendaComponent implements OnInit {
     M.toast({html: 'Calendario iniciado!'});
   }
 
-
+// ***************************************************************************************
+//  Destruir el calendario 
+// ***************************************************************************************
   DestroyCal()
   {
     $('#calendar').fullCalendar('destroy');
   }
+
+// ***************************************************************************************
+//  Obetener Fecha Actual 
+// ***************************************************************************************
+GetFecha()
+{
+  var moment = $('#calendar').fullCalendar('getDate');
+  alert("The current date of the calendar is " + moment.format());
+}
+// ***************************************************************************************
+//  TODAY 
+// ***************************************************************************************
+GoToday()
+{
+  $('#calendar').fullCalendar('today');
+
+}
+// ***************************************************************************************
+//   
+// ***************************************************************************************
+GoAnterior()
+{
+  $('#calendar').fullCalendar('prev');
+
+  var moment = $('#calendar').fullCalendar('getDate');
+  this.CargarFechas(moment._i[0], moment._i[1]-1);
+}
+
+// ***************************************************************************************
+//  Siguiente 
+// ***************************************************************************************
+GoSiguiente()
+{
+  $('#calendar').fullCalendar('next');
+
+  var moment = $('#calendar').fullCalendar('getDate');
+  this.CargarFechas(moment._i[0], moment._i[1]+1);
+
+}
+
+
+
+
+
+
 
 }
