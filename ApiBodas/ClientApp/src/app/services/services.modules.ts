@@ -14,7 +14,12 @@ import { LoginGuardGuard, LugarcenaService, UsuarioService,
 @NgModule({
 
     imports:[CommonModule, HttpClientModule],
-    providers:[LugarcenaService, HeaderService, LoginGuardGuard, UsuarioService, AgendaService],
+    providers:[LugarcenaService, 
+               HeaderService, 
+               LoginGuardGuard, 
+               UsuarioService, 
+               AgendaService,
+            LugarcenaService],
     declarations:[]
 
 })

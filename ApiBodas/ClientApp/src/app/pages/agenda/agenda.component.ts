@@ -4,7 +4,8 @@ import { AgendaService } from 'src/app/services/service.index';
 declare var $: any;
 declare var M: any;
 //import 'fullcalendar';
-
+import { FormGroup, FormBuilder,Validators } from '@angular/forms';
+import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
 
 @Component({
   selector: 'app-agenda',
@@ -15,10 +16,37 @@ export class AgendaComponent implements OnInit {
 
   arrEventos = [];
 
-  constructor(public _servicioAgenda: AgendaService) { }
+  textoDeValidacion: any;
+  errorCampos: any;
+  ignorarExistenCambiosPendientes: boolean = false;
+  modoEdicion: boolean= false;
+
+// FORMULARIO 1
+formG: FormGroup
+
+  constructor(public _servicioAgenda: AgendaService, private fb: FormBuilder) { 
+
+
+// FORMULARIO 2 - texto validacion
+this.textoDeValidacion = {
+  fechaBoda: { required: 'El campo Lugar es <strong>requerido</strong>.' }
+
+}
+
+// FORMULARIO 3 - validacion inicial
+this.errorCampos = {
+  fechaBoda: ' ',
+  otro: ' ',
+  hotelid: ' ',
+  activo: ' '
+}
+
+
+  }
 
   ngOnInit() {
 
+    this.construirFormulario();
     
     $(document).ready(function(){
 
@@ -28,8 +56,6 @@ export class AgendaComponent implements OnInit {
      // ejecutar servicio fechas por mes
    
     });
-
-
     }); // <- ready
 
   }
@@ -54,7 +80,6 @@ CargarFechas(yyyy:number, mm:number)
       this.arrEventos = [];
       $('#calendar').fullCalendar('removeEvents');
       $('#calendar').fullCalendar('addEventSource', this.arrEventos);
-
     }
 
 
@@ -159,6 +184,87 @@ GoSiguiente()
 
 }
 
+
+// ***************************************************************************************
+//  FORMULARIO  
+// ***************************************************************************************
+// captura evento
+formChangesSub: any;
+
+construirFormulario()
+{
+  this.formG = this.fb.group({
+  
+    lugarCeremoniaId    : ['', Validators.required],
+    lugarCenaId         : ['', Validators.required],
+    backUpId            : ['', Validators.required],
+    paxAdultos          : ['', Validators.required],
+    paxNinos            : ['', Validators.required],
+    paxJunior           : ['', Validators.required],
+    paxCunas            : ['', Validators.required],
+    paqueteId           : ['', Validators.required],
+    agenciaId           : ['', Validators.required],
+    comision            : ['', Validators.required],
+    fechaSelloAuditoria : ['', Validators.required], 
+    hotelId           : ['', Validators.required],   
+    tipoCeremoniaId   : ['', Validators.required],  
+    pax3raEdad        : ['', Validators.required],  
+    divisaComision    : ['', Validators.required],
+    divisaDeposito    : ['', Validators.required],
+    numHabitacion     : ['', Validators.required],
+    fechaConfirmada   : ['', Validators.required],
+    fechaBoda         : ['', Validators.required],
+    horaBoda          : ['', Validators.required],
+    nombrePareja      : ['', Validators.required],
+    correoPareja      : ['', Validators.required],
+    nacionalidad      : ['', Validators.required],
+    nombreAgente      : ['', Validators.required],
+    correoAgencia     : ['', Validators.required],
+    deposito          : ['', Validators.required],
+    numReserva        : ['', Validators.required],
+    promocion         : ['', Validators.required],
+    fechaPago         : ['', Validators.required],
+    fechaLlegada      : ['', Validators.required], 
+    bookingReference  : ['', Validators.required]
+  });
+
+// manejador del evento de cambio de valor en los inputs
+this.formChangesSub = this.formG.valueChanges.subscribe( data => this.onCambioValor());
+this.formG.touched;
+this.formG.markAsTouched();
+
+}
+
+mostrarError(campo){
+  mostrarErrorx(campo, this.formG, this.textoDeValidacion, this.errorCampos);
+  }
+
+onCambioValor()
+{
+  onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);
+}
+
+existenCambiosPendientes(): boolean {
+
+  if (this.ignorarExistenCambiosPendientes) { return false;}
+
+  return !this.formG.pristine; //pristine indica si el formulario ha sido editado
+
+}
+resetFormulario() {
+  this.formG.reset();
+  //this.selectedId = 0;
+}
+
+save(){}
+
+// ***************************************************************************************
+//   GET Lugar Ceremonia
+// ***************************************************************************************
+GetLugaresCeremonia()
+{
+
+}
 
 
 

@@ -1,3 +1,5 @@
+export { LugarceremoniaService } from './lugarceremonia.service';
+
 export { AgendaService } from './agenda.service';
 
 export { UsuarioService } from './usuario.service';

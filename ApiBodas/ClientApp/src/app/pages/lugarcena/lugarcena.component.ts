@@ -225,11 +225,8 @@ existenCambiosPendientes(): boolean {
 
 cargarLugares() {
 
-
-
   this._servicio.GetLugaresCena().subscribe( (resp:any) => {
-
-    
+   
 
 this.totalRegistros = this._servicio.totalRegistros;
 this.lugares = resp.lugarCena;
@@ -384,6 +381,9 @@ this.fg.patchValue({
 
 this.initSelect();
 $('#lugarc').focus();
+
+
+
 }
 
 // ***************************************************************************************
