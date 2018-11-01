@@ -29,6 +29,7 @@ namespace Repository
         IRepositorioCategoriaServicio CategoriasServicios { get; }
         IRepositorioUsuario Usuarios { get; }
         IRepositorioRole Roles { get; }
+        IRepositorioDivisa Divisas { get; }
         Task<int> CompleteAsync();
     }
 }

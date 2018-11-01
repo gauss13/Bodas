@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, TipoceremoniaService, BackupService, PaqueteService  } from 'src/app/services/service.index';
+import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, TipoceremoniaService, BackupService, PaqueteService, AgenciaService, DivisaService  } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
+
+
 
 
 
@@ -32,6 +34,8 @@ export class AgendaComponent implements OnInit {
   tiposCeremonias:any;
   lugaresBack: any;
   paquetes: any;
+  agencias:any;
+  divisas:any;
 
   selectedHora:string = '';
   selectedCeremonia: number = 0;
@@ -39,6 +43,10 @@ export class AgendaComponent implements OnInit {
   selectedCena: number = 0;
   selectedBack: number = 0;
   selectedPaquete: number =0;
+  selectedAgencia: number =0;
+  selectedDivisaCom: number =0;
+
+  selectedDivisaDepo: number =0;
 
 // FORMULARIO 1
 formG: FormGroup
@@ -49,7 +57,9 @@ formG: FormGroup
     public _cenaService: LugarcenaService,
     public _tipoCeremoniaService: TipoceremoniaService,
     public _backupService: BackupService,
-    public _paqueteService: PaqueteService
+    public _paqueteService: PaqueteService,
+    public _agenciaService: AgenciaService,
+    public _divisaService: DivisaService
     ) { 
 
 
@@ -62,11 +72,17 @@ this.textoDeValidacion = {
   nacionalidad: { required: 'El campo nacionalidad es <strong>requerido</strong>.' },
   lugarCeremoniaId: { required: 'El campo lugar Ceremonia es <strong>requerido</strong>.' },
   lugarCenaId: { required: 'El campo lugar Cena es <strong>requerido</strong>.' },
-  tipoCeremoniaId:{ required: 'El campo lugar Cena es <strong>requerido</strong>.' } 
+  tipoCeremoniaId:{ required: 'El campo lugar Cena es <strong>requerido</strong>.' } ,
+  agenciaId:{ required: 'El campo Agencia es <strong>requerido</strong>.' }  
 }
 
  //backup no es obligatorio
-
+ //comisiion no es obligatorio
+ //divisa comision no es obligatorio
+//  paxAdultos   
+//  paxJunior    
+//  paxNinos     
+//  paxCunas  
 
 
 // FORMULARIO 3 - validacion inicial
@@ -79,7 +95,8 @@ this.errorCampos = {
   lugarCeremoniaId: ' ',
   tipoCeremoniaId: ' ',
   lugarCenaId: ' ',
-  backUpId: ' '
+  backUpId: ' ',
+  agenciaId:' '
 
 }
 
@@ -95,6 +112,8 @@ this.errorCampos = {
     this.GetTiposCeremonia();
     this.GetBackups();
     this.GetPaquetes();
+    this.GetAgencias();
+    this.GetDivisas();
     this.initSelect();
     
     $(document).ready(function(){
@@ -267,14 +286,19 @@ construirFormulario()
     lugarCeremoniaId  : ['', Validators.required],
     lugarCenaId       : ['', Validators.required],
     tipoCeremoniaId   : ['', Validators.required],
-    backUpId            : ['', Validators.required],
-    paqueteId           : ['', Validators.required]
-    // paxAdultos          : ['', Validators.required],
-    // paxNinos            : ['', Validators.required],
-    // paxJunior           : ['', Validators.required],
-    // paxCunas            : ['', Validators.required],
-    // paqueteId           : ['', Validators.required],
-    // agenciaId           : ['', Validators.required],
+    backUpId          : ['', Validators.required],
+    paqueteId         : ['', Validators.required],
+    agenciaId         : ['', Validators.required],
+    comision          : [''],//nr
+    divisaComision    : [''],//nr
+    
+    paxAdultos        : ['', Validators.required],
+    paxJunior         : ['', Validators.required],
+    paxNinos          : ['', Validators.required],    
+    paxCunas          : ['', Validators.required],
+    pax3raEdad        : ['', Validators.required] 
+    
+    
     // comision            : ['', Validators.required],
     // fechaSelloAuditoria : ['', Validators.required], 
     // hotelId           : ['', Validators.required],   
@@ -306,12 +330,12 @@ this.formG.markAsTouched();
 }
 
 mostrarError(campo){
-//  mostrarErrorx(campo, this.formG, this.textoDeValidacion, this.errorCampos);
+  mostrarErrorx(campo, this.formG, this.textoDeValidacion, this.errorCampos);
   }
 
 onCambioValor()
 {
- // onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);
+  onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);
 }
 
 existenCambiosPendientes(): boolean {
@@ -392,7 +416,19 @@ GetPaquetes()
   } );
 }
 
+GetAgencias()
+{
+  this._agenciaService.GetAgencias().subscribe( (resp:any) => {
+  this.agencias = resp.agencia;
+});
+}
 
+GetDivisas()
+{
+    this._divisaService.GetDivisas().subscribe( (resp:any) => {
+    this.divisas = resp.divisa;
+    });
+}
 
 initSelect()
 {

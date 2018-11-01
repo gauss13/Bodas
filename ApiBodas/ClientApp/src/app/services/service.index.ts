@@ -1,3 +1,7 @@
+export { DivisaService } from './divisa.service';
+
+export { AgenciaService } from './agencia.service';
+
 export { PaqueteService } from './paquete.service';
 
 export { BackupService } from './backup.service';

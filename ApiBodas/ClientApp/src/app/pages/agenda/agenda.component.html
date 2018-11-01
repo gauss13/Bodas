@@ -31,6 +31,7 @@
 
 
                 <div class="input-field col s6">
+                    <i class="material-icons prefix">access_time</i>
                     <select formControlName="horaBoda">
                         <option  disabled [selected]="!modoEdicion">Seleccionar Hora</option>
                                 <option *ngFor="let hra of horas " [value]="hra.hora" [selected]="selectedHora == hra.hora"  >{{hra.hora}}</option>
@@ -48,9 +49,8 @@
             <div class="row">
 
                 <div class="input-field col s6">
-                    <i class="material-icons prefix">account_circle</i>
                     <input id="nombrePareja" type="text" [ngClass]=" errorCampos.nombrePareja  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombrePareja') " formControlName="nombrePareja">
-                    <label for="nombrePareja" class="active">Nombre pareja</label>
+                    <label for="nombrePareja" class="active">Nombre de la pareja</label>
                     <span class="helper-text" *ngIf="errorCampos.nombrePareja" [innerHTML]="errorCampos.nombrePareja">Helper text</span>
                 </div>
 
@@ -64,14 +64,14 @@
                 <div class="input-field col s2">
 
                     <input id="nacionalidad" type="text" [ngClass]=" errorCampos.nacionalidad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nacionalidad') " formControlName="nacionalidad">
-                    <label for="nacionalidad" class="active">Nac</label>
+                    <label for="nacionalidad" class="active">Nacion</label>
                     <span class="helper-text" *ngIf="errorCampos.nacionalidad" [innerHTML]="errorCampos.nacionalidad">Helper text</span>
                 </div>
             </div>
 
 
             <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                     <select formControlName="lugarCeremoniaId">
                         <option  disabled [selected]="!modoEdicion">Seleccionar Lugar Ceremonia</option>
                                 <option *ngFor="let lugar of lugaresCeremonia " [value]="lugar.id" [selected]="selectedCeremonia == lugar.id"  >{{lugar.lugar}}</option>
@@ -80,20 +80,17 @@
                 </div>
 
 
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                     <select formControlName="tipoCeremoniaId">
                         <option  disabled [selected]="!modoEdicion">Sel Tipo Ceremonia</option>
                                 <option *ngFor="let tipo of tiposCeremonias " [value]="tipo.id" [selected]="selectedTipoCe == tipo.id"  >{{tipo.descripcion}}</option>
                              </select>
                     <label class="active">Tipo Ceremonia</label>
                 </div>
-
-
-
-
-
-
             </div>
+
+
+
 
 
             <div class="row">
@@ -119,16 +116,78 @@
 
                 <div class="input-field col s6">
                     <select formControlName="paqueteId">
-                                <option  disabled [selected]="!modoEdicion">Seleccionar Paquete</option>
-                                        <option *ngFor="let pa of paquetes " [value]="pa.id" [selected]="selectedPaquete == pa.id"  >{{pa.descripcion}}</option>
-                                     </select>
+                       <option  disabled [selected]="!modoEdicion">Seleccionar Paquete</option>
+                         <option *ngFor="let pa of paquetes " [value]="pa.id" [selected]="selectedPaquete == pa.id"  >{{pa.descripcion}}</option>
+                     </select>
                     <label class="active">Paquete</label>
                 </div>
+
+
+
+            </div>
+
+            <div class="row">
+
+                <div class="input-field col s6">
+                    <select formControlName="agenciaId">
+                     <option  disabled [selected]="!modoEdicion">Seleccionar Agencia</option>
+                           <option *ngFor="let ag of agencias " [value]="ag.id" [selected]="selectedAgencia == ag.id"  >{{ag.nombre}}</option>
+                    </select>
+                    <label class="active">Agencia</label>
+                </div>
+
+                <div class="input-field col s3">
+                    <input id="comision" type="text" [ngClass]=" errorCampos.comision  ? 'invalid' : 'valid' " (blur)="mostrarError( 'comision') " formControlName="comision">
+                    <label for="comision" class="active">comision</label>
+                    <span class="helper-text" *ngIf="errorCampos.comision" [innerHTML]="errorCampos.comision">...</span>
+                </div>
+
+
+                <div class="input-field col s3">
+                    <select formControlName="divisaComision">
+                         <option  disabled [selected]="!modoEdicion">Sel Divisa</option>
+                               <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
+                        </select>
+                    <label class="active">Divisa</label>
+                </div>
+
 
             </div>
 
 
+            <div class="row">
+                <div class="input-field col s3">
+                    <input id="paxAdultos" type="text" [ngClass]=" errorCampos.paxAdultos  ? 'invalid' : 'valid' " (blur)="mostrarError( 'paxAdultos') " formControlName="paxAdultos">
+                    <label for="paxAdultos" class="active">Pax Adultos</label>
+                    <span class="helper-text" *ngIf="errorCampos.paxAdultos" [innerHTML]="errorCampos.paxAdultos">...</span>
+                </div>
 
+                <div class="input-field col s3">
+                    <input id="pax3raEdad" type="text" [ngClass]=" errorCampos.pax3raEdad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'pax3raEdad') " formControlName="pax3raEdad">
+                    <label for="pax3raEdad" class="active">Pax Adultos</label>
+                    <span class="helper-text" *ngIf="errorCampos.pax3raEdad" [innerHTML]="errorCampos.pax3raEdad">...</span>
+                </div>
+
+                <div class="input-field col s2">
+                    <input id="paxJunior" type="text" [ngClass]=" errorCampos.paxJunior  ? 'invalid' : 'valid' " (blur)="mostrarError( 'paxJunior') " formControlName="paxJunior">
+                    <label for="paxJunior" class="active">Pax Junior</label>
+                    <span class="helper-text" *ngIf="errorCampos.paxJunior" [innerHTML]="errorCampos.paxJunior">...</span>
+                </div>
+
+                <div class="input-field col s2">
+                    <input id="paxNinos" type="text" [ngClass]=" errorCampos.paxNinos  ? 'invalid' : 'valid' " (blur)="mostrarError( 'paxNinos') " formControlName="paxNinos">
+                    <label for="paxNinos" class="active">Pax Niños</label>
+                    <span class="helper-text" *ngIf="errorCampos.paxNinos" [innerHTML]="errorCampos.paxNinos">...</span>
+                </div>
+
+                <div class="input-field col s2">
+                    <input id="paxCunas" type="text" [ngClass]=" errorCampos.paxCunas  ? 'invalid' : 'valid' " (blur)="mostrarError( 'paxCunas') " formControlName="paxCunas">
+                    <label for="paxCunas" class="active">Pax Cunas</label>
+                    <span class="helper-text" *ngIf="errorCampos.paxCunas" [innerHTML]="errorCampos.paxCunas">...</span>
+                </div>
+
+
+            </div>
 
             <br><br><br><br>
 
