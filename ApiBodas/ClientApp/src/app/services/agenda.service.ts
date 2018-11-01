@@ -24,6 +24,7 @@ GetFechasPorMes(an:number, mes:number)
   return this.http.get(url).pipe(
     map((resp:any) => {
      
+      if(resp.ok == true)
       this.totalRegistros = resp.total;
    
       return resp;

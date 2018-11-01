@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AgendaService } from 'src/app/services/service.index';
-//import * as $ from 'jquery';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
+import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
+import { ObjectUnsubscribedError } from 'rxjs';
+
 declare var $: any;
 declare var M: any;
-//import 'fullcalendar';
-import { FormGroup, FormBuilder,Validators } from '@angular/forms';
-import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
+
+
 
 @Component({
   selector: 'app-agenda',
@@ -69,8 +71,8 @@ CargarFechas(yyyy:number, mm:number)
     if(resp.ok == true)
     {
       console.log(resp.fechas);
-      this.arrEventos = resp.fechas;
 
+      this.arrEventos = resp.fechas;
       $('#calendar').fullCalendar('removeEvents');
       $('#calendar').fullCalendar('addEventSource', this.arrEventos);
 
@@ -81,8 +83,6 @@ CargarFechas(yyyy:number, mm:number)
       $('#calendar').fullCalendar('removeEvents');
       $('#calendar').fullCalendar('addEventSource', this.arrEventos);
     }
-
-
 
 });
 }
@@ -105,7 +105,7 @@ CargarFechas(yyyy:number, mm:number)
       header: {left:'title', right:'', center:''},
       dayClick: function() {
         // alert('a day has been clicked!');
-        $('#modalt').modal('open');
+        $('#modal1').modal('open');
       },
 
 
@@ -169,6 +169,9 @@ GoAnterior()
   $('#calendar').fullCalendar('prev');
 
   var moment = $('#calendar').fullCalendar('getDate');
+
+  console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
+
   this.CargarFechas(moment._i[0], moment._i[1]-1);
 }
 
@@ -180,6 +183,9 @@ GoSiguiente()
   $('#calendar').fullCalendar('next');
 
   var moment = $('#calendar').fullCalendar('getDate');
+
+  console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
+
   this.CargarFechas(moment._i[0], moment._i[1]+1);
 
 }
@@ -236,12 +242,12 @@ this.formG.markAsTouched();
 }
 
 mostrarError(campo){
-  mostrarErrorx(campo, this.formG, this.textoDeValidacion, this.errorCampos);
+//  mostrarErrorx(campo, this.formG, this.textoDeValidacion, this.errorCampos);
   }
 
 onCambioValor()
 {
-  onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);
+ // onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);
 }
 
 existenCambiosPendientes(): boolean {

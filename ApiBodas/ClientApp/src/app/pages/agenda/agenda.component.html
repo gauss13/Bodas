@@ -10,7 +10,7 @@
 
 
 <!-- Modal Trigger -->
-<button data-target="modalt" class="btn modal-trigger">Abrir</button>
+<button data-target="modal1" class="btn modal-trigger">Abrir</button>
 
 <div id='calendar'></div>
 
@@ -26,8 +26,8 @@
 
                 <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="fb" type="text" [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
-                    <label for="fb" class="active">Fecha Boda</label>
+                    <input id="fboda" type="text" [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
+                    <label for="fboda" class="active">Fecha Boda</label>
                     <span class="helper-text" *ngIf="errorCampos.fechaBoda" [innerHTML]="errorCampos.fechaBoda">Helper text</span>
                 </div>
 
@@ -50,7 +50,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
-            <button type="submit" [disabled]="!fg.valid" class="btn modal-close">  Guardar</button>
+            <button type="submit" [disabled]="!formG.valid" class="btn modal-close">  Guardar</button>
         </div>
     </form>
 
