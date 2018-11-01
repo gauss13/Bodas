@@ -38,7 +38,7 @@ namespace ApiBodas.Controllers
                     errors = ""
                 };
 
-                return BadRequest(objB);
+                return Ok(objB);
             }
 
             return Ok(new
@@ -62,7 +62,7 @@ namespace ApiBodas.Controllers
                     mensaje = "No se encontrarón Registros",
                     errors = ""
                 };
-                return BadRequest(objB);
+                return Ok(objB);
             }
 
             // OK
@@ -91,7 +91,7 @@ namespace ApiBodas.Controllers
                     mensaje = "No se encontrarón Registros",
                     errors = ""
                 };
-                return BadRequest(objB);
+                return Ok(objB);
             }
             else
             {

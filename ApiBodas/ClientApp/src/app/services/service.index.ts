@@ -1,3 +1,11 @@
+export { PaqueteService } from './paquete.service';
+
+export { BackupService } from './backup.service';
+
+export { TipoceremoniaService } from './tipoceremonia.service';
+
+export { HoraService } from './hora.service';
+
 export { LugarceremoniaService } from './lugarceremonia.service';
 
 export { AgendaService } from './agenda.service';

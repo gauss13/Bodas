@@ -3,25 +3,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { URL_SERVICIOS } from '../config/config';
 import { map } from 'rxjs/operators'; // version 6 en adelante
-import { LugarCeremonia } from '../models/lugarceremonia.model';
+//import { LugarCeremonia } from '../models/lugarceremonia.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LugarceremoniaService {
+export class BackupService {
 
-  lugarCeremonia:LugarCeremonia;
+ // lugarCeremonia:LugarCeremonia;
   totalRegistros: number = 0;
 
   constructor(public http: HttpClient, public router: Router) { }
 
-
+ // ***************************************************************************************
+  //  GET - Lugares Backup
   // ***************************************************************************************
-  //  GET - Lugares Ceremonia
-  // ***************************************************************************************
-  GetLugaresCeremonia() {
+  GetLugaresBackup() {
  
-    const url = URL_SERVICIOS + '/api/LugarCeremonia';
+    const url = URL_SERVICIOS + '/api/BackUp';
   
   
   return this.http.get(url).pipe(

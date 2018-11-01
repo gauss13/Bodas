@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AgendaService } from 'src/app/services/service.index';
+import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, TipoceremoniaService, BackupService, PaqueteService  } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
+
+
 
 declare var $: any;
 declare var M: any;
@@ -16,31 +18,69 @@ declare var M: any;
 })
 export class AgendaComponent implements OnInit {
 
+  //VARIABLES
   arrEventos = [];
-
   textoDeValidacion: any;
   errorCampos: any;
   ignorarExistenCambiosPendientes: boolean = false;
   modoEdicion: boolean= false;
+  fechaSeleccionada: string ='';
+
+  horas: any;
+  lugaresCeremonia: any;
+  lugaresCena: any;
+  tiposCeremonias:any;
+  lugaresBack: any;
+  paquetes: any;
+
+  selectedHora:string = '';
+  selectedCeremonia: number = 0;
+  selectedTipoCe: number = 0;
+  selectedCena: number = 0;
+  selectedBack: number = 0;
+  selectedPaquete: number =0;
 
 // FORMULARIO 1
 formG: FormGroup
 
-  constructor(public _servicioAgenda: AgendaService, private fb: FormBuilder) { 
+  constructor(public _servicioAgenda: AgendaService, private fb: FormBuilder,
+    private _horasService: HoraService,
+    private _ceremoniaService: LugarceremoniaService,
+    public _cenaService: LugarcenaService,
+    public _tipoCeremoniaService: TipoceremoniaService,
+    public _backupService: BackupService,
+    public _paqueteService: PaqueteService
+    ) { 
 
 
 // FORMULARIO 2 - texto validacion
 this.textoDeValidacion = {
-  fechaBoda: { required: 'El campo Lugar es <strong>requerido</strong>.' }
-
+  fechaBoda: { required: 'El campo Fecha Boda es <strong>requerido</strong>.' },
+  horaBoda: { required: 'El campo Hora Boda es <strong>requerido</strong>.' },
+  nombrePareja: { required: 'El campo nombre Pareja es <strong>requerido</strong>.' },
+  correoPareja: { required: 'El campo correo Pareja es <strong>requerido</strong>.' },
+  nacionalidad: { required: 'El campo nacionalidad es <strong>requerido</strong>.' },
+  lugarCeremoniaId: { required: 'El campo lugar Ceremonia es <strong>requerido</strong>.' },
+  lugarCenaId: { required: 'El campo lugar Cena es <strong>requerido</strong>.' },
+  tipoCeremoniaId:{ required: 'El campo lugar Cena es <strong>requerido</strong>.' } 
 }
+
+ //backup no es obligatorio
+
+
 
 // FORMULARIO 3 - validacion inicial
 this.errorCampos = {
   fechaBoda: ' ',
-  otro: ' ',
-  hotelid: ' ',
-  activo: ' '
+  horaBoda: ' ',
+  nombrePareja: ' ',
+  correoPareja: ' ',
+  nacionalidad: ' ',
+  lugarCeremoniaId: ' ',
+  tipoCeremoniaId: ' ',
+  lugarCenaId: ' ',
+  backUpId: ' '
+
 }
 
 
@@ -49,15 +89,23 @@ this.errorCampos = {
   ngOnInit() {
 
     this.construirFormulario();
+    this.GetHoras();
+    this.GetCeremonias();
+    this.GetCenas();
+    this.GetTiposCeremonia();
+    this.GetBackups();
+    this.GetPaquetes();
+    this.initSelect();
     
     $(document).ready(function(){
 
       $('.modal').modal();  
 
-     $('body').on('click', 'button.fc-prev-button', function() {
-     // ejecutar servicio fechas por mes
-   
-    });
+    //  $('body').on('click', 'button.fc-prev-button', function() {
+    //  // ejecutar servicio fechas por mes
+    //   });
+
+
     }); // <- ready
 
   }
@@ -70,7 +118,7 @@ CargarFechas(yyyy:number, mm:number)
     
     if(resp.ok == true)
     {
-      console.log(resp.fechas);
+      //console.log(resp.fechas);
 
       this.arrEventos = resp.fechas;
       $('#calendar').fullCalendar('removeEvents');
@@ -103,9 +151,19 @@ CargarFechas(yyyy:number, mm:number)
       weekends: false,
       
       header: {left:'title', right:'', center:''},
-      dayClick: function() {
-        // alert('a day has been clicked!');
+
+      dayClick: function(date, jsEvent, view) {        
+        //Abrir modal 
         $('#modal1').modal('open');
+        //obtener la fecha
+        this.fechaSeleccionada = date.format();
+        // patch   
+       $('#fboda').val(this.fechaSeleccionada);
+        // inicializa los select
+       $('select').formSelect();
+
+
+
       },
 
 
@@ -201,37 +259,43 @@ construirFormulario()
 {
   this.formG = this.fb.group({
   
-    lugarCeremoniaId    : ['', Validators.required],
-    lugarCenaId         : ['', Validators.required],
-    backUpId            : ['', Validators.required],
-    paxAdultos          : ['', Validators.required],
-    paxNinos            : ['', Validators.required],
-    paxJunior           : ['', Validators.required],
-    paxCunas            : ['', Validators.required],
-    paqueteId           : ['', Validators.required],
-    agenciaId           : ['', Validators.required],
-    comision            : ['', Validators.required],
-    fechaSelloAuditoria : ['', Validators.required], 
-    hotelId           : ['', Validators.required],   
-    tipoCeremoniaId   : ['', Validators.required],  
-    pax3raEdad        : ['', Validators.required],  
-    divisaComision    : ['', Validators.required],
-    divisaDeposito    : ['', Validators.required],
-    numHabitacion     : ['', Validators.required],
-    fechaConfirmada   : ['', Validators.required],
     fechaBoda         : ['', Validators.required],
     horaBoda          : ['', Validators.required],
     nombrePareja      : ['', Validators.required],
     correoPareja      : ['', Validators.required],
     nacionalidad      : ['', Validators.required],
-    nombreAgente      : ['', Validators.required],
-    correoAgencia     : ['', Validators.required],
-    deposito          : ['', Validators.required],
-    numReserva        : ['', Validators.required],
-    promocion         : ['', Validators.required],
-    fechaPago         : ['', Validators.required],
-    fechaLlegada      : ['', Validators.required], 
-    bookingReference  : ['', Validators.required]
+    lugarCeremoniaId  : ['', Validators.required],
+    lugarCenaId       : ['', Validators.required],
+    tipoCeremoniaId   : ['', Validators.required],
+    backUpId            : ['', Validators.required],
+    paqueteId           : ['', Validators.required]
+    // paxAdultos          : ['', Validators.required],
+    // paxNinos            : ['', Validators.required],
+    // paxJunior           : ['', Validators.required],
+    // paxCunas            : ['', Validators.required],
+    // paqueteId           : ['', Validators.required],
+    // agenciaId           : ['', Validators.required],
+    // comision            : ['', Validators.required],
+    // fechaSelloAuditoria : ['', Validators.required], 
+    // hotelId           : ['', Validators.required],   
+    // tipoCeremoniaId   : ['', Validators.required],  
+    // pax3raEdad        : ['', Validators.required],  
+    // divisaComision    : ['', Validators.required],
+    // divisaDeposito    : ['', Validators.required],
+    // numHabitacion     : ['', Validators.required],
+    // fechaConfirmada   : ['', Validators.required],
+
+    // nombrePareja      : ['', Validators.required],
+    // correoPareja      : ['', Validators.required],
+    // nacionalidad      : ['', Validators.required],
+    // nombreAgente      : ['', Validators.required],
+    // correoAgencia     : ['', Validators.required],
+    // deposito          : ['', Validators.required],
+    // numReserva        : ['', Validators.required],
+    // promocion         : ['', Validators.required],
+    // fechaPago         : ['', Validators.required],
+    // fechaLlegada      : ['', Validators.required], 
+    // bookingReference  : ['', Validators.required]
   });
 
 // manejador del evento de cambio de valor en los inputs
@@ -272,8 +336,81 @@ GetLugaresCeremonia()
 
 }
 
+// ***************************************************************************************
+//  GETS SELECTS 
+// ***************************************************************************************
+GetHoras()
+{
+  this._horasService.GetHoras().subscribe( (resp:any)=> {
+        this.horas = resp;
+  });
+}
+
+GetCeremonias()
+{
+  this._ceremoniaService.GetLugaresCeremonia().subscribe( (resp:any) => {
+    this.lugaresCeremonia = resp.lugarCeremonia;
+  });
+}
+
+GetTiposCeremonia()
+{
+  this._tipoCeremoniaService.GetTiposCeremonia().subscribe((resp: any) => {
+
+    console.log('GET Tipo' + resp);
+
+  this.tiposCeremonias = resp.tipoCeremonia;
+
+  });
+}
 
 
+GetCenas()
+{
+  this._cenaService.GetLugaresCena().subscribe((resp: any) => {
+
+    console.log('GET GET' + resp);
+
+  this.lugaresCena = resp.lugarCena;
+  });
+}
+
+
+GetBackups()
+{
+this._backupService.GetLugaresBackup().subscribe( (resp:any) => {
+this.lugaresBack = resp.backUp;
+});
+
+}
+
+
+GetPaquetes()
+{
+  this._paqueteService.GetPaquetes().subscribe( (resp:any) => {
+  this.paquetes = resp.paquete;
+  } );
+}
+
+
+
+initSelect()
+{
+  $('select').formSelect();
+}
+
+
+patchFecha()
+{
+ // this.formG.reset();
+
+console.log(this.fechaSeleccionada );
+
+  this.formG.patchValue({
+    fechaBoda : this.fechaSeleccionada          
+  });
+
+}
 
 
 

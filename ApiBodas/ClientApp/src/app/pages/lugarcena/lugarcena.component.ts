@@ -240,9 +240,6 @@ cargarHoteles()
 {
   this._servicioHotel.GetHoteles().subscribe(  (resp:any) => {
   this.hoteles = resp;
-
-
-
   });
 }
 

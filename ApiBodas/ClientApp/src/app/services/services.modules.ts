@@ -1,11 +1,19 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-// import { LugarcenaService } from "./lugarcena.service";
+// import { LugarcenaService } from './lugarcena.service';
 import { HeaderService } from "./header.service";
 
-import { LoginGuardGuard, LugarcenaService, UsuarioService,
-    AgendaService } from './service.index';
+
+import { LoginGuardGuard, LugarcenaService, 
+    UsuarioService,
+    AgendaService,
+    HoraService,
+    LugarceremoniaService,
+TipoceremoniaService, 
+BackupService, PaqueteService } from './service.index';
+
+
 
 
 
@@ -19,7 +27,11 @@ import { LoginGuardGuard, LugarcenaService, UsuarioService,
                LoginGuardGuard, 
                UsuarioService, 
                AgendaService,
-            LugarcenaService],
+               HoraService, 
+               LugarceremoniaService,
+               TipoceremoniaService, 
+               BackupService,
+               PaqueteService],
     declarations:[]
 
 })

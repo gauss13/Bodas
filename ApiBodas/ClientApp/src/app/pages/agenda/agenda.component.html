@@ -22,15 +22,21 @@
         <div class="modal-content">
             <h4> {{ modoEdicion ? 'Editar' : 'Agregar Nuevo'}}</h4>
             <div class="row">
-
-
                 <div class="input-field col s6">
-                    <i class="material-icons prefix">account_circle</i>
-                    <input id="fboda" type="text" [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
-                    <label for="fboda" class="active">Fecha Boda</label>
+                    <i class="material-icons prefix">event_available</i>
+                    <input id="fboda" type="text" disabled [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
+                    <label for="fboda" class="active">Fecha Boda </label>
                     <span class="helper-text" *ngIf="errorCampos.fechaBoda" [innerHTML]="errorCampos.fechaBoda">Helper text</span>
                 </div>
 
+
+                <div class="input-field col s6">
+                    <select formControlName="horaBoda">
+                        <option  disabled [selected]="!modoEdicion">Seleccionar Hora</option>
+                                <option *ngFor="let hra of horas " [value]="hra.hora" [selected]="selectedHora == hra.hora"  >{{hra.hora}}</option>
+                             </select>
+                    <label class="active">Hora Boda</label>
+                </div>
 
                 <!-- <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
@@ -38,7 +44,86 @@
                     <label for="fechaBoda" class="active">Fecha Boda</label>
                     <span class="helper-text" *ngIf="errorCampos.fechaBoda" [innerHTML]="errorCampos.fechaBoda">Helper text</span>
                 </div> -->
+            </div>
+            <div class="row">
 
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="nombrePareja" type="text" [ngClass]=" errorCampos.nombrePareja  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombrePareja') " formControlName="nombrePareja">
+                    <label for="nombrePareja" class="active">Nombre pareja</label>
+                    <span class="helper-text" *ngIf="errorCampos.nombrePareja" [innerHTML]="errorCampos.nombrePareja">Helper text</span>
+                </div>
+
+                <div class="input-field col s4">
+
+                    <input id="correoPareja" type="text" [ngClass]=" errorCampos.correoPareja  ? 'invalid' : 'valid' " (blur)="mostrarError( 'correoPareja') " formControlName="correoPareja">
+                    <label for="correoPareja" class="active">Correo pareja</label>
+                    <span class="helper-text" *ngIf="errorCampos.correoPareja" [innerHTML]="errorCampos.correoPareja">Helper text</span>
+                </div>
+
+                <div class="input-field col s2">
+
+                    <input id="nacionalidad" type="text" [ngClass]=" errorCampos.nacionalidad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nacionalidad') " formControlName="nacionalidad">
+                    <label for="nacionalidad" class="active">Nac</label>
+                    <span class="helper-text" *ngIf="errorCampos.nacionalidad" [innerHTML]="errorCampos.nacionalidad">Helper text</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <select formControlName="lugarCeremoniaId">
+                        <option  disabled [selected]="!modoEdicion">Seleccionar Lugar Ceremonia</option>
+                                <option *ngFor="let lugar of lugaresCeremonia " [value]="lugar.id" [selected]="selectedCeremonia == lugar.id"  >{{lugar.lugar}}</option>
+                             </select>
+                    <label class="active">Lugar Ceremonia</label>
+                </div>
+
+
+                <div class="input-field col s6">
+                    <select formControlName="tipoCeremoniaId">
+                        <option  disabled [selected]="!modoEdicion">Sel Tipo Ceremonia</option>
+                                <option *ngFor="let tipo of tiposCeremonias " [value]="tipo.id" [selected]="selectedTipoCe == tipo.id"  >{{tipo.descripcion}}</option>
+                             </select>
+                    <label class="active">Tipo Ceremonia</label>
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <select formControlName="lugarCenaId">
+                        <option  disabled [selected]="!modoEdicion">Seleccionar Lugar Cena</option>
+                                <option *ngFor="let lugar of lugaresCena " [value]="lugar.id" [selected]="selectedCena == lugar.id"  >{{lugar.lugar}}</option>
+                             </select>
+                    <label class="active">Lugar Cena</label>
+                </div>
+
+
+                <div class="input-field col s6">
+                    <select formControlName="backUpId">
+                        <option  disabled [selected]="!modoEdicion">Seleccionar Backup</option>
+                                <option *ngFor="let lugar of lugaresBack " [value]="lugar.id" [selected]="selectedBack == lugar.id"  >{{lugar.lugar}}</option>
+                             </select>
+                    <label class="active">Lugar BackUp</label>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="input-field col s6">
+                    <select formControlName="paqueteId">
+                                <option  disabled [selected]="!modoEdicion">Seleccionar Paquete</option>
+                                        <option *ngFor="let pa of paquetes " [value]="pa.id" [selected]="selectedPaquete == pa.id"  >{{pa.descripcion}}</option>
+                                     </select>
+                    <label class="active">Paquete</label>
+                </div>
 
             </div>
 
@@ -50,6 +135,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
+            <button type="button" class="btn grey darken-1  " (click)="patchFecha()">Patch </button>
             <button type="submit" [disabled]="!formG.valid" class="btn modal-close">  Guardar</button>
         </div>
     </form>
