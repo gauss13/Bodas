@@ -83,7 +83,15 @@ this.textoDeValidacion = {
 //  paxJunior    
 //  paxNinos     
 //  paxCunas  
-
+//  bookingReference
+//  num de habitacion
+//  fechaLlegada
+//  fechapago
+//  promocion
+//  deposito
+//  fechaConfirmada
+//  divisa deposito
+//  
 
 // FORMULARIO 3 - validacion inicial
 this.errorCampos = {
@@ -269,7 +277,7 @@ GoSiguiente()
 
 
 // ***************************************************************************************
-//  FORMULARIO  
+//  FORMULARIO  - hotel id - sera el que seleccione antes entrar a la agenda
 // ***************************************************************************************
 // captura evento
 formChangesSub: any;
@@ -296,30 +304,24 @@ construirFormulario()
     paxJunior         : ['', Validators.required],
     paxNinos          : ['', Validators.required],    
     paxCunas          : ['', Validators.required],
-    pax3raEdad        : ['', Validators.required] 
+    pax3raEdad        : ['', Validators.required], 
     
-    
-    // comision            : ['', Validators.required],
-    // fechaSelloAuditoria : ['', Validators.required], 
-    // hotelId           : ['', Validators.required],   
-    // tipoCeremoniaId   : ['', Validators.required],  
-    // pax3raEdad        : ['', Validators.required],  
-    // divisaComision    : ['', Validators.required],
-    // divisaDeposito    : ['', Validators.required],
-    // numHabitacion     : ['', Validators.required],
-    // fechaConfirmada   : ['', Validators.required],
+    nombreAgente      : ['', Validators.required],
+    correoAgencia     : ['', Validators.required],
 
-    // nombrePareja      : ['', Validators.required],
-    // correoPareja      : ['', Validators.required],
-    // nacionalidad      : ['', Validators.required],
-    // nombreAgente      : ['', Validators.required],
-    // correoAgencia     : ['', Validators.required],
-    // deposito          : ['', Validators.required],
-    // numReserva        : ['', Validators.required],
-    // promocion         : ['', Validators.required],
+    numReserva        : ['', Validators.required],
+    numHabitacion     : ['', Validators.required],
+    bookingReference  : ['', Validators.required],
+
+    promocion         : ['', Validators.required],
+    deposito          : ['', Validators.required], 
+    divisaDeposito    : ['', Validators.required]
+   
+    // fechaSelloAuditoria : ['', Validators.required],       
+    // fechaConfirmada   : ['', Validators.required],   
     // fechaPago         : ['', Validators.required],
     // fechaLlegada      : ['', Validators.required], 
-    // bookingReference  : ['', Validators.required]
+    
   });
 
 // manejador del evento de cambio de valor en los inputs

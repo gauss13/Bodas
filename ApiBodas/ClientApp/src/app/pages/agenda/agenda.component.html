@@ -142,13 +142,31 @@
                     <span class="helper-text" *ngIf="errorCampos.comision" [innerHTML]="errorCampos.comision">...</span>
                 </div>
 
-
                 <div class="input-field col s3">
                     <select formControlName="divisaComision">
                          <option  disabled [selected]="!modoEdicion">Sel Divisa</option>
                                <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
                         </select>
                     <label class="active">Divisa</label>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+
+
+                <div class="input-field col s4">
+                    <input id="correoAgencia" type="text" [ngClass]=" errorCampos.correoAgencia  ? 'invalid' : 'valid' " (blur)="mostrarError( 'correoAgencia') " formControlName="correoAgencia">
+                    <label for="correoAgencia" class="active">Correo Agencia</label>
+                    <span class="helper-text" *ngIf="errorCampos.correoAgencia" [innerHTML]="errorCampos.correoAgencia">...</span>
+                </div>
+
+                <div class="input-field col s4">
+                    <input id="nombreAgente" type="text" [ngClass]=" errorCampos.nombreAgente  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombreAgente') " formControlName="nombreAgente">
+                    <label for="nombreAgente" class="active">Nombre Agente</label>
+                    <span class="helper-text" *ngIf="errorCampos.nombreAgente" [innerHTML]="errorCampos.nombreAgente">...</span>
                 </div>
 
 
@@ -164,7 +182,7 @@
 
                 <div class="input-field col s3">
                     <input id="pax3raEdad" type="text" [ngClass]=" errorCampos.pax3raEdad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'pax3raEdad') " formControlName="pax3raEdad">
-                    <label for="pax3raEdad" class="active">Pax Adultos</label>
+                    <label for="pax3raEdad" class="active">Pax 3ra. Edad</label>
                     <span class="helper-text" *ngIf="errorCampos.pax3raEdad" [innerHTML]="errorCampos.pax3raEdad">...</span>
                 </div>
 
@@ -186,6 +204,51 @@
                     <span class="helper-text" *ngIf="errorCampos.paxCunas" [innerHTML]="errorCampos.paxCunas">...</span>
                 </div>
 
+            </div>
+
+            <div class="row">
+                <div class="input-field col s3">
+                    <input id="numReserva" type="text" [ngClass]=" errorCampos.numReserva  ? 'invalid' : 'valid' " (blur)="mostrarError( 'numReserva') " formControlName="numReserva">
+                    <label for="numReserva" class="active">No. Reserva</label>
+                    <span class="helper-text" *ngIf="errorCampos.numReserva" [innerHTML]="errorCampos.numReserva">...</span>
+                </div>
+
+                <div class="input-field col s3">
+                    <input id="numHabitacion" type="text" [ngClass]=" errorCampos.numHabitacion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'numHabitacion') " formControlName="numHabitacion">
+                    <label for="numHabitacion" class="active">No. Habitacion</label>
+                    <span class="helper-text" *ngIf="errorCampos.numHabitacion" [innerHTML]="errorCampos.numHabitacion">...</span>
+                </div>
+
+                <div class="input-field col s3">
+                    <input id="bookingReference" type="text" [ngClass]=" errorCampos.bookingReference  ? 'invalid' : 'valid' " (blur)="mostrarError( 'bookingReference') " formControlName="bookingReference">
+                    <label for="bookingReference" class="active">Booking Ref.</label>
+                    <span class="helper-text" *ngIf="errorCampos.bookingReference" [innerHTML]="errorCampos.bookingReference">...</span>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+                <div class="input-field col s4">
+                    <input id="promocion" type="text" [ngClass]=" errorCampos.promocion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'promocion') " formControlName="promocion">
+                    <label for="promocion" class="active">Promocion</label>
+                    <span class="helper-text" *ngIf="errorCampos.promocion" [innerHTML]="errorCampos.promocion">...</span>
+                </div>
+
+                <div class="input-field col s3">
+                    <input id="deposito" type="text" [ngClass]=" errorCampos.deposito  ? 'invalid' : 'valid' " (blur)="mostrarError( 'deposito') " formControlName="deposito">
+                    <label for="deposito" class="active">Deposito</label>
+                    <span class="helper-text" *ngIf="errorCampos.deposito" [innerHTML]="errorCampos.deposito">...</span>
+                </div>
+
+                <div class="input-field col s3">
+                    <select formControlName="divisaDeposito">
+                             <option  disabled [selected]="!modoEdicion">Sel Divisa Deposito</option>
+                                   <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
+                            </select>
+                    <label class="active">Divisa</label>
+                </div>
 
             </div>
 
