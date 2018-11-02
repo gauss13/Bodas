@@ -184,8 +184,6 @@ namespace ApiBodas.Controllers
                 });
 
             }
-
-
         }
 
         [HttpPut("{id}")]

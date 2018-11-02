@@ -64,6 +64,12 @@ console.log(objj);
 
 }
 
+
+StringOrEmpty(value:string)
+{
+  return !(typeof value === "string" && value.length > 0);
+}
+
 Sanity(item:Agenda)
 {
 
@@ -75,7 +81,7 @@ Sanity(item:Agenda)
  let ejecutivoId  = 0;//provisional
  let cordinadorId  = 0; //provisional
  
- let lugarCeremoniaId  = item.lugarCeremoniaId  ? +0 :  +item.lugarCeremoniaId;
+ let lugarCeremoniaId  = this.StringOrEmpty(item.lugarCeremoniaId) ? +0 :  +item.lugarCeremoniaId;
 
  let lugarCenaId  = !isNaN(item.lugarCenaId) ? 0 :  +item.lugarCenaId ;
 

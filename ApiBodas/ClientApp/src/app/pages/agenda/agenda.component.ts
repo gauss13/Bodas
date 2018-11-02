@@ -364,7 +364,7 @@ save(){
 
   
 
-let itemAgenda: Agenda = Object.assign({}, this.formG.value)
+let itemAgenda: Agenda = Object.assign({}, this.formG.)
 
 
 
@@ -469,7 +469,7 @@ initSelect()
 patchFecha()
 {
 
-  console.log(this.formG);
+
  // this.formG.reset();
 
  var fechab = $('#fboda').val();
