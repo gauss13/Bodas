@@ -315,12 +315,14 @@ construirFormulario()
 
     promocion         : ['', Validators.required],
     deposito          : ['', Validators.required], 
-    divisaDeposito    : ['', Validators.required]
+    divisaDeposito    : ['', Validators.required],
    
-    // fechaSelloAuditoria : ['', Validators.required],       
-    // fechaConfirmada   : ['', Validators.required],   
-    // fechaPago         : ['', Validators.required],
-    // fechaLlegada      : ['', Validators.required], 
+    fechaConfirmada   : ['', Validators.required] ,
+    fechaPago         : ['', Validators.required] ,     
+    fechaLlegada      : ['', Validators.required],
+    fechaSelloAuditoria : ['', Validators.required]       
+    
+   
     
   });
 
@@ -432,9 +434,14 @@ GetDivisas()
     });
 }
 
+// ***************************************************************************************
+//  INIT - SELECT DATEPICKER 
+// ***************************************************************************************
+
 initSelect()
 {
   $('select').formSelect();
+ // $('.datepicker').datepicker();
 }
 
 
