@@ -49,6 +49,7 @@ map((resp:any) => {
 Crear(lugar:LugarCena)
 {
   
+  console.log('crear lugar',lugar);
   
   const url = URL_SERVICIOS + '/api/LugarCena';
 

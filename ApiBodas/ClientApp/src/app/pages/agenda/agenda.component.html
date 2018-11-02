@@ -64,6 +64,7 @@
                     <input id="nacionalidad" type="text" [ngClass]=" errorCampos.nacionalidad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nacionalidad') " formControlName="nacionalidad">
                     <label for="nacionalidad" class="active">Nacionalidad</label>
                     <span class="helper-text" *ngIf="errorCampos.nacionalidad" [innerHTML]="errorCampos.nacionalidad">Helper text</span>
+
                 </div>
             </div>
 
@@ -124,15 +125,43 @@
 
             </div>
 
+
+
             <div class="row">
 
                 <div class="input-field col s6">
                     <select formControlName="agenciaId">
-                     <option  disabled [selected]="!modoEdicion">Seleccionar Agencia</option>
-                           <option *ngFor="let ag of agencias " [value]="ag.id" [selected]="selectedAgencia == ag.id"  >{{ag.nombre}}</option>
-                    </select>
+                             <option  disabled [selected]="!modoEdicion">Seleccionar Agencia</option>
+                                   <option *ngFor="let ag of agencias " [value]="ag.id" [selected]="selectedAgencia == ag.id"  >{{ag.nombre}}</option>
+                            </select>
                     <label class="active">Agencia</label>
                 </div>
+
+                <div class="input-field col s6">
+                    <input id="correoAgencia" type="text" [ngClass]=" errorCampos.correoAgencia  ? 'invalid' : 'valid' " (blur)="mostrarError( 'correoAgencia') " formControlName="correoAgencia">
+                    <label for="correoAgencia" class="active">Correo Agencia</label>
+                    <span class="helper-text" *ngIf="errorCampos.correoAgencia" [innerHTML]="errorCampos.correoAgencia">...</span>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+
+                <div class="input-field col s6">
+                    <input id="nombreAgente" type="text" [ngClass]=" errorCampos.nombreAgente  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombreAgente') " formControlName="nombreAgente">
+                    <label for="nombreAgente" class="active">Nombre Agente</label>
+                    <span class="helper-text" *ngIf="errorCampos.nombreAgente" [innerHTML]="errorCampos.nombreAgente">...</span>
+                </div>
+
+
+            </div>
+
+
+            <div class="row">
+
+
 
                 <div class="input-field col s3">
                     <input id="comision" type="number" [ngClass]=" errorCampos.comision  ? 'invalid' : 'valid' " (blur)="mostrarError( 'comision') " formControlName="comision">
@@ -150,25 +179,14 @@
 
             </div>
 
-
-            <div class="row">
-
-
-
-                <div class="input-field col s6">
-                    <input id="correoAgencia" type="text" [ngClass]=" errorCampos.correoAgencia  ? 'invalid' : 'valid' " (blur)="mostrarError( 'correoAgencia') " formControlName="correoAgencia">
-                    <label for="correoAgencia" class="active">Correo Agencia</label>
-                    <span class="helper-text" *ngIf="errorCampos.correoAgencia" [innerHTML]="errorCampos.correoAgencia">...</span>
-                </div>
-
-                <div class="input-field col s6">
-                    <input id="nombreAgente" type="text" [ngClass]=" errorCampos.nombreAgente  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombreAgente') " formControlName="nombreAgente">
-                    <label for="nombreAgente" class="active">Nombre Agente</label>
-                    <span class="helper-text" *ngIf="errorCampos.nombreAgente" [innerHTML]="errorCampos.nombreAgente">...</span>
-                </div>
-
-
+            <div class="input-field col s6">
+                <input id="fechaPago" type="date" [ngClass]=" errorCampos.fechaPago  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaPago') " formControlName="fechaPago">
+                <label for="fechaPago" class="active">Fecha Pago</label>
+                <span class="helper-text" *ngIf="errorCampos.fechaPago" [innerHTML]="errorCampos.fechaPago">...</span>
             </div>
+
+
+
 
 
             <div class="row">
@@ -258,11 +276,7 @@
                     <span class="helper-text" *ngIf="errorCampos.fechaConfirmada" [innerHTML]="errorCampos.fechaConfirmada">...</span>
                 </div>
 
-                <div class="input-field col s6">
-                    <input id="fechaPago" type="date" [ngClass]=" errorCampos.fechaPago  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaPago') " formControlName="fechaPago">
-                    <label for="fechaPago" class="active">Fecha Pago</label>
-                    <span class="helper-text" *ngIf="errorCampos.fechaPago" [innerHTML]="errorCampos.fechaPago">...</span>
-                </div>
+
 
 
 
@@ -290,7 +304,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
-            <button type="button" class="btn grey darken-1  " (click)="patchFecha()">Patch </button>
+            <button type="button" id="patchfecha" class="btn grey darken-1  " (click)="patchFecha()">Patch </button>
             <button type="submit" [disabled]="!formG.valid" class="btn modal-close">  Guardar</button>
         </div>
     </form>

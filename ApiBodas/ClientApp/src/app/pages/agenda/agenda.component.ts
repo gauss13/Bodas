@@ -3,6 +3,7 @@ import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, Tip
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
+import { Agenda } from '../../models/agenda.model';
 
 
 
@@ -26,6 +27,7 @@ export class AgendaComponent implements OnInit {
   errorCampos: any;
   ignorarExistenCambiosPendientes: boolean = false;
   modoEdicion: boolean= false;
+  setFechaBoda: boolean = false;
   fechaSeleccionada: string ='';
 
   horas: any;
@@ -45,8 +47,9 @@ export class AgendaComponent implements OnInit {
   selectedPaquete: number =0;
   selectedAgencia: number =0;
   selectedDivisaCom: number =0;
-
   selectedDivisaDepo: number =0;
+
+  countries = ['MX', 'US', 'BT', 'FR'];
 
 // FORMULARIO 1
 formG: FormGroup
@@ -72,8 +75,8 @@ this.textoDeValidacion = {
   nacionalidad: { required: 'El campo nacionalidad es <strong>requerido</strong>.' },
   lugarCeremoniaId: { required: 'El campo lugar Ceremonia es <strong>requerido</strong>.' },
   lugarCenaId: { required: 'El campo lugar Cena es <strong>requerido</strong>.' },
-  tipoCeremoniaId:{ required: 'El campo lugar Cena es <strong>requerido</strong>.' } ,
-  agenciaId:{ required: 'El campo Agencia es <strong>requerido</strong>.' }  
+  tipoCeremoniaId:{ required: 'El campo lugar Cena es <strong>requerido</strong>.' } 
+
 }
 
  //backup no es obligatorio
@@ -102,9 +105,7 @@ this.errorCampos = {
   nacionalidad: ' ',
   lugarCeremoniaId: ' ',
   tipoCeremoniaId: ' ',
-  lugarCenaId: ' ',
-  backUpId: ' ',
-  agenciaId:' '
+  lugarCenaId: ' '
 
 }
 
@@ -167,11 +168,12 @@ CargarFechas(yyyy:number, mm:number)
   // ***************************************************************************************
   IniciarCal()
   {
-    $('#calendar').fullCalendar('destroy');
 
+    $('#calendar').fullCalendar('destroy');
    
     
     $('#calendar').fullCalendar( {
+
       // put your options and callbacks here
       locale: 'es',
       defaultView: 'month',
@@ -183,13 +185,13 @@ CargarFechas(yyyy:number, mm:number)
         //Abrir modal 
         $('#modal1').modal('open');
         //obtener la fecha
-        this.fechaSeleccionada = date.format();
+        this.fechaSeleccionada = date.format("DD/MM/YYYY");
         // patch   
        $('#fboda').val(this.fechaSeleccionada);
         // inicializa los select
        $('select').formSelect();
 
-
+       $('#patchfecha').click();
 
       },
 
@@ -255,7 +257,7 @@ GoAnterior()
 
   var moment = $('#calendar').fullCalendar('getDate');
 
-  console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
+ // console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
 
   this.CargarFechas(moment._i[0], moment._i[1]-1);
 }
@@ -269,7 +271,7 @@ GoSiguiente()
 
   var moment = $('#calendar').fullCalendar('getDate');
 
-  console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
+  //console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
 
   this.CargarFechas(moment._i[0], moment._i[1]+1);
 
@@ -294,37 +296,38 @@ construirFormulario()
     lugarCeremoniaId  : ['', Validators.required],
     lugarCenaId       : ['', Validators.required],
     tipoCeremoniaId   : ['', Validators.required],
-    backUpId          : ['', Validators.required],
-    paqueteId         : ['', Validators.required],
-    agenciaId         : ['', Validators.required],
-    comision          : [''],//nr
-    divisaComision    : [''],//nr
+    backUpId          : [''],
+    paqueteId         : ['', ],
+    agenciaId         : ['', ],
+    comision          : [''],
+    divisaComision    : [''],
     
-    paxAdultos        : ['', Validators.required],
-    paxJunior         : ['', Validators.required],
-    paxNinos          : ['', Validators.required],    
-    paxCunas          : ['', Validators.required],
-    pax3raEdad        : ['', Validators.required], 
+    paxAdultos        : [''],
+    paxJunior         : [''],
+    paxNinos          : [''],    
+    paxCunas          : [''],
+    pax3raEdad        : [''], 
     
-    nombreAgente      : ['', Validators.required],
-    correoAgencia     : ['', Validators.required],
+    nombreAgente      : [''],
+    correoAgencia     : [''],
 
-    numReserva        : ['', Validators.required],
-    numHabitacion     : ['', Validators.required],
-    bookingReference  : ['', Validators.required],
+    numReserva        : [''],
+    numHabitacion     : [''],
+    bookingReference  : [''],
 
-    promocion         : ['', Validators.required],
-    deposito          : ['', Validators.required], 
-    divisaDeposito    : ['', Validators.required],
+    promocion         : [''],
+    deposito          : [''], 
+    divisaDeposito    : [''],
    
-    fechaConfirmada   : ['', Validators.required] ,
-    fechaPago         : ['', Validators.required] ,     
-    fechaLlegada      : ['', Validators.required],
-    fechaSelloAuditoria : ['', Validators.required]       
-    
-   
-    
+    fechaConfirmada   : [''] ,
+    fechaPago         : [''] ,     
+    fechaLlegada      : [''],
+    fechaSelloAuditoria : ['']        
   });
+
+// Fecha de pago =>  pago de la comision
+
+
 
 // manejador del evento de cambio de valor en los inputs
 this.formChangesSub = this.formG.valueChanges.subscribe( data => this.onCambioValor());
@@ -339,6 +342,9 @@ mostrarError(campo){
 
 onCambioValor()
 {
+  
+  
+
   onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);
 }
 
@@ -354,7 +360,22 @@ resetFormulario() {
   //this.selectedId = 0;
 }
 
-save(){}
+save(){
+
+  
+
+let itemAgenda: Agenda = Object.assign({}, this.formG.value)
+
+
+
+this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
+
+
+
+});
+
+  //this.resetFormulario();
+}
 
 // ***************************************************************************************
 //   GET Lugar Ceremonia
@@ -447,12 +468,14 @@ initSelect()
 
 patchFecha()
 {
+
+  console.log(this.formG);
  // this.formG.reset();
 
-console.log(this.fechaSeleccionada );
+ var fechab = $('#fboda').val();
 
   this.formG.patchValue({
-    fechaBoda : this.fechaSeleccionada          
+    fechaBoda : fechab       
   });
 
 }

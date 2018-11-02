@@ -37,11 +37,11 @@ namespace Entities.Models
         public int LugarCenaId { get; set; }
         public int BackUpId { get; set; }
         public int TipoCeremoniaId { get; set; }
-        public int Pax3raEdad { get; set; } // R= AD Adultos, SE Señor (3era edad se usa mayormente en España), JR Junior (Adolescentes), NI Niños, CU Cunas (bebés).
-        public int PaxAdultos { get; set; }
-        public int PaxJunior { get; set; }
-        public int PaxNinos { get; set; }
-        public int PaxCunas { get; set; }
+        public int? Pax3raEdad { get; set; } // R= AD Adultos, SE Señor (3era edad se usa mayormente en España), JR Junior (Adolescentes), NI Niños, CU Cunas (bebés).
+        public int? PaxAdultos { get; set; }
+        public int? PaxJunior { get; set; }
+        public int? PaxNinos { get; set; }
+        public int? PaxCunas { get; set; }
         public int PaqueteId { get; set; }
         [StringLength(50)]
         public string NombrePareja { get; set; }
@@ -68,7 +68,7 @@ namespace Entities.Models
         public decimal Comision { get; set; }
         public int DivisaComision { get; set; }// tipo de moneda de la comision
         [Column(TypeName = "Date")]
-        public DateTime FechaSelloAuditoria { get; set; }
+        public DateTime? FechaSelloAuditoria { get; set; }
 
         [Column(TypeName = "Date")]
         public DateTime? FechaPago { get; set; }
