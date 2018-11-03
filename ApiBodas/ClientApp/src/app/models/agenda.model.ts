@@ -13,10 +13,10 @@ export class Agenda {
     public paxJunior:number ,
     public paxCunas:number ,
     public paqueteId: number,
-    public agenciaId: number,
+    public agenciaId: number = 0,
    
 
-    public comision: number,
+    public comision: number = 0,
     public fechaSelloAuditoria:Date ,
 
     public hotelId: number,
@@ -44,7 +44,7 @@ export class Agenda {
     public nombreAgente?:string,
   
     public correoAgencia?:string ,
-    public deposito?: number,
+    public deposito: number = 0,
     public numReserva?:string ,
     public promocion?: string,
  

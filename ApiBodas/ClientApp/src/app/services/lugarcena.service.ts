@@ -29,7 +29,7 @@ return this.http.get(url).pipe(
 map((resp:any) => {
 
 
-  console.log('servicio cena', resp);
+
 
   this.totalRegistros = resp.total;
   //return resp.lugarCena;
@@ -49,7 +49,7 @@ map((resp:any) => {
 Crear(lugar:LugarCena)
 {
   
-  console.log('crear lugar',lugar);
+
   
   const url = URL_SERVICIOS + '/api/LugarCena';
 

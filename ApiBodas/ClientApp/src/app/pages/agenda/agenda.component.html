@@ -14,7 +14,7 @@
 
 <div id='calendar'></div>
 
-<!-- Formulario Agenda -->
+<!-- Formulario Agenda disabled-->
 <!-- Modal Structure -->
 <div id="modal1" class="modal">
 
@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">event_available</i>
-                    <input id="fboda" type="text" disabled [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
+                    <input id="fboda" type="text" [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
                     <label for="fboda" class="active">Fecha</label>
                     <span class="helper-text" *ngIf="errorCampos.fechaBoda" [innerHTML]="errorCampos.fechaBoda">Helper text</span>
                 </div>
@@ -61,7 +61,8 @@
             <div class="row">
                 <div class="input-field col s6">
 
-                    <input id="nacionalidad" type="text" [ngClass]=" errorCampos.nacionalidad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nacionalidad') " formControlName="nacionalidad">
+                    <input id="nacionalidad" type="text" class="autocomplete" [ngClass]=" errorCampos.nacionalidad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nacionalidad') " formControlName="nacionalidad">
+
                     <label for="nacionalidad" class="active">Nacionalidad</label>
                     <span class="helper-text" *ngIf="errorCampos.nacionalidad" [innerHTML]="errorCampos.nacionalidad">Helper text</span>
 

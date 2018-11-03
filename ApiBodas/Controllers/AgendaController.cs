@@ -104,7 +104,7 @@ namespace ApiBodas.Controllers
                     var tipo = TipoEstatus(ag.EstadoAgendaId);
 
                     iagenda.idagenda = ag.Id;
-                    iagenda.start = $"{ag.FechaBoda.Value.ToString("yyyy-MM-dd")}T{ag.HoraBoda}";
+                    iagenda.start = $"{ag.FechaBoda.Value.ToString("yyyy-MM-dd")}T{ag.HoraBoda}:00";
                     iagenda.end = "";
                     iagenda.title = tipo.tipoFecha;
                     iagenda.estatus = ag.EstadoAgendaId;

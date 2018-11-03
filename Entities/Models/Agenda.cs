@@ -56,7 +56,7 @@ namespace Entities.Models
         public string CorreoAgencia { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Deposito { get; set; }  // es anticipo?
-        public int DivisaDeposito { get; set; } //tipo de monenda del deposito
+        public int? DivisaDeposito { get; set; } //tipo de monenda del deposito
         public int NumHabitacion { get; set; } // num de habitacion y numero de reserva
         [StringLength(50)]
         public string BookingReference { get; set; } // pedido por martina -
@@ -66,7 +66,7 @@ namespace Entities.Models
         public string Promocion { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Comision { get; set; }
-        public int DivisaComision { get; set; }// tipo de moneda de la comision
+        public int? DivisaComision { get; set; }// tipo de moneda de la comision
         [Column(TypeName = "Date")]
         public DateTime? FechaSelloAuditoria { get; set; }
 

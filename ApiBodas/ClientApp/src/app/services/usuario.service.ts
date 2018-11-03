@@ -79,8 +79,7 @@ logout() {
 // ***************************************************************************************
 estaLogueado() {
 
-  console.log(this.token);
-  console.log(this.token.length);
+ 
 
   return (this.token.length > 5 ) ? true : false;
 }

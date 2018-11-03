@@ -44,19 +44,13 @@ CrearAgenda(item: Agenda)
 
   const headersj = new HttpHeaders({'Content-Type':'application/json'});
 
-console.log(" item" +item);
+//var nuevo =  this.Sanity(item);
 
-var nuevo =  this.Sanity(item);
+//var objj= JSON.stringify(nuevo);
 
-var objj= JSON.stringify(nuevo);
-
-console.log(objj);
-
-  return this.http.post(url,objj,{headers: headersj}).pipe(
+  return this.http.post(url,item,{headers: headersj}).pipe(
 
     map( (resp:any) => {
-
-      console.log(resp);
 
       return resp.agenda;
     })
@@ -73,34 +67,22 @@ StringOrEmpty(value:string)
 Sanity(item:Agenda)
 {
 
-   //isNaN() ? 0 :   ;
-
-
 
  let id = 0;
  let ejecutivoId  = 0;//provisional
  let cordinadorId  = 0; //provisional
  
- let lugarCeremoniaId  = this.StringOrEmpty(item.lugarCeremoniaId) ? +0 :  +item.lugarCeremoniaId;
+ let lugarCeremoniaId  = !isNaN(item.lugarCeremoniaId) ? +0 :  +item.lugarCeremoniaId;
 
- let lugarCenaId  = !isNaN(item.lugarCenaId) ? 0 :  +item.lugarCenaId ;
-
-let backUpId  =  !isNaN(item.backUpId  ) ? 0 : +item.backUpId   ; 
-
- let paxAdultos  =  !isNaN(item.paxAdultos ) ? 0 : item.paxAdultos   ; 
-
- let paxNinos  =   !isNaN(item.paxNinos ) ? 0 : item.paxNinos   ; 
-
- let paxJunior  =  !isNaN(item.paxJunior ) ? 0 : item.paxJunior   ;  
- let paxCunas  =   !isNaN(item.paxCunas ) ? 0 : item.paxCunas   ; 
- let paqueteId  =   !isNaN(item.paqueteId ) ? 0 :  item.paqueteId  ; 
- let agenciaId  =   !isNaN(item.agenciaId ) ? 0 :item.agenciaId    ; 
-
-
-
- let comision  =   !isNaN(item.comision) ? 0 : item.comision  ;   
-
-
+ let lugarCenaId = !isNaN(item.lugarCenaId) ? 0 :  +item.lugarCenaId ;
+ let backUpId  =  !isNaN(item.backUpId  ) ? 0 : +item.backUpId   ; 
+ let paxAdultos = !isNaN(item.paxAdultos ) ? 0 : item.paxAdultos   ; 
+ let paxNinos  =  !isNaN(item.paxNinos ) ? 0 : item.paxNinos   ; 
+ let paxJunior  = !isNaN(item.paxJunior ) ? 0 : item.paxJunior   ;  
+ let paxCunas  =  !isNaN(item.paxCunas ) ? 0 : item.paxCunas   ; 
+ let paqueteId  = !isNaN(item.paqueteId ) ? 0 :  item.paqueteId  ; 
+ let agenciaId  = !isNaN(item.agenciaId ) ? 0 :item.agenciaId    ; 
+ let comision  =  !isNaN(item.comision) ? 0 : item.comision  ;   
 
 
  let fechaSelloAuditoria  = item.fechaSelloAuditoria
@@ -116,13 +98,10 @@ let backUpId  =  !isNaN(item.backUpId  ) ? 0 : +item.backUpId   ;
  let activo  = true; //item.activo; provicional
  
  let divisaComision  = !isNaN(item.divisaComision) ? 0 :  item.divisaComision;   
-
- let divisaDeposito  = !isNaN(item.divisaDeposito) ? 0 :  item.divisaDeposito;  
-
+ let divisaDeposito  = !isNaN(item.divisaDeposito) ? 0 :  item.divisaDeposito; 
  let numHabitacion   = !isNaN(item.numHabitacion)  ? 0 :  item.numHabitacion; 
 
- console.log(divisaComision);
- console.log(divisaDeposito);
+
 
  let fechaConfirmada = item.fechaConfirmada
  let fechaBoda  = new Date(item.fechaBoda ) ;

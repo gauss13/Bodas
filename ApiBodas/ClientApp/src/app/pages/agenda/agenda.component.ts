@@ -49,7 +49,7 @@ export class AgendaComponent implements OnInit {
   selectedDivisaCom: number =0;
   selectedDivisaDepo: number =0;
 
-  countries = ['MX', 'US', 'BT', 'FR'];
+  countries = ['MX', 'US', 'BT', 'FR','AR',];
 
 // FORMULARIO 1
 formG: FormGroup
@@ -75,38 +75,32 @@ this.textoDeValidacion = {
   nacionalidad: { required: 'El campo nacionalidad es <strong>requerido</strong>.' },
   lugarCeremoniaId: { required: 'El campo lugar Ceremonia es <strong>requerido</strong>.' },
   lugarCenaId: { required: 'El campo lugar Cena es <strong>requerido</strong>.' },
-  tipoCeremoniaId:{ required: 'El campo lugar Cena es <strong>requerido</strong>.' } 
+  tipoCeremoniaId:{ required: 'El campo lugar Cena es <strong>requerido</strong>.' } ,
+
+  backUpId:{ required: 'El campo backUp es <strong>requerido</strong>.' } ,
+  paqueteId:{ required: 'El campo paquete es <strong>requerido</strong>.' } ,
+  agenciaId:{ required: 'El campo agencia es <strong>requerido</strong>.' } ,
+  
+
+
 
 }
 
- //backup no es obligatorio
- //comisiion no es obligatorio
- //divisa comision no es obligatorio
-//  paxAdultos   
-//  paxJunior    
-//  paxNinos     
-//  paxCunas  
-//  bookingReference
-//  num de habitacion
-//  fechaLlegada
-//  fechapago
-//  promocion
-//  deposito
-//  fechaConfirmada
-//  divisa deposito
-//  
+
 
 // FORMULARIO 3 - validacion inicial
 this.errorCampos = {
-  fechaBoda: ' ',
-  horaBoda: ' ',
-  nombrePareja: ' ',
-  correoPareja: ' ',
-  nacionalidad: ' ',
-  lugarCeremoniaId: ' ',
-  tipoCeremoniaId: ' ',
-  lugarCenaId: ' '
-
+  fechaBoda: '',
+  horaBoda: '',
+  nombrePareja: '',
+  correoPareja: '',
+  nacionalidad: '',
+  lugarCeremoniaId: '',
+  tipoCeremoniaId: '',
+  lugarCenaId: '',
+  backUpId:'',
+  paqueteId:'',
+  agenciaId:''
 }
 
 
@@ -123,7 +117,8 @@ this.errorCampos = {
     this.GetPaquetes();
     this.GetAgencias();
     this.GetDivisas();
-    this.initSelect();
+   // this.initSelect();
+   // this.initNacionalidad();
     
     $(document).ready(function(){
 
@@ -146,7 +141,7 @@ CargarFechas(yyyy:number, mm:number)
     
     if(resp.ok == true)
     {
-      //console.log(resp.fechas);
+     
 
       this.arrEventos = resp.fechas;
       $('#calendar').fullCalendar('removeEvents');
@@ -188,8 +183,20 @@ CargarFechas(yyyy:number, mm:number)
         this.fechaSeleccionada = date.format("DD/MM/YYYY");
         // patch   
        $('#fboda').val(this.fechaSeleccionada);
+
         // inicializa los select
        $('select').formSelect();
+
+       //init autocomplete
+       $('input.autocomplete').autocomplete({
+        data: {
+          "Apple": null,
+          "Microsoft": null,
+          "Google": 'https://placehold.it/250x250'
+        },
+      });
+    
+
 
        $('#patchfecha').click();
 
@@ -218,11 +225,20 @@ CargarFechas(yyyy:number, mm:number)
       }
     ]
 
-    });
+    });  
 
+// Cargar datos
+
+var moment = $('#calendar').fullCalendar('getDate');
+
+
+this.CargarFechas(moment._i[0], moment._i[1]+1);
 
     M.toast({html: 'Calendario iniciado!'});
-  }
+
+
+
+}
 
 // ***************************************************************************************
 //  Destruir el calendario 
@@ -247,6 +263,12 @@ GoToday()
 {
   $('#calendar').fullCalendar('today');
 
+  var moment = $('#calendar').fullCalendar('getDate');
+
+
+
+  this.CargarFechas(moment._i[0], moment._i[1]+1);
+
 }
 // ***************************************************************************************
 //   
@@ -257,9 +279,9 @@ GoAnterior()
 
   var moment = $('#calendar').fullCalendar('getDate');
 
- // console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
 
-  this.CargarFechas(moment._i[0], moment._i[1]-1);
+
+  this.CargarFechas(moment._i[0], moment._i[1]+1);
 }
 
 // ***************************************************************************************
@@ -271,7 +293,7 @@ GoSiguiente()
 
   var moment = $('#calendar').fullCalendar('getDate');
 
-  //console.log( moment._i[0] + ' - '+ (moment._i[1]+1));
+
 
   this.CargarFechas(moment._i[0], moment._i[1]+1);
 
@@ -288,7 +310,7 @@ construirFormulario()
 {
   this.formG = this.fb.group({
   
-    fechaBoda         : ['', Validators.required],
+    fechaBoda         : [{value: '', disabled: true}, Validators.required],
     horaBoda          : ['', Validators.required],
     nombrePareja      : ['', Validators.required],
     correoPareja      : ['', Validators.required],
@@ -296,9 +318,9 @@ construirFormulario()
     lugarCeremoniaId  : ['', Validators.required],
     lugarCenaId       : ['', Validators.required],
     tipoCeremoniaId   : ['', Validators.required],
-    backUpId          : [''],
-    paqueteId         : ['', ],
-    agenciaId         : ['', ],
+    backUpId          : ['', Validators.required],
+    paqueteId         : ['', Validators.required],
+    agenciaId         : ['', Validators.required],
     comision          : [''],
     divisaComision    : [''],
     
@@ -362,19 +384,62 @@ resetFormulario() {
 
 save(){
 
-  
-
-let itemAgenda: Agenda = Object.assign({}, this.formG.)
 
 
+ let itemAgenda: Agenda = Object.assign({}, this.formG.value)
 
-this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
+ itemAgenda.hotelId = 1; //provisional
+
+// validar campos vacios
+if(this.formG.value.comision === "")
+  itemAgenda.comision = 0;
 
 
 
-});
+if(this.formG.value.deposito === "")
+    itemAgenda.deposito = 0;
+
+if(this.formG.value.numHabitacion === "")
+    itemAgenda.numHabitacion = 0;
+
+
+let fb = this.GenFecha(this.formG.value.fechaBoda); 
+
+    itemAgenda.fechaBoda = fb;
+
+
+
+
+ this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
+
+ });
 
   //this.resetFormulario();
+}
+
+formatoFecha(f:string)
+{
+var str = f.split("/");
+
+var strFecha = `${str[1]}/${str[0]}/${str[2]}`
+
+return strFecha;
+}
+
+GenFecha(f:string)
+{
+
+
+  var str = f.split("/");
+
+  var strFecha = `${str[1]}/${str[0]}/${str[2]}`
+
+  //var d = new Date(+str[2],+str[1],+str[0])
+  var fecha  = new Date(strFecha);
+
+
+
+return fecha;
 }
 
 // ***************************************************************************************
@@ -406,7 +471,7 @@ GetTiposCeremonia()
 {
   this._tipoCeremoniaService.GetTiposCeremonia().subscribe((resp: any) => {
 
-    console.log('GET Tipo' + resp);
+   
 
   this.tiposCeremonias = resp.tipoCeremonia;
 
@@ -418,7 +483,6 @@ GetCenas()
 {
   this._cenaService.GetLugaresCena().subscribe((resp: any) => {
 
-    console.log('GET GET' + resp);
 
   this.lugaresCena = resp.lugarCena;
   });
@@ -465,6 +529,19 @@ initSelect()
  // $('.datepicker').datepicker();
 }
 
+initNacionalidad()
+{
+
+  $('input.autocomplete').autocomplete({
+    data: {
+      "Apple": null,
+      "Microsoft": null,
+      "Google": 'https://placehold.it/250x250'
+    },
+  });
+
+
+}
 
 patchFecha()
 {
