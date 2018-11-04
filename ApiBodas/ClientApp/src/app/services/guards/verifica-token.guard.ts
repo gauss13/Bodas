@@ -21,10 +21,10 @@ constructor(public _usuarioService: UsuarioService, public router: Router){
 
     const payload = JSON.parse( atob(token.split('.')[1]));
 
-    console.log(payload.exp);
+    // console.log(payload.exp);
 
     const expirado = this.expirado(payload.exp);
-    console.log('verifica', expirado);
+    // console.log('verifica', expirado);
 
 if(expirado)
 {

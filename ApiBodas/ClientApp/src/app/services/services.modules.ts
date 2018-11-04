@@ -12,7 +12,7 @@ import { LoginGuardGuard, LugarcenaService,
     HoraService,
     LugarceremoniaService,
 TipoceremoniaService, 
-BackupService, PaqueteService, AgenciaService, DivisaService } from './service.index';
+BackupService, PaqueteService, AgenciaService, DivisaService, HotelService } from './service.index';
 
 
 
@@ -34,7 +34,8 @@ BackupService, PaqueteService, AgenciaService, DivisaService } from './service.i
                BackupService,
                PaqueteService,
                AgenciaService,
-               DivisaService],
+               DivisaService,
+            HotelService],
     declarations:[]
 
 })

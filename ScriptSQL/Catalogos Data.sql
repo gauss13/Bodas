@@ -27,4 +27,41 @@ INSERT INTO [dbo].[Roles]([Nombre],[Clave]) VALUES ('Gerente' ,'Ge')
 INSERT INTO [dbo].[Roles]([Nombre],[Clave]) VALUES ('Ejecutivo' ,'Ej')
 INSERT INTO [dbo].[Roles]([Nombre],[Clave]) VALUES ('Coordinador' ,'Co')
 
+
+INSERT INTO [dbo].[LugaresCeremonia] ([Lugar],[HotelId],[Activo])
+     VALUES('Lu Cere' ,1 ,1)
+
+
+INSERT INTO [dbo].[TiposCeremonia]([Descripcion],[Activo]) VALUES  ('Tipo UNO',1)
+INSERT INTO [dbo].[TiposCeremonia]([Descripcion],[Activo]) VALUES  ('Tipo DOS',1)
+
+
+
+INSERT INTO [dbo].[BackUps] ([Lugar],[HotelId] ,[Activo])
+     VALUES  ('Backup uno',1,1)
+
+
+	 INSERT INTO [dbo].[Agencias]
+           ([Nombre]
+           ,[Correo]
+           ,[Activo])
+     VALUES
+           ('Agencia uno'
+           ,'correo@agencia.com'
+           ,1)
+
+
+
+
+INSERT INTO [dbo].[Paquetes]
+           ([Descripcion]
+           ,[Clave]
+           ,[Activo])
+     VALUES
+           ('Paquete uno'
+           ,'AGH'
+           ,1)
+
+
+
 GO

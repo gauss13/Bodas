@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutofocusDirective } from "../directives/autofocus.directive";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AgendaComponent } from './agenda/agenda.component';
+// import { Globalx } from "../config/global";
 
 
 
@@ -16,6 +17,7 @@ import { AgendaComponent } from './agenda/agenda.component';
     imports:[CommonModule, FormsModule, ReactiveFormsModule,
             SharedModule,
             PAGES_ROUTES],
+            providers:[]
 
 })
 

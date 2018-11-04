@@ -6,6 +6,8 @@ import { HotelService } from 'src/app/services/hotel.service';
 import { Hotel } from 'src/app/models/hotel.model';
 import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
+import { Globalx } from 'src/app/config/global';
+import { Router } from '@angular/router';
  
 declare var $: any;
 
@@ -43,7 +45,9 @@ constructor(public _servicio: LugarcenaService,
             private fb: FormBuilder,
             private _servicioHotel: HotelService,
             private _headerService: HeaderService,
-            private renderer: Renderer
+            private renderer: Renderer,
+            private _gbl: Globalx,
+            private router:Router
      ) { 
 
 // ***************************************************************************************
@@ -72,6 +76,12 @@ this.errorCampos = {
 
 ngOnInit() {
 
+if(!this._gbl.hotelSeleccionado)
+{
+  this.router.navigate(['/dashboard']);
+}
+
+  this._gbl.tituloModulo ="Lu Cena";
   //this._headerService.setTitle('lugar Cena xx');
 
   this.construirFormulario();

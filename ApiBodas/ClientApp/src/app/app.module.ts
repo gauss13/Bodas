@@ -12,7 +12,9 @@ import { APP_ROUTES } from './app.routes';
 import { ServiceModule } from './services/services.modules';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login/login.component';
+import { Globalx } from './config/global';
 // import { AutofocusDirective } from './directives/autofocus.directive';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ ReactiveFormsModule,
     SharedModule,
     ServiceModule
   ],
-  providers: [],
+  providers: [Globalx],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

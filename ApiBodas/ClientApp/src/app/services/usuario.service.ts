@@ -64,11 +64,14 @@ logout() {
   this.usuario = null;
   this.token = '';
 
+  localStorage.removeItem('selectedHotel');
 
   localStorage.removeItem('token');
   localStorage.removeItem('usuario');
   localStorage.removeItem('menu');
   this.router.navigate(['/login']);
+
+
 }
 
 
@@ -78,8 +81,6 @@ logout() {
 //   ESTA LOGUEADO
 // ***************************************************************************************
 estaLogueado() {
-
- 
 
   return (this.token.length > 5 ) ? true : false;
 }

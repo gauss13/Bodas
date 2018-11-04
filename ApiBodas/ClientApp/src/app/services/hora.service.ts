@@ -21,6 +21,7 @@ export class HoraService {
 GetHoras()
 {
   const url = URL_SERVICIOS + '/api/horas';
+  
 
   return this.http.get(url).pipe(
 map( (resp:any) => {

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormCon
 import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
 import { Agenda } from '../../models/agenda.model';
+import { Globalx } from 'src/app/config/global';
 
 
 
@@ -62,7 +63,8 @@ formG: FormGroup
     public _backupService: BackupService,
     public _paqueteService: PaqueteService,
     public _agenciaService: AgenciaService,
-    public _divisaService: DivisaService
+    public _divisaService: DivisaService,
+    public _gbl:Globalx
     ) { 
 
 
@@ -108,6 +110,7 @@ this.errorCampos = {
 
   ngOnInit() {
 
+    this._gbl.tituloModulo ="Agenda";
     this.construirFormulario();
     this.GetHoras();
     this.GetCeremonias();
@@ -140,9 +143,7 @@ CargarFechas(yyyy:number, mm:number)
     (resp:any) => {
     
     if(resp.ok == true)
-    {
-     
-
+    {    
       this.arrEventos = resp.fechas;
       $('#calendar').fullCalendar('removeEvents');
       $('#calendar').fullCalendar('addEventSource', this.arrEventos);
@@ -201,7 +202,7 @@ CargarFechas(yyyy:number, mm:number)
        $('#patchfecha').click();
 
       },
-
+      timeFormat: 'H(:mm)',
 
     //  hiddenDays: [ 2, 4 ]
     events: [
@@ -231,13 +232,9 @@ CargarFechas(yyyy:number, mm:number)
 
 var moment = $('#calendar').fullCalendar('getDate');
 
-
 this.CargarFechas(moment._i[0], moment._i[1]+1);
 
     M.toast({html: 'Calendario iniciado!'});
-
-
-
 }
 
 // ***************************************************************************************
@@ -262,13 +259,8 @@ GetFecha()
 GoToday()
 {
   $('#calendar').fullCalendar('today');
-
   var moment = $('#calendar').fullCalendar('getDate');
-
-
-
   this.CargarFechas(moment._i[0], moment._i[1]+1);
-
 }
 // ***************************************************************************************
 //   
@@ -278,8 +270,6 @@ GoAnterior()
   $('#calendar').fullCalendar('prev');
 
   var moment = $('#calendar').fullCalendar('getDate');
-
-
 
   this.CargarFechas(moment._i[0], moment._i[1]+1);
 }
@@ -292,8 +282,6 @@ GoSiguiente()
   $('#calendar').fullCalendar('next');
 
   var moment = $('#calendar').fullCalendar('getDate');
-
-
 
   this.CargarFechas(moment._i[0], moment._i[1]+1);
 
@@ -310,7 +298,7 @@ construirFormulario()
 {
   this.formG = this.fb.group({
   
-    fechaBoda         : [{value: '', disabled: true}, Validators.required],
+    fechaBoda         : [{value: ''}, Validators.required],
     horaBoda          : ['', Validators.required],
     nombrePareja      : ['', Validators.required],
     correoPareja      : ['', Validators.required],
@@ -365,8 +353,6 @@ mostrarError(campo){
 onCambioValor()
 {
   
-  
-
   onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);
 }
 
@@ -407,9 +393,6 @@ let fb = this.GenFecha(this.formG.value.fechaBoda);
 
     itemAgenda.fechaBoda = fb;
 
-
-
-
  this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
 
  });
@@ -429,15 +412,13 @@ return strFecha;
 GenFecha(f:string)
 {
 
-
+console.log(f);
   var str = f.split("/");
 
   var strFecha = `${str[1]}/${str[0]}/${str[2]}`
 
   //var d = new Date(+str[2],+str[1],+str[0])
   var fecha  = new Date(strFecha);
-
-
 
 return fecha;
 }
@@ -471,8 +452,6 @@ GetTiposCeremonia()
 {
   this._tipoCeremoniaService.GetTiposCeremonia().subscribe((resp: any) => {
 
-   
-
   this.tiposCeremonias = resp.tipoCeremonia;
 
   });
@@ -482,7 +461,6 @@ GetTiposCeremonia()
 GetCenas()
 {
   this._cenaService.GetLugaresCena().subscribe((resp: any) => {
-
 
   this.lugaresCena = resp.lugarCena;
   });
@@ -550,6 +528,8 @@ patchFecha()
  // this.formG.reset();
 
  var fechab = $('#fboda').val();
+
+console.log('patch ',fechab);
 
   this.formG.patchValue({
     fechaBoda : fechab       

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Globalx } from '../../config/global';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private glb:Globalx) { }
 
   ngOnInit() {
+
+    this.glb.tituloModulo ="Dashboard";
   }
 
 }

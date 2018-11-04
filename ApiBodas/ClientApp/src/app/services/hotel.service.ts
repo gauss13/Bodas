@@ -25,11 +25,8 @@ GetHoteles()
   const url = URL_SERVICIOS + '/api/Hotel';
 
   return this.http.get(url).pipe(
-map( (resp:any) => {
-
-  this.totalRegistros = resp.total;
-
-
+      map( (resp:any) => {
+    this.totalRegistros = resp.total;
   return resp.hotel;
 
 })
@@ -37,6 +34,7 @@ map( (resp:any) => {
 
   );
 }
+
 
 
 }
