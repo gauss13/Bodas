@@ -28,6 +28,7 @@ namespace ApiBodas.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var item = await this.Repositorio.Agendas.GetByIdAsync(id);
+                       
 
             if (item == null)
             {
@@ -41,10 +42,13 @@ namespace ApiBodas.Controllers
                 return Ok(objB);
             }
 
+
+            
+
             return Ok(new
             {
                 ok = true,
-                Role = item
+                agenda = item
             });
         }
 
@@ -70,7 +74,7 @@ namespace ApiBodas.Controllers
             {
                 ok = true,
                 total = lista.Count(),
-                Agenda = lista
+                agenda = lista
             };
 
             return Ok(obj);
@@ -252,7 +256,7 @@ namespace ApiBodas.Controllers
             {
                 ok = true,
                 mensaje = $"Se Desactivo el registro {id}, correctamente",
-                Agenda = itemEncontrado
+                agenda = itemEncontrado
             };
 
             return Ok(obj);

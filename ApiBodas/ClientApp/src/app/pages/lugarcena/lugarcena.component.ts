@@ -347,9 +347,6 @@ modalCrear()
   this.modoEdicion = false;
   this.idEdicion = 0;
   this.selectedId = 0;
-
-
-
   //this.nameField.nativeElement.focus();
  // this.renderer.invokeElementMethod(this.nameField.nativeElement,"focus");
 }

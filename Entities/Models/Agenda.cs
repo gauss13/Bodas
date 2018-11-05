@@ -111,5 +111,7 @@ namespace Entities.Models
         public string url { get; set; }
         public string color { get; set; }
         public string textColor { get; set; }
+        public int id { get; set; }
+        public int tipo { get; set; }
     }
 }

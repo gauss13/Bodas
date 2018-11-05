@@ -7,10 +7,9 @@
 <button (click)="GoAnterior()" class="waves-effect waves-light btn"> Ant. </button>
 <button (click)="GoSiguiente()" class="waves-effect waves-light btn">Sig. </button>
 
-
-
 <!-- Modal Trigger -->
-<button data-target="modal1" class="btn modal-trigger">Abrir</button>
+<button data-target="modal1" id="btnCrear" class="btn modal-trigger" (click)="modalCrear()">Abrir</button>
+<button data-target="modal1" id="btnEditar" class="btn modal-trigger" (click)="modalEdicion()">Editar</button>
 
 <div id='calendar'></div>
 
@@ -20,6 +19,8 @@
 
     <form [formGroup]="formG" (ngSubmit)="save()">
         <div class="modal-content">
+            <input type="hidden" id="idagendaedit" value="0" />
+            <input type="hidden" id="tipoagenda" value="0" />
             <h4> {{ modoEdicion ? 'Editar' : 'Agregar Nuevo'}}</h4>
             <div class="row">
                 <div class="input-field col s6">
@@ -32,8 +33,8 @@
 
                 <div class="input-field col s6">
                     <i class="material-icons prefix">access_time</i>
-                    <select formControlName="horaBoda">
-                        <option  disabled [selected]="!modoEdicion">Seleccionar Hora</option>
+                    <select formControlName="horaBoda" id="selHora">
+                        <option  disabled >Seleccionar Hora</option>
                                 <option *ngFor="let hra of horas " [value]="hra.hora" [selected]="selectedHora == hra.hora"  >{{hra.hora}}</option>
                              </select>
                     <label class="active">Hora</label>
@@ -69,11 +70,11 @@
                 </div>
             </div>
 
-
+            <!-- [selected]="!modoEdicion" -->
             <div class="row">
                 <div class="input-field col s6">
                     <select formControlName="lugarCeremoniaId">
-                        <option  disabled [selected]="!modoEdicion">Seleccionar Lugar Ceremonia</option>
+                        <option  disabled >Seleccionar Lugar Ceremonia</option>
                                 <option *ngFor="let lugar of lugaresCeremonia " [value]="lugar.id" [selected]="selectedCeremonia == lugar.id"  >{{lugar.lugar}}</option>
                              </select>
                     <label class="active">Lugar Ceremonia</label>
@@ -82,7 +83,7 @@
 
                 <div class="input-field col s6">
                     <select formControlName="tipoCeremoniaId">
-                        <option  disabled [selected]="!modoEdicion">Sel Tipo Ceremonia</option>
+                        <option  disabled >Sel Tipo Ceremonia</option>
                                 <option *ngFor="let tipo of tiposCeremonias " [value]="tipo.id" [selected]="selectedTipoCe == tipo.id"  >{{tipo.descripcion}}</option>
                              </select>
                     <label class="active">Tipo Ceremonia</label>
@@ -96,7 +97,7 @@
             <div class="row">
                 <div class="input-field col s6">
                     <select formControlName="lugarCenaId">
-                        <option  disabled [selected]="!modoEdicion">Seleccionar Lugar Cena</option>
+                        <option  disabled >Seleccionar Lugar Cena</option>
                                 <option *ngFor="let lugar of lugaresCena " [value]="lugar.id" [selected]="selectedCena == lugar.id"  >{{lugar.lugar}}</option>
                              </select>
                     <label class="active">Lugar Cena</label>
@@ -105,7 +106,7 @@
 
                 <div class="input-field col s6">
                     <select formControlName="backUpId">
-                        <option  disabled [selected]="!modoEdicion">Seleccionar Backup</option>
+                        <option  disabled >Seleccionar Backup</option>
                                 <option *ngFor="let lugar of lugaresBack " [value]="lugar.id" [selected]="selectedBack == lugar.id"  >{{lugar.lugar}}</option>
                              </select>
                     <label class="active">Lugar BackUp</label>
@@ -116,7 +117,7 @@
 
                 <div class="input-field col s6">
                     <select formControlName="paqueteId">
-                       <option  disabled [selected]="!modoEdicion">Seleccionar Paquete</option>
+                       <option  disabled >Seleccionar Paquete</option>
                          <option *ngFor="let pa of paquetes " [value]="pa.id" [selected]="selectedPaquete == pa.id"  >{{pa.descripcion}}</option>
                      </select>
                     <label class="active">Paquete</label>
@@ -132,7 +133,7 @@
 
                 <div class="input-field col s6">
                     <select formControlName="agenciaId">
-                             <option  disabled [selected]="!modoEdicion">Seleccionar Agencia</option>
+                             <option  disabled >Seleccionar Agencia</option>
                                    <option *ngFor="let ag of agencias " [value]="ag.id" [selected]="selectedAgencia == ag.id"  >{{ag.nombre}}</option>
                             </select>
                     <label class="active">Agencia</label>
@@ -172,7 +173,7 @@
 
                 <div class="input-field col s3">
                     <select formControlName="divisaComision">
-                         <option  disabled [selected]="!modoEdicion">Sel Divisa</option>
+                         <option  disabled >Sel Divisa</option>
                                <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
                         </select>
                     <label class="active">Divisa</label>
@@ -261,7 +262,7 @@
 
                 <div class="input-field col s3">
                     <select formControlName="divisaDeposito">
-                             <option  disabled [selected]="!modoEdicion">Sel Divisa Deposito</option>
+                             <option  disabled >Sel Divisa Deposito</option>
                                    <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
                             </select>
                     <label class="active">Divisa</label>
@@ -276,10 +277,6 @@
                     <label for="fechaConfirmada" class="active">Fecha Venta</label>
                     <span class="helper-text" *ngIf="errorCampos.fechaConfirmada" [innerHTML]="errorCampos.fechaConfirmada">...</span>
                 </div>
-
-
-
-
 
             </div>
 

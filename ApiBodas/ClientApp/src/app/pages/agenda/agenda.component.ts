@@ -29,7 +29,8 @@ export class AgendaComponent implements OnInit {
   ignorarExistenCambiosPendientes: boolean = false;
   modoEdicion: boolean= false;
   setFechaBoda: boolean = false;
-  fechaSeleccionada: string ='';
+  
+
 
   horas: any;
   lugaresCeremonia: any;
@@ -40,6 +41,9 @@ export class AgendaComponent implements OnInit {
   agencias:any;
   divisas:any;
 
+  fechaSeleccionada: string ='';
+  agendaIdSelected:number = 0;
+  tipoAgendaSelected:number = 0;
   selectedHora:string = '';
   selectedCeremonia: number = 0;
   selectedTipoCe: number = 0;
@@ -120,7 +124,8 @@ this.errorCampos = {
     this.GetPaquetes();
     this.GetAgencias();
     this.GetDivisas();
-   // this.initSelect();
+
+   this.initSelect();
    // this.initNacionalidad();
     
     $(document).ready(function(){
@@ -179,9 +184,12 @@ CargarFechas(yyyy:number, mm:number)
 
       dayClick: function(date, jsEvent, view) {        
         //Abrir modal 
-        $('#modal1').modal('open');
+        //$('#modal1').modal('open');
+
         //obtener la fecha
         this.fechaSeleccionada = date.format("DD/MM/YYYY");
+
+       // alert(date + ' formt: '+this.fechaSeleccionada);
         // patch   
        $('#fboda').val(this.fechaSeleccionada);
 
@@ -198,11 +206,24 @@ CargarFechas(yyyy:number, mm:number)
       });
     
 
-
-       $('#patchfecha').click();
+      // $('#patchfecha').click();
+       $('#btnCrear').click();
 
       },
-      timeFormat: 'H(:mm)',
+      eventClick: function(calEvent, jsEvent, view) {
+
+      //  alert('Event: ' + calEvent.title + ' Id: ' + calEvent.idagenda + ' Tipo: ' + calEvent.estatus);
+      $('#idagendaedit').val(calEvent.idagenda);
+      $('#tipoagenda').val(calEvent.estatus);
+
+        // if (calEvent.url) {
+        //   window.open(calEvent.url);
+        //   return false;
+        // }
+        $('#btnEditar').click();
+      
+      },
+      timeFormat: 'h:mm',
 
     //  hiddenDays: [ 2, 4 ]
     events: [
@@ -329,8 +350,8 @@ construirFormulario()
     deposito          : [''], 
     divisaDeposito    : [''],
    
-    fechaConfirmada   : [''] ,
-    fechaPago         : [''] ,     
+    fechaConfirmada   : [''],
+    fechaPago         : [''],     
     fechaLlegada      : [''],
     fechaSelloAuditoria : ['']        
   });
@@ -370,35 +391,47 @@ resetFormulario() {
 
 save(){
 
-
-
  let itemAgenda: Agenda = Object.assign({}, this.formG.value)
 
  itemAgenda.hotelId = 1; //provisional
 
 // validar campos vacios
-if(this.formG.value.comision === "")
+if(this.formG.value.comision === "" || this.formG.value.comision === null)
   itemAgenda.comision = 0;
 
+if(this.formG.value.deposito === "" || this.formG.value.deposito === null)
+    itemAgenda.deposito = 0; 
 
-
-if(this.formG.value.deposito === "")
-    itemAgenda.deposito = 0;
-
-if(this.formG.value.numHabitacion === "")
+if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === null)
     itemAgenda.numHabitacion = 0;
-
 
 let fb = this.GenFecha(this.formG.value.fechaBoda); 
 
-    itemAgenda.fechaBoda = fb;
+ itemAgenda.fechaBoda = fb;
 
  this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
 
+if(resp.ok)
+{
+  var moment = $('#calendar').fullCalendar('getDate');
+  this.resetFormulario();
+
+  console.log(moment._i[0], moment._i[1]);
+
+  this.CargarFechas(moment._i[0], moment._i[1]+1);
+  
+  // limpiar datos
+  this.modoEdicion = false;
+  this.agendaIdSelected = 0;
+  this.tipoAgendaSelected = 0;
+}
+
+
  });
 
-  //this.resetFormulario();
+this.resetFormulario();
 }
+
 
 formatoFecha(f:string)
 {
@@ -411,17 +444,26 @@ return strFecha;
 
 GenFecha(f:string)
 {
-
-console.log(f);
   var str = f.split("/");
-
   var strFecha = `${str[1]}/${str[0]}/${str[2]}`
-
   //var d = new Date(+str[2],+str[1],+str[0])
   var fecha  = new Date(strFecha);
 
 return fecha;
 }
+
+GenFechaFromDb(f:string)
+{
+var separateTime = f.split("T");
+
+var str = separateTime[0].split("-");
+
+var strFecha = `${str[2]}/${str[1]}/${str[0]}`
+
+return strFecha;
+
+}
+
 
 // ***************************************************************************************
 //   GET Lugar Ceremonia
@@ -518,22 +560,186 @@ initNacionalidad()
     },
   });
 
+}
+
+// ======================================================
+// PATCHES
+// ======================================================
+patchFecha()
+{
+ // this.formG.reset();
+ var fechab = $('#fboda').val();
+
+
+this.formG.patchValue({
+    fechaBoda : fechab       
+  });
 
 }
 
-patchFecha()
+modalCrear()
 {
 
+  this.agendaIdSelected = 0;
+  this.tipoAgendaSelected = 0;
+  this.selectedHora = '';
+  this.selectedCeremonia  = 0;
+  this.selectedTipoCe  = 0;
+  this.selectedCena  = 0;
+  this.selectedBack  = 0;
+  this.selectedPaquete =0;
+  this.selectedAgencia =0;
+  this.selectedDivisaCom =0;
+  this.selectedDivisaDepo =0;
 
- // this.formG.reset();
 
- var fechab = $('#fboda').val();
-
-console.log('patch ',fechab);
+if(this.modoEdicion === true)
+{
+  
+  this.modoEdicion = false;
+//  this.resetFormulario();
+ 
+  var fechab = $('#fboda').val();
 
   this.formG.patchValue({
-    fechaBoda : fechab       
+    fechaBoda         :  fechab,
+    horaBoda          :'',
+    nombrePareja      :'',
+    correoPareja      :'',
+    nacionalidad      :'',
+    lugarCeremoniaId  :'',
+    lugarCenaId       :'',
+    tipoCeremoniaId   :'',
+    backUpId          :'',
+    paqueteId         :'',
+    agenciaId         :'',
+    comision          :'',
+    divisaComision    :'',
+    paxAdultos        :'',
+    paxJunior         :'',
+    paxNinos          :'',
+    paxCunas          :'',
+    pax3raEdad        :'',
+    nombreAgente      :'',
+    correoAgencia     :'',
+    numReserva        :'',
+    numHabitacion     :'',
+    bookingReference  :'',
+    promocion         : '',
+    deposito          : '',
+    divisaDeposito    : '',
+    fechaConfirmada   : '',
+    fechaPago         : '',
+    fechaLlegada      : '',
+    fechaSelloAuditoria : '' 
+   
   });
+  // this.modoEdicion = false;
+  this.initSelect();
+  // this.modoEdicion = false;
+}
+else
+{
+  this.patchFecha();
+}
+
+// this.formG.value.touched;
+// this.formG.markAsTouched();
+
+ 
+}
+
+modalEdicion()
+{
+  var ida = $('#idagendaedit').val();
+  var tipoa = $('#tipoagenda').val();
+
+  this.modoEdicion = true;
+
+  // this.resetFormulario();
+
+  console.log('reset ediciion');
+
+var agendadb:any;
+
+// consular agenda
+this._servicioAgenda.GetAgendaById(ida).subscribe(
+  (resp:any)=>{
+
+    if(resp.ok === true)
+    {
+      agendadb = resp.agenda;
+
+      console.table(agendadb);
+
+      this.agendaIdSelected = ida;
+      this.tipoAgendaSelected = agendadb.estadoAgendaId;
+      this.selectedHora = agendadb.horaBoda;
+      this.selectedCeremonia  = agendadb.lugarCeremoniaId;
+      this.selectedTipoCe  = agendadb.tipoCeremoniaId;
+      this.selectedCena  = agendadb.lugarCenaId;
+      this.selectedBack  = agendadb.backUpId;
+      this.selectedPaquete  =agendadb.paqueteId;
+      this.selectedAgencia  =agendadb.agenciaId;
+      this.selectedDivisaCom  =agendadb.divisaComision == null ? 0 : agendadb.divisaComision;
+      this.selectedDivisaDepo  =agendadb.divisaDeposito == null ? 0 : agendadb.divisaDeposito;
+
+      this.formG.patchValue({
+        fechaBoda         :  this.GenFechaFromDb(agendadb.fechaBoda),
+        horaBoda          :  agendadb.horaBoda,
+        nombrePareja      :  agendadb.nombrePareja,
+        correoPareja      :  agendadb.correoPareja,
+        nacionalidad      :  agendadb.nacionalidad,
+        lugarCeremoniaId  :  agendadb.lugarCeremoniaId,
+        lugarCenaId       :  agendadb.lugarCenaId,
+        tipoCeremoniaId   :  agendadb.tipoCeremoniaId,
+        backUpId          :  agendadb.backUpId,
+        paqueteId         :  agendadb.paqueteId,
+        agenciaId         : agendadb.agenciaId,
+        comision          :  agendadb.comision,
+        divisaComision    :  agendadb.divisaComision,
+        paxAdultos        :  agendadb.paxAdultos,
+        paxJunior         :  agendadb.paxJunior,
+        paxNinos          :  agendadb.paxNinos,
+        paxCunas          :  agendadb.paxCunas,
+        pax3raEdad        :  agendadb.pax3raEdad,
+        nombreAgente      :  agendadb.nombreAgente,
+        correoAgencia     :  agendadb.correoAgencia,
+        numReserva        :  agendadb.numReserva,
+        numHabitacion     :  agendadb.numHabitacion,
+        bookingReference  :  agendadb.bookingReference,
+        promocion         :  agendadb.promocion,
+        deposito          :  agendadb.deposito,
+        divisaDeposito    :  agendadb.divisaDeposito,
+        fechaConfirmada   :  agendadb.fechaConfirmada,
+        fechaPago         :  agendadb.fechaPago,
+        fechaLlegada      :  agendadb.fechaLlegada,
+        fechaSelloAuditoria : agendadb.fechaSelloAuditoria  
+      });
+
+// llenar los combos
+      // this.GetHoras();
+      // this.GetCeremonias();
+      // this.GetCenas();
+      // this.GetTiposCeremonia();
+      // this.GetBackups();
+      // this.GetPaquetes();
+      // this.GetAgencias();
+      // this.GetDivisas();
+      this.initSelect();
+
+      this.formG.touched;
+      this.formG.markAsTouched();
+
+
+    }
+
+
+
+  }
+);// realizar el patch
+
+
 
 }
 
