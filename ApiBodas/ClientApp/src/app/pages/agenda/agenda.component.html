@@ -1,7 +1,7 @@
 <!-- <button (click)="IniciarCal()">Iniciar</button> -->
 <button (click)="GetFecha()">getfecha</button>
 
-<a (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>Iniciar Cal</a>
+<a id="inicialcal" name="inicialcal" (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>Iniciar Cal</a>
 
 <button (click)="GoToday()" class="waves-effect waves-light btn">Hoy</button>
 <button (click)="GoAnterior()" class="waves-effect waves-light btn"> Ant. </button>
@@ -302,8 +302,10 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
-            <button type="button" id="patchfecha" class="btn grey darken-1  " (click)="patchFecha()">Patch </button>
-            <button type="submit" [disabled]="!formG.valid" class="btn modal-close">  Guardar</button>
+            <!-- <button type="button" id="patchfecha" class="btn grey darken-1  " (click)="patchFecha()">Patch </button> -->
+            <button type="submit" [disabled]="!formG.valid" class="btn modal-close"> {{ modoEdicion ? 'Guardar Cambios' : 'Guardar Nuevo'}} </button>
+            <button type="button" *ngIf="tipoAgendaSelected == 1" class="btn teal darken-3 modal-close " data-dismiss="modal" (click)="ConfirmarAgenda()">Confirmar </button>
+            <button type="button" *ngIf="tipoAgendaSelected >  0 && tipoAgendaSelected <  3" class="btn  red darken-3 modal-close " data-dismiss="modal" (click)="CancelarAgenda()">Cancelar </button>
         </div>
     </form>
 

@@ -25,6 +25,7 @@ namespace Repository
             Horas = new RepositorioHoras(_Context);
             TiposCeremonia = new RepositorioTipoCeremonia(_Context);
             Agencias = new RepositorioAgencia(_Context);
+            Ttoos = new RepositorioTtoo(_Context);
             DiasBloqueados = new RepositorioDiasBloqueados(_Context);
             Comentarios = new RepositorioComentario(_Context);
             Historial = new RepositorioHistorial(_Context);
@@ -51,7 +52,8 @@ namespace Repository
         public IRepositorioBackUp BackUps { get; private set; }
         public IRepositorioHoras Horas { get; private set; }
         public IRepositorioTipoCeremonia TiposCeremonia { get; private set; }
-        public IRepositorioAgencia Agencias { get; }
+        public IRepositorioAgencia Agencias { get; private set; }
+        public IRepositorioTtoo Ttoos { get; private set; }
         public IRepositorioDiasBloqueados DiasBloqueados { get; private set; }
         public IRepositorioComentario Comentarios { get; private set; }
         public IRepositorioHistorial Historial { get; private set; }

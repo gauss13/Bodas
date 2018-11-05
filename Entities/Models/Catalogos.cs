@@ -24,14 +24,14 @@ namespace Entities.Models.Catalogos
         public List<UsuarioHotel> UsuariosHotel { get; set; } // nav
     }
 
-   //public class Ejecutivo
-   // {
-   //     public int Id { get; set; }
-   //     [StringLength(50)]
-   //     public string Nombre { get; set; }
-   //     [StringLength(10)]
-   //     public string Iniciales { get; set; }
-   // }
+    //public class Ejecutivo
+    // {
+    //     public int Id { get; set; }
+    //     [StringLength(50)]
+    //     public string Nombre { get; set; }
+    //     [StringLength(10)]
+    //     public string Iniciales { get; set; }
+    // }
 
     //public class Coordinador
     //{
@@ -107,6 +107,7 @@ namespace Entities.Models.Catalogos
         public string Nombre { get; set; }
         [StringLength(50)]
         public string Correo { get; set; }
+        public int TtooId { get; set; }
         public bool Activo { get; set; }
     }
 
@@ -115,6 +116,26 @@ namespace Entities.Models.Catalogos
         public int Id { get; set; }
         [StringLength(5)]
         public string Clave { get; set; }
+    }
+
+    public class Ttoo
+    {
+        public int Id { get; set; }
+        [StringLength(50)]
+        public string Nombre { get; set; }
+        public bool Activo { get; set; }
+        public int HotelId { get; set; }
+    }
+
+
+    public class Agente
+    {
+        public int Id { get; set; }
+        [StringLength(150)]
+        public string Nombre { get; set; }
+        [StringLength(3)]
+        public string Iniciales { get; set; }
+        public int AgenciaId { get; set; }
     }
 
 }

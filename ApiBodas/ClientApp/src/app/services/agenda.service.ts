@@ -18,9 +18,9 @@ export class AgendaService {
 // ***************************************************************************************
 //  GET Fechas por Mes 
 // ***************************************************************************************
-GetFechasPorMes(an:number, mes:number)
+GetFechasPorMes(an:number, mes:number, idh:number)
 {
-  const url = URL_SERVICIOS + '/api/agenda/fechas/'+an+'/'+mes;
+  const url = URL_SERVICIOS + '/api/agenda/fechas/'+ idh +'/' + an +'/'+ mes;
 
   return this.http.get(url).pipe(
     map((resp:any) => {
@@ -78,6 +78,22 @@ StringOrEmpty(value:string)
 }
 
 
+// ***************************************************************************************
+//  PUT - CAMBIAR ESTATUS 
+// ***************************************************************************************
+PutCambiarEstatus(id:number, ide:number)
+{
+  const url= URL_SERVICIOS + '/api/Agenda/estatus/'+id + '/'+ide;
+  const headersj = new HttpHeaders({'Content-Type':'application/json'});
+
+
+  return this.http.put(url,null).pipe(
+    map((resp:any) => {
+      return resp;
+    })
+  );
+
+}
 
 
 

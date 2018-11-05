@@ -7,13 +7,8 @@ import { Agenda } from '../../models/agenda.model';
 import { Globalx } from 'src/app/config/global';
 
 
-
-
-
 declare var $: any;
 declare var M: any;
-
-
 
 @Component({
   selector: 'app-agenda',
@@ -30,7 +25,10 @@ export class AgendaComponent implements OnInit {
   modoEdicion: boolean= false;
   setFechaBoda: boolean = false;
   
-
+  // tentativo   = 1 -> Edit -> Confirm -> Cancelar -> 
+  // confirmado  = 2 -> Editar ->  Cancelar -> 
+  // cancelado   = 3 -> Nada
+  // bloqueado   = 4 -> Nada
 
   horas: any;
   lugaresCeremonia: any;
@@ -87,9 +85,6 @@ this.textoDeValidacion = {
   paqueteId:{ required: 'El campo paquete es <strong>requerido</strong>.' } ,
   agenciaId:{ required: 'El campo agencia es <strong>requerido</strong>.' } ,
   
-
-
-
 }
 
 
@@ -109,8 +104,7 @@ this.errorCampos = {
   agenciaId:''
 }
 
-
-  }
+}
 
   ngOnInit() {
 
@@ -131,10 +125,9 @@ this.errorCampos = {
     $(document).ready(function(){
 
       $('.modal').modal();  
-
-    //  $('body').on('click', 'button.fc-prev-button', function() {
-    //  // ejecutar servicio fechas por mes
-    //   });
+      //  $('body').on('click', 'button.fc-prev-button', function() {
+      //  // ejecutar servicio fechas por mes
+      //   });
 
 
     }); // <- ready
@@ -144,7 +137,12 @@ this.errorCampos = {
 
 CargarFechas(yyyy:number, mm:number)
 {
-  this._servicioAgenda.GetFechasPorMes(yyyy,mm).subscribe(
+
+  var hid = this._gbl.hotelIdSelected;
+
+if(hid !== undefined && hid !== null)
+{
+  this._servicioAgenda.GetFechasPorMes(yyyy,mm, hid).subscribe(
     (resp:any) => {
     
     if(resp.ok == true)
@@ -162,6 +160,12 @@ CargarFechas(yyyy:number, mm:number)
     }
 
 });
+}
+
+ 
+
+
+
 }
 
   // ***************************************************************************************
@@ -223,7 +227,7 @@ CargarFechas(yyyy:number, mm:number)
         $('#btnEditar').click();
       
       },
-      timeFormat: 'h:mm',
+      timeFormat: 'HH:mm',
 
     //  hiddenDays: [ 2, 4 ]
     events: [
@@ -338,10 +342,8 @@ construirFormulario()
     paxNinos          : [''],    
     paxCunas          : [''],
     pax3raEdad        : [''], 
-    
     nombreAgente      : [''],
     correoAgencia     : [''],
-
     numReserva        : [''],
     numHabitacion     : [''],
     bookingReference  : [''],
@@ -394,6 +396,7 @@ save(){
  let itemAgenda: Agenda = Object.assign({}, this.formG.value)
 
  itemAgenda.hotelId = 1; //provisional
+ itemAgenda.estadoAgendaId = 1;
 
 // validar campos vacios
 if(this.formG.value.comision === "" || this.formG.value.comision === null)
@@ -409,8 +412,10 @@ let fb = this.GenFecha(this.formG.value.fechaBoda);
 
  itemAgenda.fechaBoda = fb;
 
+ // CREAR
  this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
 
+  //Respuesta post
 if(resp.ok)
 {
   var moment = $('#calendar').fullCalendar('getDate');
@@ -743,6 +748,46 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
 
 }
 
+
+// ***************************************************************************************
+//    CONFIRMAR
+// ***************************************************************************************
+ConfirmarAgenda()
+{
+  
+  this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,2).subscribe(
+    (resp:any)=> {
+
+      if(resp.ok == true)
+      {
+        // obtener los cambios
+        var moment = $('#calendar').fullCalendar('getDate');
+        this.CargarFechas(moment._i[0], moment._i[1]+1);
+      }
+    }    
+  );
+
+}
+
+
+// ***************************************************************************************
+//  CANCELAR 
+// ***************************************************************************************
+CancelarAgenda()
+{
+  this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,3).subscribe(
+    (resp:any)=> {
+
+      if(resp.ok == true)
+      {
+        // obtener los cambios
+        var moment = $('#calendar').fullCalendar('getDate');
+        this.CargarFechas(moment._i[0], moment._i[1]+1);
+      }
+
+    }    
+  );
+}
 
 
 }

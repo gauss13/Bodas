@@ -18,6 +18,7 @@ namespace Repository
         IRepositorioHoras Horas { get; }
         IRepositorioTipoCeremonia TiposCeremonia { get; }
         IRepositorioAgencia Agencias { get; }
+        IRepositorioTtoo Ttoos { get; }
         IRepositorioDiasBloqueados DiasBloqueados { get; }
         IRepositorioComentario Comentarios { get; }
         IRepositorioHistorial Historial { get; }

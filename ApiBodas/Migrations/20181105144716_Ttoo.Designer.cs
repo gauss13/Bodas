@@ -4,14 +4,16 @@ using Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181105144716_Ttoo")]
+    partial class Ttoo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace ApiBodas.Migrations
                     b.Property<int>("BackUpId");
 
                     b.Property<string>("BookingReference")
-                        .HasMaxLength(30);
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("Comision")
                         .HasColumnType("decimal(18, 2)");
@@ -117,13 +119,13 @@ namespace ApiBodas.Migrations
 
                     b.Property<int>("TipoCeremoniaId");
 
-                    b.Property<int>("TtooId");
-
                     b.Property<int>("UsuarioId");
 
                     b.Property<int?>("UsuarioMod");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AgenciaId");
 
                     b.HasIndex("BackUpId");
 
@@ -169,11 +171,9 @@ namespace ApiBodas.Migrations
 
                     b.Property<int>("AgenciaId");
 
-                    b.Property<string>("Iniciales")
-                        .HasMaxLength(3);
+                    b.Property<string>("Iniciales");
 
-                    b.Property<string>("Nombre")
-                        .HasMaxLength(150);
+                    b.Property<string>("Nombre");
 
                     b.HasKey("Id");
 
@@ -318,8 +318,7 @@ namespace ApiBodas.Migrations
 
                     b.Property<int>("HotelId");
 
-                    b.Property<string>("Nombre")
-                        .HasMaxLength(50);
+                    b.Property<string>("Nombre");
 
                     b.HasKey("Id");
 
@@ -614,6 +613,11 @@ namespace ApiBodas.Migrations
 
             modelBuilder.Entity("Entities.Models.Agenda", b =>
                 {
+                    b.HasOne("Entities.Models.Catalogos.Agencia", "Agencia")
+                        .WithMany()
+                        .HasForeignKey("AgenciaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Entities.Models.Catalogos.BackUp", "BackUp")
                         .WithMany("Agendas")
                         .HasForeignKey("BackUpId")

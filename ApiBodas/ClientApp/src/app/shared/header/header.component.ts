@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService, HotelService } from 'src/app/services/service.index';
 import { Globalx } from 'src/app/config/global';
 import { Hotel } from 'src/app/models/hotel.model';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
  declare var $: any;
 //import * as $ from 'jquery';
+declare var M: any;
 
 @Component({
   selector: 'app-header',
@@ -16,10 +19,12 @@ export class HeaderComponent implements OnInit {
   titulo = 'inicial';
   gbl: any;
   hoteles: any;
+  route:string ='';
 
   constructor(public _usuarioService: UsuarioService, 
     private _gbl: Globalx,
-    private _servicioHotel: HotelService) { 
+    private _servicioHotel: HotelService,
+    private _location: Location, private _route:Router) { 
 
       this.GetHotelStorage();
     }
@@ -42,10 +47,25 @@ export class HeaderComponent implements OnInit {
 
   fnSelect(item:any)
   {
-    console.log(item.nombre);
+    
     this._gbl.hotelSelected = item.nombre;
+    this._gbl.hotelIdSelected = item.id;
     this._gbl.hotelSeleccionado = true;
-   this.SetHotelStorage(item);
+    this.SetHotelStorage(item);
+
+    let el: any = document.getElementsByName('inicialcal');
+     
+    //elemHtml.value = Number(this.progreso);
+    //  $('#inicialcal').click();
+
+    // console.log(this._location.path());
+
+   // this.route = this._location.path();
+   // var ruta = this._route.url;
+
+    this._route.routeReuseStrategy.shouldReuseRoute = function() { return false; };
+
+    //this._route.navigate([this.route]);
 
   }
 
@@ -60,11 +80,10 @@ export class HeaderComponent implements OnInit {
 // Set Selected Hotel Storage
 // ======================================================
 SetHotelStorage(hotel:Hotel)
-{  
-
+{
   localStorage.setItem('selectedHotel', JSON.stringify(hotel));
-  
 }
+
 // ======================================================
 // Get Hotel Storage
 // ======================================================

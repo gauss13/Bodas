@@ -81,10 +81,10 @@ namespace ApiBodas.Controllers
         }
 
         
-        [HttpGet("fechas/{a:int}/{m:int}")]
-        public async Task<IActionResult> GetFechasPorMes(int a, int m)
+        [HttpGet("fechas/{h:int}/{a:int}/{m:int}")]
+        public async Task<IActionResult> GetFechasPorMes(int h, int a, int m)
         {
-            var lista = await this.Repositorio.Agendas.GetFechasByMes(a, m);
+            var lista = await this.Repositorio.Agendas.GetFechasByMes(h,a, m);
             var listaFechas = new List<AgendaFechas>();
 
             if (!lista.Any())
@@ -198,12 +198,11 @@ namespace ApiBodas.Controllers
             {
                 itemNuevo.Id = id;
 
-
                 var itemEncontrado = await this.Repositorio.Agendas.GetByIdAsync(id);
 
                 if (itemEncontrado == null)
                 {
-                    return BadRequest(new { ok = false, mensaje = "No se encontró el registro a actulizar", erros = "" });
+                    return Ok(new { ok = false, mensaje = "No se encontró el registro a actulizar", erros = "" });
                 }
 
                 itemEncontrado.Map(itemNuevo);
@@ -263,6 +262,46 @@ namespace ApiBodas.Controllers
 
         }
 
+        [HttpPut("estatus/{id:int}/{e:int}")]
+        public async Task<IActionResult> CambiarEstatus(int id, int e)
+        {
+            try
+            {
+                var itemEncontrado = await this.Repositorio.Agendas.GetByIdAsync(id);
+
+                if (itemEncontrado == null)
+                {
+                    return Ok(new { ok = false, mensaje = "No se encontró el registro a actulizar", erros = "" });
+                }
+
+                itemEncontrado.EstadoAgendaId = e;
+
+                itemEncontrado.FechaMod = DateTime.Now;
+                var r = this.Repositorio.Agendas.Update(itemEncontrado);
+                await this.Repositorio.CompleteAsync();
+
+                var obj = new
+                {
+                    ok = true,
+                    Agenda = itemEncontrado
+                };
+
+                return Created("", obj);
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    ok = false,
+                    mensaje = "Se produjo un error al Actualizar el registro",
+                    errors = new { mensaje = ex.Message }
+
+                });
+            }
+
+        }
 
         // <<- ACTIONS
 

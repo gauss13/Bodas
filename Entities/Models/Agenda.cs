@@ -51,14 +51,15 @@ namespace Entities.Models
         public string Nacionalidad { get; set; }
         [StringLength(50)]
         public string NombreAgente { get; set; }
-        public int AgenciaId { get; set; }
+        public int AgenciaId { get; set; } // Agencia
+        public int TtooId { get; set; } // TTOO
         [StringLength(50)]
         public string CorreoAgencia { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Deposito { get; set; }  // es anticipo?
         public int? DivisaDeposito { get; set; } //tipo de monenda del deposito
         public int NumHabitacion { get; set; } // num de habitacion y numero de reserva
-        [StringLength(50)]
+        [StringLength(30)]
         public string BookingReference { get; set; } // pedido por martina -
         [StringLength(25)]
         public string NumReserva { get; set; }
@@ -95,7 +96,7 @@ namespace Entities.Models
         public BackUp BackUp { get; set; }
         public TipoCeremonia TipoCeremonia { get; set; }
         public Paquete Paquete { get; set; }
-        public Agencia Agencia { get; set; }
+        //public Agencia Agencia { get; set; } // se guarda id sin restriccion de tabla
         
         //[NotMapped]
 

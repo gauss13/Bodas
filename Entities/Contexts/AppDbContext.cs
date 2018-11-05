@@ -71,5 +71,8 @@ namespace Entities.Contexts
         public DbSet<Role> Roles { get; set; }
         public DbSet<Divisa> Divisas { get; set; }
         public DbSet<EstadoAgenda> EstadosAgenda { get; set; }
+
+        public DbSet<Ttoo> Ttoos { get; set; }
+        public DbSet<Agente> Agentes { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 export class Hotel {
 
 constructor(
-    public Id:number,
-    public Nombre:string,
+    public id:number,
+    public iombre:string,
     public clave:string,
-    public Img:string
+    public img:string
 ){}
 
 }

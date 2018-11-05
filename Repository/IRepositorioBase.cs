@@ -35,7 +35,8 @@ namespace Repository
 
     public interface IRepositorioAgenda : IRepositorioBase<Agenda>
     {
-        Task<IEnumerable<Agenda>> GetFechasByMes(int anio, int mes);
+        Task<IEnumerable<Agenda>> GetFechasByMes(int hotel, int anio, int mes);
+        
     }
 
     public interface IRepositorioHotel : IRepositorioBase<Hotel>
@@ -61,7 +62,7 @@ namespace Repository
         Task<LugarCena> GetLugarCenaConHotelByIdAsync(int id);
         Task<IEnumerable<LugarCena>> GetLugarCenaConHotelAsync();
 
-     
+
 
     }
 
@@ -83,6 +84,10 @@ namespace Repository
     }
 
     public interface IRepositorioAgencia : IRepositorioBase<Agencia>
+    {
+    }
+
+    public interface IRepositorioTtoo : IRepositorioBase<Ttoo>
     {
     }
 
