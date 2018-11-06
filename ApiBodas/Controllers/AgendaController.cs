@@ -85,6 +85,8 @@ namespace ApiBodas.Controllers
         public async Task<IActionResult> GetFechasPorMes(int h, int a, int m)
         {
             var lista = await this.Repositorio.Agendas.GetFechasByMes(h,a, m);
+            var listaBloqueadas = await this.Repositorio.DiasBloqueados.GetFechasByMes(h,a,m);
+
             var listaFechas = new List<AgendaFechas>();
 
             if (!lista.Any())
@@ -120,9 +122,35 @@ namespace ApiBodas.Controllers
                 }
             }
 
+            // DIAS BLOQUEADOS
+      
+            foreach (var dia in listaBloqueadas)
+            {
+                AgendaFechas iagenda = new AgendaFechas();
 
-            // OK
-            var obj = new
+                iagenda.idagenda = 0;
+                iagenda.start = $"{dia.Fecha.ToString("yyyy-MM-dd")}T00:00";
+                iagenda.end = $"{dia.Fecha.ToString("yyyy-MM-dd")}T00:00"; ;
+                iagenda.title = "Bloqueado";
+                iagenda.estatus = -1;
+                iagenda.url = "";
+                iagenda.color = "";
+                iagenda.textColor = "";
+                iagenda.editable = false;
+                iagenda.selectable = false;
+                iagenda.allDay = true;
+
+                listaFechas.Add(iagenda);
+            }
+
+            // AGREGAR A LA LISTA 
+
+       
+
+
+
+             // OK
+             var obj = new
             {
                 ok = true,
                 total = listaFechas.Count(),
@@ -142,16 +170,18 @@ namespace ApiBodas.Controllers
 
             switch (e)
             {
+                case -1:
+                    return ("Cancelado", "red", "white");
+                case 0:
+                    return ("Bloqueado", "gray", "black");                    
                 case 1:
                     return ("Tentativo", "blue", "white"); 
                 case 2:
                     return ("Confirmado", "green", "white");  
-                case 3:
-                    return ("Cancelado", "red", "white"); 
                 case 4:
-                    return ("Bloqueado", "gray", "black"); 
+                    return ("Terminado", "", "white");
                 default:
-                    return ("otro", "blue", "white"); 
+                    return ("Otro", "blue", "white"); 
 
             }
         }
@@ -165,6 +195,8 @@ namespace ApiBodas.Controllers
             {
                 item.FechaReg = DateTime.Now;
                 item.Activo = true;
+                item.Nacionalidad = item.Nacionalidad.ToUpper();
+
                 var r = await this.Repositorio.Agendas.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
 
@@ -208,6 +240,8 @@ namespace ApiBodas.Controllers
                 itemEncontrado.Map(itemNuevo);
 
                 itemEncontrado.FechaMod = DateTime.Now;
+                itemEncontrado.Nacionalidad = itemEncontrado.Nacionalidad.ToUpper();
+
                 var r = this.Repositorio.Agendas.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 

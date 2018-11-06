@@ -50,23 +50,23 @@ export class HeaderComponent implements OnInit {
     
     this._gbl.hotelSelected = item.nombre;
     this._gbl.hotelIdSelected = item.id;
+    this._gbl.strHotelIdSelected = item.id;
     this._gbl.hotelSeleccionado = true;
     this.SetHotelStorage(item);
-
-    let el: any = document.getElementsByName('inicialcal');
-     
-    //elemHtml.value = Number(this.progreso);
-    //  $('#inicialcal').click();
-
-    // console.log(this._location.path());
-
-   // this.route = this._location.path();
+  
+    this.route = this._location.path();
    // var ruta = this._route.url;
 
-    this._route.routeReuseStrategy.shouldReuseRoute = function() { return false; };
+    console.log(this.route);
+    if(this.route.indexOf('agenda') > 0)
+    {
+        if(this.route.indexOf('agenda') > 0)
+        {      
+          this.route = '/agenda/'+item.id;
+        }
+    }
 
-    //this._route.navigate([this.route]);
-
+    this._route.navigate([this.route]);
   }
 
   getHoteles()

@@ -5,6 +5,8 @@ import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
 import { Agenda } from '../../models/agenda.model';
 import { Globalx } from 'src/app/config/global';
+import { ActivatedRoute } from '@angular/router';
+
 
 
 declare var $: any;
@@ -24,6 +26,10 @@ export class AgendaComponent implements OnInit {
   ignorarExistenCambiosPendientes: boolean = false;
   modoEdicion: boolean= false;
   setFechaBoda: boolean = false;
+  idHotel = 0;
+  idAgenda= 0;
+  tipoAgenda=0;
+  progreso=10;
   
   // tentativo   = 1 -> Edit -> Confirm -> Cancelar -> 
   // confirmado  = 2 -> Editar ->  Cancelar -> 
@@ -66,7 +72,8 @@ formG: FormGroup
     public _paqueteService: PaqueteService,
     public _agenciaService: AgenciaService,
     public _divisaService: DivisaService,
-    public _gbl:Globalx
+    public _gbl:Globalx,
+    public activeRoute: ActivatedRoute
     ) { 
 
 
@@ -104,11 +111,36 @@ this.errorCampos = {
   agenciaId:''
 }
 
-}
+//Active Route
+activeRoute.params.subscribe(
+  params =>  {
+    const texto = params['abc'];
+    if(texto !== 'ini')
+    {
+      // console.log(this.idHotel);
+      // console.log(this._gbl.hotelIdSelected);
+
+      if(this.idHotel !== this._gbl.hotelIdSelected)
+      {  
+        if( this.idHotel !== 0)
+        {
+        // console.log('se inicia')
+        this.IniciarCal();
+        }
+        this.idHotel = this._gbl.hotelIdSelected;
+      }
+
+    }    
+  }
+);
+
+} // <- constructor
+
 
   ngOnInit() {
 
     this._gbl.tituloModulo ="Agenda";
+   
     this.construirFormulario();
     this.GetHoras();
     this.GetCeremonias();
@@ -124,7 +156,11 @@ this.errorCampos = {
     
     $(document).ready(function(){
 
-      $('.modal').modal();  
+      $('.modal').modal({
+      
+      });  
+
+
       //  $('body').on('click', 'button.fc-prev-button', function() {
       //  // ejecutar servicio fechas por mes
       //   });
@@ -175,20 +211,25 @@ if(hid !== undefined && hid !== null)
   {
 
     $('#calendar').fullCalendar('destroy');
-   
-    
+       
     $('#calendar').fullCalendar( {
 
       // put your options and callbacks here
       locale: 'es',
       defaultView: 'month',
-      weekends: false,
+    //  weekends: true,
       
       header: {left:'title', right:'', center:''},
+      disabledDays: [2,30],
 
-      dayClick: function(date, jsEvent, view) {        
+      dayClick: function(date, allDay, jsEvent, view) {        
         //Abrir modal 
         //$('#modal1').modal('open');
+
+      //   if(allDay) {
+      //     alert('That is not a valid time slot!');
+      //     return;
+      // }
 
         //obtener la fecha
         this.fechaSeleccionada = date.format("DD/MM/YYYY");
@@ -259,7 +300,7 @@ var moment = $('#calendar').fullCalendar('getDate');
 
 this.CargarFechas(moment._i[0], moment._i[1]+1);
 
-    M.toast({html: 'Calendario iniciado!'});
+    M.toast({html: '<strong> Calendario de ' + this._gbl.hotelSelected+ ' iniciado <strong>', classes:' rounded  pink darken-2'});
 }
 
 // ***************************************************************************************
@@ -276,7 +317,7 @@ this.CargarFechas(moment._i[0], moment._i[1]+1);
 GetFecha()
 {
   var moment = $('#calendar').fullCalendar('getDate');
-  alert("The current date of the calendar is " + moment.format());
+  alert("Fecha actual " + moment.format());
 }
 // ***************************************************************************************
 //  TODAY 
@@ -391,11 +432,14 @@ resetFormulario() {
   //this.selectedId = 0;
 }
 
+// ***************************************************************************************
+//  GUARDAR CAMBIOS 
+// ***************************************************************************************
 save(){
 
  let itemAgenda: Agenda = Object.assign({}, this.formG.value)
 
- itemAgenda.hotelId = 1; //provisional
+ itemAgenda.hotelId = this._gbl.hotelIdSelected; 
  itemAgenda.estadoAgendaId = 1;
 
 // validar campos vacios
@@ -412,29 +456,47 @@ let fb = this.GenFecha(this.formG.value.fechaBoda);
 
  itemAgenda.fechaBoda = fb;
 
+ if(!this.modoEdicion )
+ {
  // CREAR
+ //console.log('crear : ' +  this.formG.value.fechaBoda);
+
  this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
-
-  //Respuesta post
-if(resp.ok)
-{
-  var moment = $('#calendar').fullCalendar('getDate');
-  this.resetFormulario();
-
-  console.log(moment._i[0], moment._i[1]);
-
-  this.CargarFechas(moment._i[0], moment._i[1]+1);
-  
-  // limpiar datos
-  this.modoEdicion = false;
-  this.agendaIdSelected = 0;
-  this.tipoAgendaSelected = 0;
-}
-
-
+        //Respuesta post
+        if(resp.ok)
+        {
+          M.toast({html: 'El registro se guardó correctamente!', classes: 'rounded pink darken-3'});
+          var moment = $('#calendar').fullCalendar('getDate');
+          this.resetFormulario();        
+          this.CargarFechas(moment._i[0], moment._i[1]+1); 
+        }
  });
+}
+else
+{
+  //console.log('actualizar fboda: ' + this.formG.value.fechaBoda);
+ //ACTUALIZAR
+  this._servicioAgenda.ActualizarAgenda(itemAgenda, this.agendaIdSelected).subscribe( (resp:any) => {
+    //Respuesta post
+    if(resp.ok)
+    {
+      M.toast({html: '<strong>El registro se actualizó correctamente!</strong>', classes:'rounded  pink darken-3'});
+      var moment = $('#calendar').fullCalendar('getDate');
+      this.resetFormulario();            
+      this.CargarFechas(moment._i[0], moment._i[1]+1);     
+    }
+});
+
+}
+ // limpiar datos
+ this.modoEdicion = false;
+ this.agendaIdSelected = 0;
+ this.tipoAgendaSelected = 0;
+
+
 
 this.resetFormulario();
+
 }
 
 
@@ -551,6 +613,27 @@ GetDivisas()
 initSelect()
 {
   $('select').formSelect();
+  // $('.tooltipped').tooltip();
+//   $('.datepicker').datepicker({
+//     format:'dd/mm/yyyy', 
+//     // autoClose:true,
+//     // closeOnSelect: true,
+//    selectMonths: false,
+//    selectYears: 5,
+//    firstDay: true, 
+//    today:false,
+//    formatSubmit: 'dd/mm/yyyy',
+//    i18n: {
+//     cancel: 'Cancelar',
+//     clear: 'Limpiar',
+//     done:    'Ok',
+//     today: 'Hoy',
+//     months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+//     monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
+//     weekdays: ["Domingo","Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+//     weekdaysShort: ["Dom","Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+//     weekdaysAbbrev: ["D","L", "M", "M", "J", "V", "S"]
+// }});
  // $('.datepicker').datepicker();
 }
 
@@ -575,6 +658,7 @@ patchFecha()
  // this.formG.reset();
  var fechab = $('#fboda').val();
 
+console.log('patch val :'  + fechab);
 
 this.formG.patchValue({
     fechaBoda : fechab       
@@ -659,12 +743,22 @@ modalEdicion()
   var ida = $('#idagendaedit').val();
   var tipoa = $('#tipoagenda').val();
 
+  this.idAgenda= ida;
+  this.tipoAgenda=tipoa;
   this.modoEdicion = true;
 
+if(tipoa == -1)
+this.progreso = 0
+if(tipoa == 1)
+this.progreso = 10
+if(tipoa == 2)
+this.progreso = 50
+if(tipoa == 3)
+this.progreso = 85
+if(tipoa == 4)
+this.progreso = 100
+
   // this.resetFormulario();
-
-  console.log('reset ediciion');
-
 var agendadb:any;
 
 // consular agenda
@@ -675,7 +769,7 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
     {
       agendadb = resp.agenda;
 
-      console.table(agendadb);
+      // console.table(agendadb);
 
       this.agendaIdSelected = ida;
       this.tipoAgendaSelected = agendadb.estadoAgendaId;

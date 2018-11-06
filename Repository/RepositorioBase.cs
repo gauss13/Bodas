@@ -92,7 +92,6 @@ namespace Repository
             //     start  : '2018-10-09T12:30:00',
             //return await appDbContext.Agendas.Where(x => x.FechaBoda.Value.Year == anio && x.FechaBoda.Value.Month == mes)
             //    .Select(f => new AgendaFechas { idagenda = f.Id, start = $"{f.FechaBoda.Value.ToString("yyyy-MM-dd")}T{f.HoraBoda}", end = null, estatus = f.EstadoAgendaId, title = "", url = "" }).ToListAsync();
-            
             //&& x.Activo == true
             return await appDbContext.Agendas.Where(x => x.FechaBoda.Value.Year == anio && x.FechaBoda.Value.Month == mes && x.HotelId == hotel )
               .Select(a => new Agenda { Id = a.Id, FechaBoda = a.FechaBoda, HoraBoda = a.HoraBoda, EstadoAgendaId = a.EstadoAgendaId }).ToListAsync();
@@ -273,6 +272,16 @@ namespace Repository
         public AppDbContext appDbContext
         {
             get { return Context as AppDbContext; }
+        }
+
+        public async Task<IEnumerable<DiasBloqueados>> GetFechasByMes(int hotel, int anio, int mes)
+        {
+            return await appDbContext.DiasBloquedo.Where(x => x.Fecha.Year == anio && x.Fecha.Month == mes && x.HotelId == hotel)
+                .ToListAsync();
+
+            //return await appDbContext.Agendas.Where(x => x.FechaBoda.Value.Year == anio && x.FechaBoda.Value.Month == mes && x.HotelId == hotel)
+            // .Select(a => new Agenda { Id = a.Id, FechaBoda = a.FechaBoda, HoraBoda = a.HoraBoda, EstadoAgendaId = a.EstadoAgendaId }).ToListAsync();
+
         }
     }
 

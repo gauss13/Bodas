@@ -11,7 +11,7 @@ const pagesRoutes: Routes = [
 // {path: '', component:,data:{}}
 {path: 'dashboard', component: DashboardComponent ,data:{titulo:'Dashborad'}, canActivate:[VerificaTokenGuard]},
 {path: 'lugarcena', component: LugarcenaComponent ,data:{titulo:'Lugar Cena'}},
-{path: 'agenda', component: AgendaComponent ,data:{titulo:'Agenda'}},
+{path: 'agenda/:abc', component: AgendaComponent ,data:{titulo:'Agenda'}},
 
 {path: '', redirectTo: '/dashboard', pathMatch : 'full'}
 

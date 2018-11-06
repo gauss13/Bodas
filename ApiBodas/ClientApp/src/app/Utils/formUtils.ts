@@ -18,7 +18,7 @@ function mostrarErrorx(campo:string, fg:FormGroup, textoDeValidacion: any, error
 
  function onCambioValorx(fg:FormGroup, textoDeValidacion: any, errorCampos: any) {
 
-    console.log(' cambio valor');
+   // console.log(' cambio valor');
   
     // console.log(this.errorCampos);
   

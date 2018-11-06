@@ -1,21 +1,21 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
     <li *ngIf="gbl.hotelSeleccionado"><a routerLinkActive="active" routerLink="/lugarcena">Lugar Cena</a></li>
-    <li *ngIf="gbl.hotelSeleccionado"><a href="#">two</a></li>
+    <li *ngIf="gbl.hotelSeleccionado"><a href="#">Dos</a></li>
     <li *ngIf="gbl.hotelSeleccionado" class="divider"></li>
-    <li *ngIf="gbl.hotelSeleccionado"><a href="#">three</a></li>
+    <li *ngIf="gbl.hotelSeleccionado"><a href="#">Tres</a></li>
     <li *ngIf="!gbl.hotelSeleccionado"><a class="modal-trigger" href="#modalselhotel">Seleccionar hotel</a></li>
 </ul>
 <!-- movil -->
 <ul id="dropdown11" class="dropdown-content">
-    <li><a href="#">one</a></li>
-    <li><a href="#">two</a></li>
+    <li><a href="#">Uno</a></li>
+    <li><a href="#">Dos</a></li>
     <li class="divider"></li>
-    <li><a href="#">three</a></li>
+    <li><a href="#">Tres</a></li>
 </ul>
 <!-- Dropdown Structure -->
 <ul id="dropdown2" class="dropdown-content">
-    <li *ngIf="gbl.hotelSeleccionado"><a routerLinkActive="active" routerLink="/agenda">Agenda</a></li>
+    <li *ngIf="gbl.hotelSeleccionado"><a routerLinkActive="active" routerLink="/agenda/ini">Agenda</a></li>
     <li *ngIf="gbl.hotelSeleccionado"><a href="#">Verde</a></li>
     <li *ngIf="gbl.hotelSeleccionado" class="divider"></li>
     <li *ngIf="gbl.hotelSeleccionado"><a href="#">Rojo</a></li>
@@ -24,7 +24,7 @@
 <div class="navbar-fixed">
     <nav class=" cyan darken-4" role="navigation">
         <!-- <a id="logo-container" href="#" class="brand-logo"> {{gbl.tituloModulo}}</a> / -->
-        <div class="nav-wrapper container"> <a class="brand-logo   modal-trigger" href="#modalselhotel">{{gbl.hotelSelected}}</a>
+        <div class="nav-wrapper container"> <a class="brand-logo   modal-trigger" href="#modalselhotel">{{gbl.hotelSelected}} <i class="material-icons right"></i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a routerLinkActive="active" routerLink="/dashboard"> Inicio</a></li>
                 <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Catalogos<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -48,16 +48,13 @@
         <!-- <p>A bunch of text</p> -->
 
         <ul class="collection">
-
             <a class="modal-close collection-item avatar" *ngFor="let hotel of hoteles" (click)="fnSelect(hotel)">
                 <i class="material-icons circle pink darken-3">folder</i>
-                <span class="title"><h5>{{hotel.nombre}}</h5></span>
-                <h6>First Line Second Line </h6>
+                <span class="title"><h5>{{hotel.id}} | {{hotel.nombre}}</h5></span>
+                <h6>Hotel sandos - </h6>
                 <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
             </a>
-
         </ul>
-
     </div>
     <div class="modal-footer">
         <!-- <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a> -->

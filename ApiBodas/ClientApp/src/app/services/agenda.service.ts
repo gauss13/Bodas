@@ -36,7 +36,7 @@ GetFechasPorMes(an:number, mes:number, idh:number)
 }
 
 // ***************************************************************************************
-//   POST
+//   POST - CREAR
 // ***************************************************************************************
 CrearAgenda(item: Agenda)
 {
@@ -48,6 +48,24 @@ CrearAgenda(item: Agenda)
 
     map( (resp:any) => {
 
+      return resp;
+    })
+  );
+
+}
+
+// ***************************************************************************************
+//  POST ACTUALIZAR 
+// ***************************************************************************************
+ActualizarAgenda(item: Agenda, id:number)
+{
+  const url= URL_SERVICIOS + "/api/Agenda/" +id;
+
+  const headersj = new HttpHeaders({'Content-Type':'application/json'});
+
+  return this.http.put(url,item,{headers: headersj}).pipe(
+
+    map( (resp:any) => {
       return resp;
     })
   );

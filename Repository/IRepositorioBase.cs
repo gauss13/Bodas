@@ -93,6 +93,7 @@ namespace Repository
 
     public interface IRepositorioDiasBloqueados : IRepositorioBase<DiasBloqueados>
     {
+        Task<IEnumerable<DiasBloqueados>> GetFechasByMes(int hotel, int anio, int mes);
     }
 
     public interface IRepositorioComentario : IRepositorioBase<Comentario>

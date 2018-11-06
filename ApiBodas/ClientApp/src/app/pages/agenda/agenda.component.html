@@ -15,13 +15,18 @@
 
 <!-- Formulario Agenda disabled-->
 <!-- Modal Structure -->
-<div id="modal1" class="modal">
+<div id="modal1" class="modal ">
 
     <form [formGroup]="formG" (ngSubmit)="save()">
         <div class="modal-content">
             <input type="hidden" id="idagendaedit" value="0" />
             <input type="hidden" id="tipoagenda" value="0" />
-            <h4> {{ modoEdicion ? 'Editar' : 'Agregar Nuevo'}}</h4>
+            <h5 class=" "> {{idAgenda}} {{ modoEdicion ? ' | Editar' : ' | Agregar Nuevo'}} </h5>
+
+            <div class="progress ">
+                <div class="determinate blue darken-4" [style.width]="progreso +'%'"></div>
+            </div>
+            <p>agregar nuevo registro de </p>
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">event_available</i>
@@ -62,7 +67,7 @@
             <div class="row">
                 <div class="input-field col s6">
 
-                    <input id="nacionalidad" type="text" class="autocomplete" [ngClass]=" errorCampos.nacionalidad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nacionalidad') " formControlName="nacionalidad">
+                    <input id="nacionalidad" type="text" class="autocomplete" maxlength="2" [ngClass]=" errorCampos.nacionalidad  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nacionalidad') " formControlName="nacionalidad">
 
                     <label for="nacionalidad" class="active">Nacionalidad</label>
                     <span class="helper-text" *ngIf="errorCampos.nacionalidad" [innerHTML]="errorCampos.nacionalidad">Helper text</span>
@@ -152,7 +157,7 @@
 
 
                 <div class="input-field col s6">
-                    <input id="nombreAgente" type="text" [ngClass]=" errorCampos.nombreAgente  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombreAgente') " formControlName="nombreAgente">
+                    <input id="nombreAgente" type="text" maxlength="50" [ngClass]=" errorCampos.nombreAgente  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombreAgente') " formControlName="nombreAgente">
                     <label for="nombreAgente" class="active">Nombre Agente</label>
                     <span class="helper-text" *ngIf="errorCampos.nombreAgente" [innerHTML]="errorCampos.nombreAgente">...</span>
                 </div>
