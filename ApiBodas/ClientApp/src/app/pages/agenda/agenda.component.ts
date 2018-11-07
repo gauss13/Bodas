@@ -747,16 +747,15 @@ modalEdicion()
   this.tipoAgenda=tipoa;
   this.modoEdicion = true;
 
-if(tipoa == -1)
+if(tipoa == -1) // Cancelado
 this.progreso = 0
-if(tipoa == 1)
-this.progreso = 10
-if(tipoa == 2)
-this.progreso = 50
-if(tipoa == 3)
-this.progreso = 85
-if(tipoa == 4)
+if(tipoa == 1)//Tentativo
+this.progreso = 15
+if(tipoa == 2) // Confirmado
+this.progreso = 55
+if(tipoa == 3) // terminado
 this.progreso = 100
+
 
   // this.resetFormulario();
 var agendadb:any;
@@ -869,7 +868,7 @@ ConfirmarAgenda()
 // ***************************************************************************************
 CancelarAgenda()
 {
-  this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,3).subscribe(
+  this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,-1).subscribe(
     (resp:any)=> {
 
       if(resp.ok == true)

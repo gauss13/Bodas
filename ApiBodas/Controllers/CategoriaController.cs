@@ -13,11 +13,11 @@ namespace ApiBodas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriaServicioController : ControllerBase
+    public class CategoriaController : ControllerBase
     {
         public IRepositorioWrapper Repositorio { get; }
 
-        public CategoriaServicioController(IRepositorioWrapper rw)
+        public CategoriaController(IRepositorioWrapper rw)
         {
             Repositorio = rw;
         }
@@ -28,7 +28,7 @@ namespace ApiBodas.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var item = await this.Repositorio.CategoriasServicios.GetByIdAsync(id);
+            var item = await this.Repositorio.Categorias.GetByIdAsync(id);
 
             if (item == null)
             {
@@ -49,10 +49,12 @@ namespace ApiBodas.Controllers
             });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("{h:int}")]
+        public async Task<IActionResult> GetAll(int h)
         {
-            var lista = await this.Repositorio.CategoriasServicios.GetAllAsyc();
+            //var lista = await this.Repositorio.Categorias.GetAllAsyc();
+
+            var lista = await this.Repositorio.Categorias.FindAsyc(x => x.HotelId == h);
 
             // BAD REQUEST
             if (!lista.Any())
@@ -71,19 +73,19 @@ namespace ApiBodas.Controllers
             {
                 ok = true,
                 total = lista.Count(),
-                CategoriaServicio = lista
+                categoria = lista
             };
 
             return Ok(obj);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear([FromBody] CategoriaServicio item)
+        public async Task<IActionResult> Crear([FromBody] Categoria item)
         {
             try
             {
 
-                var r = await this.Repositorio.CategoriasServicios.AddAsync(item);
+                var r = await this.Repositorio.Categorias.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
 
                 var obj = new
@@ -111,7 +113,7 @@ namespace ApiBodas.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Actualizar([FromBody] CategoriaServicio itemNuevo, int id)
+        public async Task<IActionResult> Actualizar([FromBody] Categoria itemNuevo, int id)
         {
 
             try
@@ -119,7 +121,7 @@ namespace ApiBodas.Controllers
                 itemNuevo.Id = id;
 
 
-                var itemEncontrado = await this.Repositorio.CategoriasServicios.GetByIdAsync(id);
+                var itemEncontrado = await this.Repositorio.Categorias.GetByIdAsync(id);
 
                 if (itemEncontrado == null)
                 {
@@ -128,7 +130,7 @@ namespace ApiBodas.Controllers
 
                 itemEncontrado.Map(itemNuevo);
 
-                var r = this.Repositorio.CategoriasServicios.Update(itemEncontrado);
+                var r = this.Repositorio.Categorias.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 
                 var obj = new

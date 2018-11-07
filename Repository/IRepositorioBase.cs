@@ -124,7 +124,7 @@ namespace Repository
     {
     }
 
-    public interface IRepositorioCategoriaServicio : IRepositorioBase<CategoriaServicio>
+    public interface IRepositorioCategoria : IRepositorioBase<Categoria>
     {
     }
 

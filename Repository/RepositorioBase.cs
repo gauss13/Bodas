@@ -372,9 +372,9 @@ namespace Repository
         }
     }
 
-    public class RepositorioCategoriaServicio : RepositorioBase<CategoriaServicio>, IRepositorioCategoriaServicio
+    public class RepositorioCategoria : RepositorioBase<Categoria>, IRepositorioCategoria
     {
-        public RepositorioCategoriaServicio(AppDbContext contexto) : base(contexto)
+        public RepositorioCategoria(AppDbContext contexto) : base(contexto)
         {
         }
 

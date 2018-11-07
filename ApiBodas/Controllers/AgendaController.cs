@@ -124,24 +124,24 @@ namespace ApiBodas.Controllers
 
             // DIAS BLOQUEADOS
       
-            foreach (var dia in listaBloqueadas)
-            {
-                AgendaFechas iagenda = new AgendaFechas();
+            //foreach (var dia in listaBloqueadas)
+            //{
+            //    AgendaFechas iagenda = new AgendaFechas();
 
-                iagenda.idagenda = 0;
-                iagenda.start = $"{dia.Fecha.ToString("yyyy-MM-dd")}T00:00";
-                iagenda.end = $"{dia.Fecha.ToString("yyyy-MM-dd")}T00:00"; ;
-                iagenda.title = "Bloqueado";
-                iagenda.estatus = -1;
-                iagenda.url = "";
-                iagenda.color = "";
-                iagenda.textColor = "";
-                iagenda.editable = false;
-                iagenda.selectable = false;
-                iagenda.allDay = true;
+            //    iagenda.idagenda = 0;
+            //    iagenda.start = $"{dia.Fecha.ToString("yyyy-MM-dd")}T00:00";
+            //    iagenda.end = $"{dia.Fecha.ToString("yyyy-MM-dd")}T00:00"; ;
+            //    iagenda.title = "Bloqueado";
+            //    iagenda.estatus = -1;
+            //    iagenda.url = "";
+            //    iagenda.color = "";
+            //    iagenda.textColor = "";
+            //    iagenda.editable = false;
+            //    iagenda.selectable = false;
+            //    iagenda.allDay = true;
 
-                listaFechas.Add(iagenda);
-            }
+            //    listaFechas.Add(iagenda);
+            //}
 
             // AGREGAR A LA LISTA 
 
@@ -178,8 +178,8 @@ namespace ApiBodas.Controllers
                     return ("Tentativo", "blue", "white"); 
                 case 2:
                     return ("Confirmado", "green", "white");  
-                case 4:
-                    return ("Terminado", "", "white");
+                case 3:
+                    return ("Terminado", "orange", "white");
                 default:
                     return ("Otro", "blue", "white"); 
 

@@ -28,10 +28,14 @@ namespace Entities.Models.Masterfiles
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Total { get; set; }
         [StringLength(150)]
-        public string Img { get; set; }
+        public string Img { get; set; } // img podra ser una imagen por servicio
         public int DivisaId { get; set; }
-       // public Divisa Divisa { get; set; }
+        public bool Adicional { get; set; } // productos adicionales 
+        public bool OcRequerido { get; set; } //requiere orden de compra ?
+        public bool OcRealizado { get; set; } //requiere orden de compra ?
 
     }
+
+ 
 
 }

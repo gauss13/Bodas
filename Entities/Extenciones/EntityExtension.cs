@@ -138,7 +138,7 @@ namespace Entities.Extenciones
         }
 
         //PAQUETES
-        public static void Map(this CategoriaServicio itemDb, CategoriaServicio item)
+        public static void Map(this Categoria itemDb, Categoria item)
         {
             itemDb.Descripcion = item.Descripcion;
         }
@@ -155,7 +155,7 @@ namespace Entities.Extenciones
             itemDb.PrecioSugerido = item.PrecioSugerido;
             itemDb.Nota = item.Nota;
             itemDb.Img = item.Img;
-            itemDb.CategoriaServicioId = item.CategoriaServicioId;
+            itemDb.CategoriaId = item.CategoriaId;
             itemDb.DivisaId = item.DivisaId;
         }
 

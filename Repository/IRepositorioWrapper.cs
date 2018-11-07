@@ -27,7 +27,7 @@ namespace Repository
         IRepositorioPaquete Paquetes { get; }
         IRepositorioServicio Servicios { get; }
         IRepositorioPaqueteServicio PaquetesServicios { get; }
-        IRepositorioCategoriaServicio CategoriasServicios { get; }
+        IRepositorioCategoria Categorias { get; }
         IRepositorioUsuario Usuarios { get; }
         IRepositorioRole Roles { get; }
         IRepositorioDivisa Divisas { get; }

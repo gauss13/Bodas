@@ -7,12 +7,18 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutofocusDirective } from "../directives/autofocus.directive";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AgendaComponent } from './agenda/agenda.component';
+import { CategoriaComponent } from './paquetes/categoria/categoria.component';
+import { ServicioComponent } from './paquetes/servicio/servicio.component';
 // import { Globalx } from "../config/global";
 
 
 
 @NgModule({
-    declarations:[LugarcenaComponent, AutofocusDirective, DashboardComponent, AgendaComponent],
+    declarations:[LugarcenaComponent,
+                  AutofocusDirective, 
+                  DashboardComponent, 
+                  AgendaComponent, 
+                  CategoriaComponent, ServicioComponent],
     exports:[LugarcenaComponent],
     imports:[CommonModule, FormsModule, ReactiveFormsModule,
             SharedModule,

@@ -28,6 +28,9 @@ namespace Entities.Contexts
             modelBuilder.Entity<PaqueteServicio>().HasKey(x => new { x.PaqueteId, x.ServicioId });
             //Otra llave compuesta
             modelBuilder.Entity<UsuarioHotel>().HasKey(x => new { x.UsuarioId, x.HotelId });
+            // Otra llave
+            modelBuilder.Entity<DepartamentoServicio>().HasKey(x => new { x.DepartamentoId, x.ServicioId });
+
             #endregion
 
             #region Delete FK
@@ -66,7 +69,7 @@ namespace Entities.Contexts
         public DbSet<Paquete> Paquetes { get; set; }
         public DbSet<PaqueteServicio> PaqueteServicio { get; set; }
         public DbSet<Servicio> Servicios { get; set; }
-        public DbSet<CategoriaServicio> CategoriasServicios { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Divisa> Divisas { get; set; }
@@ -74,5 +77,7 @@ namespace Entities.Contexts
 
         public DbSet<Ttoo> Ttoos { get; set; }
         public DbSet<Agente> Agentes { get; set; }
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<DepartamentoServicio> DepartamentosServicios { get; set; }
     }
 }

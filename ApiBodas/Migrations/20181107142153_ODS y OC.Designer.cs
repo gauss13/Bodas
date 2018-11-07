@@ -4,14 +4,16 @@ using Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181107142153_ODS y OC")]
+    partial class ODSyOC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -469,7 +471,7 @@ namespace ApiBodas.Migrations
                     b.ToTable("MasterFileContenido");
                 });
 
-            modelBuilder.Entity("Entities.Models.Paquetes.Categoria", b =>
+            modelBuilder.Entity("Entities.Models.Paquetes.CategoriaServicio", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -478,37 +480,9 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
-                    b.Property<int>("HotelId");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Categorias");
-                });
-
-            modelBuilder.Entity("Entities.Models.Paquetes.Departamento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("HotelId");
-
-                    b.Property<string>("Nombre");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departamentos");
-                });
-
-            modelBuilder.Entity("Entities.Models.Paquetes.DepartamentoServicio", b =>
-                {
-                    b.Property<int>("DepartamentoId");
-
-                    b.Property<int>("ServicioId");
-
-                    b.HasKey("DepartamentoId", "ServicioId");
-
-                    b.ToTable("DepartamentosServicios");
+                    b.ToTable("CategoriasServicios");
                 });
 
             modelBuilder.Entity("Entities.Models.Paquetes.Paquete", b =>
@@ -525,13 +499,6 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
-                    b.Property<int>("DivisaId");
-
-                    b.Property<int>("HotelId");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Paquetes");
@@ -542,14 +509,6 @@ namespace ApiBodas.Migrations
                     b.Property<int>("PaqueteId");
 
                     b.Property<int>("ServicioId");
-
-                    b.Property<int>("Cantidad");
-
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("PaqueteId", "ServicioId");
 
@@ -566,14 +525,12 @@ namespace ApiBodas.Migrations
 
                     b.Property<bool>("Activo");
 
-                    b.Property<int>("CategoriaId");
+                    b.Property<int>("CategoriaServicioId");
 
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
                     b.Property<int>("DivisaId");
-
-                    b.Property<int>("HotelId");
 
                     b.Property<string>("Img")
                         .HasMaxLength(250);
@@ -586,7 +543,7 @@ namespace ApiBodas.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex("CategoriaServicioId");
 
                     b.HasIndex("DivisaId");
 
@@ -735,9 +692,9 @@ namespace ApiBodas.Migrations
 
             modelBuilder.Entity("Entities.Models.Paquetes.Servicio", b =>
                 {
-                    b.HasOne("Entities.Models.Paquetes.Categoria", "Categoria")
+                    b.HasOne("Entities.Models.Paquetes.CategoriaServicio", "Categoria")
                         .WithMany()
-                        .HasForeignKey("CategoriaId")
+                        .HasForeignKey("CategoriaServicioId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Entities.Models.Catalogos.Divisa", "Divisa")

@@ -23,8 +23,8 @@ namespace ApiBodas.Controllers
 
         // ->> ACTIONS
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{h:int}/{id:int}")]
+        public async Task<IActionResult> GetById(int h, int id)
         {
             var item = await this.Repositorio.Servicios.GetByIdAsync(id);
 
@@ -47,10 +47,14 @@ namespace ApiBodas.Controllers
             });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("{h:int}")]
+        public async Task<IActionResult> GetAll(int h)
         {
-            var lista = await this.Repositorio.Servicios.GetAllAsyc();
+          //  var lista = await this.Repositorio.Servicios.GetAllAsyc();
+            //var lista = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == itemNuevo.PaqueteId && x.ServicioId == itemNuevo.ServicioId);
+
+            var lista = await this.Repositorio.Servicios.FindAsyc(x => x.HotelId == h);
+            
 
             // BAD REQUEST
             if (!lista.Any())
@@ -87,7 +91,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    Servicio = r
+                    servicio = r
                 };
 
                 return Created("", obj);
@@ -132,12 +136,11 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    Servicio = itemEncontrado
+                    servicio = itemEncontrado
                 };
 
                 return Created("", obj);
-
-
+                
             }
             catch (Exception ex)
             {

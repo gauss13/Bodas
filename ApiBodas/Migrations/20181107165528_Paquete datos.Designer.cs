@@ -4,14 +4,16 @@ using Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181107165528_Paquete datos")]
+    partial class Paquetedatos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -529,8 +531,7 @@ namespace ApiBodas.Migrations
 
                     b.Property<int>("HotelId");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<decimal>("Total");
 
                     b.HasKey("Id");
 
@@ -545,11 +546,9 @@ namespace ApiBodas.Migrations
 
                     b.Property<int>("Cantidad");
 
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<decimal>("PrecioUnitario");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<decimal>("Total");
 
                     b.HasKey("PaqueteId", "ServicioId");
 

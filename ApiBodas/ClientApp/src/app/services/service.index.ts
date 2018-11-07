@@ -1,3 +1,5 @@
+export { GenericoService } from './generico.service';
+
 export { HotelService } from './hotel.service';
 
 export { DivisaService } from './divisa.service';

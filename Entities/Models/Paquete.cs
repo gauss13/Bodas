@@ -10,12 +10,16 @@ namespace Entities.Models.Paquetes
   public  class Paquete
     {
         public int Id { get; set; }
+        public int HotelId { get; set; }
         [StringLength(150)]
         public string Descripcion { get; set; }
         [StringLength(50)]
         public string Clave { get; set; }
         public bool Activo { get; set; }
         public List<PaqueteServicio> PaqueteServicios { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Total { get; set; }
+        public int DivisaId { get; set; }
     }
 
     
@@ -23,6 +27,7 @@ namespace Entities.Models.Paquetes
     public class Servicio
     {
         public int Id { get; set; }
+        public int HotelId { get; set; }
         [StringLength(150)]
         public string Descripcion { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
@@ -31,13 +36,32 @@ namespace Entities.Models.Paquetes
         public string Nota { get; set; }
         [StringLength(250)]
         public string Img { get; set; }
-        public int CategoriaServicioId { get; set; }
+        public int CategoriaId { get; set; }
         public bool Activo { get; set; }
-        public CategoriaServicio Categoria { get; set; }
+        public Categoria Categoria { get; set; }
         public int DivisaId { get; set; }
         public Divisa Divisa { get; set; }
-       
+      //  public string Departamentos { get; set; } // un servicio puede estar ligado a uno o varios departamentos
+
     }
+
+    // un servicio puede estar ligado a uno o varios departamentos
+    public class DepartamentoServicio
+    {
+        public int ServicioId { get; set; }
+        public int DepartamentoId { get; set; }
+    }
+
+    public class Departamento
+    {
+        public int Id { get; set; }
+        public int HotelId { get; set; }
+        public string Nombre { get; set; }
+
+
+    }
+
+
 
     public class PaqueteServicio
     {
@@ -45,12 +69,18 @@ namespace Entities.Models.Paquetes
         public int ServicioId { get; set; }
         public Paquete Paquete { get; set; }
         public Servicio Servicio { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal PrecioUnitario { get; set; }
+        public int Cantidad { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Total { get; set; }
     }
 
 
-    public class CategoriaServicio
+    public class Categoria
     {
         public int Id { get; set; }
+        public int HotelId { get; set; }
         [StringLength(150)]
         public string Descripcion { get; set; }
     }

@@ -4,14 +4,16 @@ using Entities.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181107164234_DbSet CategoriaServicio")]
+    partial class DbSetCategoriaServicio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -525,12 +527,7 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
-                    b.Property<int>("DivisaId");
-
                     b.Property<int>("HotelId");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -542,14 +539,6 @@ namespace ApiBodas.Migrations
                     b.Property<int>("PaqueteId");
 
                     b.Property<int>("ServicioId");
-
-                    b.Property<int>("Cantidad");
-
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("PaqueteId", "ServicioId");
 
@@ -566,7 +555,9 @@ namespace ApiBodas.Migrations
 
                     b.Property<bool>("Activo");
 
-                    b.Property<int>("CategoriaId");
+                    b.Property<int?>("CategoriaId");
+
+                    b.Property<int>("CategoriaServicioId");
 
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
@@ -737,8 +728,7 @@ namespace ApiBodas.Migrations
                 {
                     b.HasOne("Entities.Models.Paquetes.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CategoriaId");
 
                     b.HasOne("Entities.Models.Catalogos.Divisa", "Divisa")
                         .WithMany()

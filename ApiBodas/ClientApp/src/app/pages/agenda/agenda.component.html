@@ -170,13 +170,13 @@
 
 
 
-                <div class="input-field col s3">
+                <div class="input-field col s4">
                     <input id="comision" type="number" [ngClass]=" errorCampos.comision  ? 'invalid' : 'valid' " (blur)="mostrarError( 'comision') " formControlName="comision">
                     <label for="comision" class="active">Comision</label>
                     <span class="helper-text" *ngIf="errorCampos.comision" [innerHTML]="errorCampos.comision">...</span>
                 </div>
 
-                <div class="input-field col s3">
+                <div class="input-field col s2">
                     <select formControlName="divisaComision">
                          <option  disabled >Sel Divisa</option>
                                <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
@@ -184,17 +184,13 @@
                     <label class="active">Divisa</label>
                 </div>
 
+                <div class="input-field col s6">
+                    <input id="fechaPago" type="date" [ngClass]=" errorCampos.fechaPago  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaPago') " formControlName="fechaPago">
+                    <label for="fechaPago" class="active">Fecha Pago</label>
+                    <span class="helper-text" *ngIf="errorCampos.fechaPago" [innerHTML]="errorCampos.fechaPago">...</span>
+                </div>
+
             </div>
-
-            <div class="input-field col s6">
-                <input id="fechaPago" type="date" [ngClass]=" errorCampos.fechaPago  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaPago') " formControlName="fechaPago">
-                <label for="fechaPago" class="active">Fecha Pago</label>
-                <span class="helper-text" *ngIf="errorCampos.fechaPago" [innerHTML]="errorCampos.fechaPago">...</span>
-            </div>
-
-
-
-
 
             <div class="row">
                 <div class="input-field col s3">

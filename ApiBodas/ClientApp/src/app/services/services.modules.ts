@@ -4,15 +4,16 @@ import { HttpClientModule } from "@angular/common/http";
 // import { LugarcenaService } from './lugarcena.service';
 import { HeaderService } from "./header.service";
 
-
-
 import { LoginGuardGuard, LugarcenaService, 
     UsuarioService,
     AgendaService,
     HoraService,
     LugarceremoniaService,
 TipoceremoniaService, 
-BackupService, PaqueteService, AgenciaService, DivisaService, HotelService } from './service.index';
+BackupService, PaqueteService, 
+AgenciaService, DivisaService, 
+HotelService,
+GenericoService } from './service.index';
 
 
 
@@ -35,7 +36,7 @@ BackupService, PaqueteService, AgenciaService, DivisaService, HotelService } fro
                PaqueteService,
                AgenciaService,
                DivisaService,
-            HotelService],
+            HotelService, GenericoService],
     declarations:[]
 
 })
