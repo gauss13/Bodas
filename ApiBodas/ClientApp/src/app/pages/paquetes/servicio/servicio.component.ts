@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 
 import { DivisaService, GenericoService  } from 'src/app/services/service.index';
 import { Servicio } from 'src/app/models/servicio.model';
+import { forEach } from '@angular/router/src/utils/collection';
+import { delay } from 'q';
+import { Categoria } from '../../../models/categoria.model';
 
 declare var $: any;
 declare var M: any;
@@ -22,12 +25,17 @@ export class ServicioComponent implements OnInit {
 
   textoDeValidacion: any;
   errorCampos: any;
+  textoDeValidacionCat: any;
+  errorCamposCat: any;
+
   modoEdicion: boolean= false;
+  setDataComplete:boolean= false;
   ignorarExistenCambiosPendientes: boolean = false;
   selectedId: number=0;
   idEdicion: number = 0;
   cargando: boolean = true;  
   fg : FormGroup;
+  fgcat : FormGroup;
 
   uriServicio:string =  '/api/Servicio/';
   uriCategoria:string =  '/api/Categoria/';
@@ -40,8 +48,8 @@ export class ServicioComponent implements OnInit {
   registros:any[] = [];// array vacio de catagorias
   totalRegistros : number =0;
   hoteles:Hotel[] = [];// array vacio
-  divisas:any;
-  categorias:any;
+  divisas:any[] = [];
+  categorias:any[] = [];
 
   constructor(private fb: FormBuilder,
     private _servicioHotel: HotelService,
@@ -62,6 +70,12 @@ export class ServicioComponent implements OnInit {
 
       } 
 
+      this.textoDeValidacionCat = {       
+            
+        descripcion: { required: 'El campo nombre de servicio es <strong>requerido</strong>.'  }      
+
+      } 
+
 
       this.errorCampos = {                 
         descripcion: '',
@@ -69,6 +83,10 @@ export class ServicioComponent implements OnInit {
         precioSugerido: '',
         divisaId: '',
         nota: ''
+      }
+
+      this.errorCamposCat = {                 
+        descripcion: ''       
       }
 
     }
@@ -84,11 +102,13 @@ export class ServicioComponent implements OnInit {
  
      // GET DATA
      this.construirFormulario();   
+     this.construirFormularioCat();
     //  this.cargarHoteles();
- this.cargaServicios();
- this.GetDivisas();
- this.GetCategorias();
- 
+    //  this.GetDivisas();
+    //this.GetCategorias();
+    this.loadData()
+   // this.setDataLeft();
+
  
     // READY JQUERY
      $(document).ready(function(){
@@ -96,6 +116,10 @@ export class ServicioComponent implements OnInit {
        $('.modal').modal({ onOpenEnd: function () {  $('#lugarc').focus(); }});  
     
      });
+
+// cargar servicios
+//this.cargaServicios(); 
+
   }
 
   // ***************************************************************************************
@@ -108,12 +132,19 @@ initSelect()
 
 // *************************************GET DATOS*****************************************
 
-// cargarHoteles()
-// {
-//   this._servicioHotel.GetHoteles().subscribe(  (resp:any) => {
-//   this.hoteles = resp;
-//   });
-// }
+
+
+loadData()
+{
+  if( this.GetDivisas())
+   {
+     if(this.GetCategorias())
+     {
+       this.cargaServicios();
+     }
+   }
+}
+
 
 cargaServicios()
 {  const url = this.uriServicio+'/'+this._gbl.hotelIdSelected;
@@ -122,16 +153,98 @@ cargaServicios()
 if(resp.ok === true)
 {
 this.registros = resp.servicio;
+
+this.totalRegistros = resp.total;
+
 this.cargando = false;
-}
-  });
+
+  }
+},
+(error) => {},
+() => {
+
+ 
+ this.setDataPromesa().then();
 }
 
-GetDivisas()
+  
+  );
+
+
+}
+
+
+setDataPromesa(): Promise<boolean> {
+
+return new Promise<boolean>( (resolve, reject ) => {
+
+let contador = 0;
+
+const intervalo = setInterval(() => {
+
+contador += 1;
+
+console.log('contador : '+ contador);
+
+if( this.setDataComplete === false)
+this.setDataLeft();
+
+if(contador === 3)
+{
+  clearInterval(intervalo);
+  resolve(true); 
+}
+
+},500);
+
+
+
+})
+
+}
+
+setDataLeft()
+{
+
+
+if(this.categorias.length > 0 && this.divisas.length > 0 && this.registros.length > 0)
+{
+  for(var i= 0; i < this.registros.length; i++)
+  {    
+        if(this.categorias.length > 0 && this.divisas.length > 0)
+        {          
+          let itemCat = this.categorias.find( item => { return  item.id === this.registros[i].categoriaId });
+          let itemDiv = this.divisas.find( item => { return  item.id === this.registros[i].divisaId });
+
+             if(itemCat !== 'undefined')
+             {
+               this.registros[i].strCategoria = itemCat.descripcion;
+               this.registros[i].strDivisa = itemDiv.clave;
+             }
+
+        }//cat       
+
+  }//for
+
+  this.setDataComplete = true;
+}  
+
+}
+
+GetDivisas():boolean
 {
     this._divisaService.GetDivisas().subscribe( (resp:any) => {
-    this.divisas = resp.divisa;
+
+        if(resp.ok)
+        {        
+        this.divisas = resp.divisa;    
+
+        console.table(this.divisas);
+        return true;
+        }
     });
+
+return true;
 }
 
 GetCategorias()
@@ -141,17 +254,21 @@ GetCategorias()
 
     if(resp.ok == true)
     {
-      this.categorias = resp.categoria;
+      this.categorias = resp.categoria;  
+      console.table(this.categorias);    
+      return true;
     }
 
+  });
 
-  })
+  return true;
 }
 
 
 // ************************************ CONSTRUIR FORMULARIO  *********************************
 
 formChangesSub: any;
+
 
 construirFormulario() {
 
@@ -172,6 +289,11 @@ construirFormulario() {
   this.fg.markAsTouched();
   
   }
+
+ 
+
+
+
   mostrarError(campo){
     mostrarErrorx(campo, this.fg, this.textoDeValidacion, this.errorCampos);
     }
@@ -195,6 +317,55 @@ resetFormulario() {
   this.selectedId = 0;
 }
 
+/****************************** FORMULARIO DE CATEGORIA ************************************/
+
+
+formChangesSubCat: any;
+
+  construirFormularioCat() {
+
+
+
+    this.fgcat = this.fb.group( {
+      descripcion: ['', Validators.required]    
+    });
+    
+    // manejador del evento de cambio de valor en los inputs
+    this.formChangesSubCat = this.fgcat.valueChanges.subscribe( data => this.onCambioValorCat());
+    
+    // this.fgcat.touched;
+    
+    // this.fgcat.markAsTouched();
+    
+    }
+
+
+
+  mostrarErrorCat(campo){
+    mostrarErrorx(campo, this.fgcat, this.textoDeValidacionCat, this.errorCamposCat);
+    }
+
+onCambioValorCat()
+{
+  onCambioValorx( this.fgcat, this.textoDeValidacionCat, this.errorCamposCat);
+}
+
+
+existenCambiosPendientesCat(): boolean {
+
+  if (this.ignorarExistenCambiosPendientes) { return false;}
+
+  return !this.fgcat.pristine; //pristine indica si el formulario ha sido editado
+
+}
+
+resetFormularioCat() {
+  this.fgcat.reset();
+  //this.selectedId = 0;
+}
+
+
+
 
 // *********************************** MODALES - CREAR - EDITAR **************************
 
@@ -209,6 +380,13 @@ modalCrear()
   this.selectedId = 0;
   //this.nameField.nativeElement.focus();
  // this.renderer.invokeElementMethod(this.nameField.nativeElement,"focus");
+}
+
+modalCrearCat()
+{  
+  
+  this.resetFormularioCat();
+
 }
 
 
@@ -264,11 +442,22 @@ if(!this.modoEdicion)
 {
   let itemNuevo: Servicio = Object.assign({}, this.fg.value)
 
+  itemNuevo.hotelId = this._gbl.hotelIdSelected;
+
 this._servicioGenerico.CrearRegisto(itemNuevo,url).subscribe((resp:any) =>{
 
 //validar ok
 if(resp.ok === true)
 {
+  var itemdb:Servicio;
+  itemdb = resp.servicio;
+
+  let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
+  let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+
+  itemdb.strCategoria = itemCat.descripcion;
+  itemdb.strDivisa = itemDiv.clave;
+
   this.registros.push(resp.servicio)
   M.toast({html: '<strong> Se agregó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
 }
@@ -283,6 +472,8 @@ else // ACTUALIZAR
 
   let itemEditado: Servicio = Object.assign({}, this.fg.value)
 
+  itemEditado.hotelId = this._gbl.hotelIdSelected;
+
   this._servicioGenerico.Actualizar(itemEditado,urle).subscribe((resp:any) =>{
   
   //validar ok
@@ -293,7 +484,17 @@ else // ACTUALIZAR
 
     let pos = this.registros.indexOf(itemEncontrado);
 
-    this.registros[pos] = resp.servicio;
+    var itemdb:Servicio;
+    itemdb = resp.servicio;
+
+
+    let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
+    let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+  
+    itemdb.strCategoria = itemCat.descripcion;
+    itemdb.strDivisa = itemDiv.clave;
+
+    this.registros[pos] = itemdb;
 
     M.toast({html: '<strong> Se actualizó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
   }
@@ -302,7 +503,40 @@ else // ACTUALIZAR
 
 }
 
+
 }
+
+
+saveCategoria()
+{
+  this.ignorarExistenCambiosPendientes = true;
+
+  var url = this.uriCategoria;
+
+  let itemNuevo: Categoria = Object.assign({}, this.fgcat.value)
+
+  itemNuevo.hotelId = this._gbl.hotelIdSelected;
+
+console.log(itemNuevo);
+
+this._servicioGenerico.CrearRegisto(itemNuevo,url).subscribe((resp:any) =>{
+
+//validar ok
+if(resp.ok === true)
+{
+ 
+  this.categorias.push(resp.categoria)
+  M.toast({html: '<strong> Se agregó el nuevo registro Categoria, correctamente. <strong>', classes:' rounded  pink darken-2'});  
+}
+});
+
+
+
+
+
+}
+
+
 
 borrar(item:any)
 {

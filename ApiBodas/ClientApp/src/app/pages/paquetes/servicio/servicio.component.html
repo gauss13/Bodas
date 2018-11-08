@@ -10,16 +10,17 @@
 
                     <div class="text-right" *ngIf="!cargando">
                         <!-- Modal Trigger -->
-                        <button data-target="modals" class="btn modal-trigger" (click)="modalCrear()">Crear</button>
+                        <button data-target="modals" class="btn modal-trigger" (click)="modalCrear()">Crear Servicio</button>
+                        <button data-target="modalc" class="btn modal-trigger" (click)="modalCrearCat()">Agregar Categoria</button>
                     </div>
 
                     <h4 class="card-title">Servicios ({{totalRegistros}})</h4>
-                    <table id="tblRegistros" class="striped responsive-table ">
+                    <table id="tblRegistros" *ngIf="!cargando" class="striped responsive-table ">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Categoria</th>
-                                <th>Precio</th>
+                                <th>Precio Sugerido</th>
                                 <th>Divisa</th>
                                 <th>Nota</th>
                                 <th></th>
@@ -28,9 +29,11 @@
                         <tbody>
                             <tr *ngFor="let reg of registros">
                                 <td>{{ reg.descripcion }}</td>
-                                <td>{{ reg.categoriaId }}</td>
+
+                                <td>{{ reg.strCategoria }} </td>
+
                                 <td>{{ reg.precioSugerido }}</td>
-                                <td>{{ reg.divisaId }}</td>
+                                <td>{{ reg.strDivisa}}</td>
                                 <td>{{ reg.nota }}</td>
                                 <td>
                                     <button (click)="borrar(reg)" class="btn  red  lighten-1">
@@ -50,6 +53,31 @@
         </div>
 
     </div>
+</div>
+
+<!-- Modal Categoria -->
+<div id="modalc" class="modal">
+
+    <form [formGroup]="fgcat" (ngSubmit)="saveCategoria()">
+        <div class="modal-content">
+            <h4> Nueva Categoria</h4>
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="descripcioncat" type="text" [ngClass]=" errorCamposCat.descripcion  ? 'invalid' : 'valid' " (blur)="mostrarErrorCat( 'descripcion') " formControlName="descripcion" maxlength="120">
+
+                    <label for="descripcioncat" class="active">Nombre de Categoria</label>
+                    <span class="helper-text" *ngIf="errorCamposCat.descripcion" [innerHTML]="errorCamposCat.descripcion">Helper text</span>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
+            <button type="submit" [disabled]="!fgcat.valid" class="btn modal-close">  Guardar</button>
+        </div>
+    </form>
+
 </div>
 
 <!-- Modal Structure -->
@@ -123,8 +151,8 @@
                     </p>
                 </div>
             </div>
-            <br><br>
-            <br><br>
+            <!-- <br><br> -->
+            <!-- <br><br> -->
 
         </div>
         <div class="modal-footer">

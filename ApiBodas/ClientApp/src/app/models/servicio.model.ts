@@ -9,6 +9,8 @@ export class Servicio {
     public divisaId:number,
     public activo:boolean,
     public categoriaId:number,
+    public strCategoria:string,
+    public strDivisa:string,
     public hotelId:number
           
         )

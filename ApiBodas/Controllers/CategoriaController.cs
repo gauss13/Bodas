@@ -91,7 +91,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    CategoriaServicio = r
+                    categoria = r
                 };
 
                 return Created("", obj);
@@ -136,7 +136,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    CategoriaServicio = itemEncontrado
+                    categoria = itemEncontrado
                 };
 
                 return Created("", obj);
