@@ -98,7 +98,7 @@
                 <div class="input-field col s6">
                     <select formControlName="categoriaId">
                         <option value="" disabled [selected]="!modoEdicion">Seleccionar Cat</option>
-                                <option *ngFor="let cat of categorias " [value]="cat.id" [selected]="selectedId == cat.id"  >{{cat.descripcion}}</option>
+                                <option *ngFor="let cat of categorias " [value]="cat.id"  >{{cat.descripcion}}</option>
                              </select>
                     <label class="active">Categoria</label>
                 </div>
@@ -121,7 +121,7 @@
                 <div class="input-field col s6">
                     <select formControlName="divisaId">
             <option value="" disabled [selected]="!modoEdicion">Seleccionar Divisa</option>
-                    <option *ngFor="let divisa of divisas " [value]="divisa.id" [selected]="selectedId == divisa.id"  >{{divisa.clave}}</option>
+                    <option *ngFor="let divisa of divisas " [value]="divisa.id"   >{{divisa.clave}}</option>
                  </select>
                     <label class="active">Divisa</label>
                 </div>
@@ -139,6 +139,18 @@
                     <span class="helper-text" *ngIf="errorCampos.nota" [innerHTML]="errorCampos.nota">Helper text</span>
 
                 </div>
+
+
+                <div class="input-field col s6">
+                    <select multiple id="multidepa">
+                      <option value="" disabled [selected]="!modoEdicion">Seleccionar Departamentos</option>
+                    <option  *ngFor="let dep of departamentos " [selected]="dep.selected"  [value]="dep.id"  >{{dep.nombre}}</option>
+                 </select>
+                    <label class="active">Departamento</label>
+                </div>
+
+
+
             </div>
 
             <div class="row">

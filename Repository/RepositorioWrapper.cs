@@ -35,6 +35,8 @@ namespace Repository
             Servicios = new RepositorioServicio(_Context);
             PaquetesServicios = new RepositorioPaqueteServicio(_Context);
             Categorias = new RepositorioCategoria(_Context);
+            Departamentos = new RepositorioDepartamento(_Context);
+            DepartamentosServicio = new RepositorioDepartamentoServicio(_Context);
             Usuarios = new RepositorioUsuario(_Context);
             Roles = new RepositorioRole(_Context);
             Divisas = new RepositorioDivisa(_Context);
@@ -63,6 +65,9 @@ namespace Repository
         public IRepositorioServicio Servicios { get; private set; }
         public IRepositorioPaqueteServicio PaquetesServicios { get; private set; }
         public IRepositorioCategoria Categorias { get; private set; }
+        public IRepositorioDepartamento Departamentos { get; private set; }
+        public IRepositorioDepartamentoServicio DepartamentosServicio { get; private set; }
+
         public IRepositorioUsuario Usuarios { get; private set; }
         public IRepositorioRole Roles { get; private set; }
         public IRepositorioDivisa Divisas { get; private set; }

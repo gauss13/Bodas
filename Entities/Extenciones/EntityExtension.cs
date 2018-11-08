@@ -142,6 +142,10 @@ namespace Entities.Extenciones
         {
             itemDb.Descripcion = item.Descripcion;
         }
+        public static void Map(this Departamento itemDb, Departamento item)
+        {
+            itemDb.Nombre = item.Nombre;
+        }
 
         public static void Map(this PaqueteServicio itemDb, PaqueteServicio item)
         {

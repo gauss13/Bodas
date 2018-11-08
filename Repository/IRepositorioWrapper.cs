@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,10 @@ namespace Repository
         IRepositorioServicio Servicios { get; }
         IRepositorioPaqueteServicio PaquetesServicios { get; }
         IRepositorioCategoria Categorias { get; }
+
+        IRepositorioDepartamento Departamentos { get; }
+        IRepositorioDepartamentoServicio DepartamentosServicio { get; }
+
         IRepositorioUsuario Usuarios { get; }
         IRepositorioRole Roles { get; }
         IRepositorioDivisa Divisas { get; }

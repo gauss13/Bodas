@@ -11,7 +11,8 @@ export class Servicio {
     public categoriaId:number,
     public strCategoria:string,
     public strDivisa:string,
-    public hotelId:number
+    public hotelId:number,
+    public departamento:string
           
         )
         {}

@@ -128,6 +128,14 @@ namespace Repository
     {
     }
 
+    public interface IRepositorioDepartamento : IRepositorioBase<Departamento>
+    {
+    }
+
+    public interface IRepositorioDepartamentoServicio : IRepositorioBase<DepartamentoServicio>
+    {
+    }
+
     public interface IRepositorioUsuario : IRepositorioBase<Usuario>
     {
     }

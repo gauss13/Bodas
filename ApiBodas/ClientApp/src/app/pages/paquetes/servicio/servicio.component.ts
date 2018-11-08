@@ -12,6 +12,7 @@ import { Servicio } from 'src/app/models/servicio.model';
 import { forEach } from '@angular/router/src/utils/collection';
 import { delay } from 'q';
 import { Categoria } from '../../../models/categoria.model';
+import { Departamento } from 'src/app/models/departamento.model';
 
 declare var $: any;
 declare var M: any;
@@ -39,8 +40,9 @@ export class ServicioComponent implements OnInit {
 
   uriServicio:string =  '/api/Servicio/';
   uriCategoria:string =  '/api/Categoria/';
-  uriDepartamento:string ='api/';
-  uriDepartamentoServicio:string ='api/';
+  uriDepartamento:string ='/api/Departamento/';
+  uriDepartamentoServicio:string ='/api/DepartamentoServicio/';
+  
 
   registroId : number;//categroria id
   listaABorrar: number[] = [];
@@ -50,6 +52,7 @@ export class ServicioComponent implements OnInit {
   hoteles:Hotel[] = [];// array vacio
   divisas:any[] = [];
   categorias:any[] = [];
+  departamentos:Departamento[] = [];
 
   constructor(private fb: FormBuilder,
     private _servicioHotel: HotelService,
@@ -107,6 +110,7 @@ export class ServicioComponent implements OnInit {
     //  this.GetDivisas();
     //this.GetCategorias();
     this.loadData()
+    this.GetDepartamentos();
    // this.setDataLeft();
 
  
@@ -239,7 +243,7 @@ GetDivisas():boolean
         {        
         this.divisas = resp.divisa;    
 
-        console.table(this.divisas);
+      
         return true;
         }
     });
@@ -255,7 +259,7 @@ GetCategorias()
     if(resp.ok == true)
     {
       this.categorias = resp.categoria;  
-      console.table(this.categorias);    
+
       return true;
     }
 
@@ -264,6 +268,43 @@ GetCategorias()
   return true;
 }
 
+GetDepartamentos()
+{
+
+  const url = this.uriDepartamento + '/'+this._gbl.hotelIdSelected;
+
+  this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
+
+      if(resp.ok === true)
+      {
+       this.departamentos = resp.departamento;
+      
+       this.departamentos[0].selected = true;     
+            
+      }
+  })
+
+}
+
+GetDepartamentoServicio(ids:number)
+{
+    
+  const url = this.uriDepartamentoServicio + ids;
+
+  this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
+
+    if(resp.ok === true)
+    {
+
+      console.log(resp);
+//continuar asqui con el for
+      
+    
+    }
+
+  });
+
+}
 
 // ************************************ CONSTRUIR FORMULARIO  *********************************
 
@@ -279,6 +320,7 @@ construirFormulario() {
     divisaId: ['', Validators.required],
     nota: ['', Validators.required],
     activo: ['', Validators.required]
+    // departamento: ['', Validators.required]
   });
   
   // manejador del evento de cambio de valor en los inputs
@@ -290,10 +332,6 @@ construirFormulario() {
   
   }
 
- 
-
-
-
   mostrarError(campo){
     mostrarErrorx(campo, this.fg, this.textoDeValidacion, this.errorCampos);
     }
@@ -302,7 +340,6 @@ onCambioValor()
 {
   onCambioValorx( this.fg, this.textoDeValidacion, this.errorCampos);
 }
-
 
 existenCambiosPendientes(): boolean {
 
@@ -339,8 +376,6 @@ formChangesSubCat: any;
     
     }
 
-
-
   mostrarErrorCat(campo){
     mostrarErrorx(campo, this.fgcat, this.textoDeValidacionCat, this.errorCamposCat);
     }
@@ -349,7 +384,6 @@ onCambioValorCat()
 {
   onCambioValorx( this.fgcat, this.textoDeValidacionCat, this.errorCamposCat);
 }
-
 
 existenCambiosPendientesCat(): boolean {
 
@@ -399,6 +433,7 @@ this.selectedId = itemE.hotelId;
 
 this.resetFormulario();
 
+this.GetDepartamentoServicio(itemE.id);
 
 
 this.fg.patchValue({
@@ -419,14 +454,14 @@ this.initSelect();
 
 $('#descripcionc').focus();
 
-
+$('select').formSelect();
 
 }
 
 
 focusInput()
 {
-  $('#lugarc').focus();
+  $('#descripcionc').focus();
 }
 
 
@@ -444,24 +479,27 @@ if(!this.modoEdicion)
 
   itemNuevo.hotelId = this._gbl.hotelIdSelected;
 
-this._servicioGenerico.CrearRegisto(itemNuevo,url).subscribe((resp:any) =>{
+var test = $('#multidepa').val();
 
-//validar ok
-if(resp.ok === true)
-{
-  var itemdb:Servicio;
-  itemdb = resp.servicio;
 
-  let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
-  let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+// this._servicioGenerico.CrearRegisto(itemNuevo,url).subscribe((resp:any) =>{
 
-  itemdb.strCategoria = itemCat.descripcion;
-  itemdb.strDivisa = itemDiv.clave;
+// //validar ok
+// if(resp.ok === true)
+// {
+//   var itemdb:Servicio;
+//   itemdb = resp.servicio;
 
-  this.registros.push(resp.servicio)
-  M.toast({html: '<strong> Se agregó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
-}
-});
+//   let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
+//   let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+
+//   itemdb.strCategoria = itemCat.descripcion;
+//   itemdb.strDivisa = itemDiv.clave;
+
+//   this.registros.push(resp.servicio)
+//   M.toast({html: '<strong> Se agregó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
+// }
+// });
 
 
 }

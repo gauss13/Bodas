@@ -384,6 +384,31 @@ namespace Repository
         }
     }
 
+    public class RepositorioDepartamento : RepositorioBase<Departamento>, IRepositorioDepartamento
+    {
+        public RepositorioDepartamento(AppDbContext contexto) : base(contexto)
+        {
+        }
+
+        public AppDbContext appDbContext
+        {
+            get { return Context as AppDbContext; }
+        }
+    }
+
+
+    public class RepositorioDepartamentoServicio : RepositorioBase<DepartamentoServicio>, IRepositorioDepartamentoServicio
+    {
+        public RepositorioDepartamentoServicio(AppDbContext contexto) : base(contexto)
+        {
+        }
+
+        public AppDbContext appDbContext
+        {
+            get { return Context as AppDbContext; }
+        }
+    }
+
 
     public class RepositorioUsuario : RepositorioBase<Usuario>, IRepositorioUsuario
     {
