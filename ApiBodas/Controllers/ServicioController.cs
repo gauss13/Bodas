@@ -65,7 +65,7 @@ namespace ApiBodas.Controllers
                     mensaje = "No se encontrarón Registros",
                     errors = ""
                 };
-                return BadRequest(objB);
+                return Ok(objB);
             }
 
             // OK

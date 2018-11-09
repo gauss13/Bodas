@@ -151,30 +151,24 @@ loadData()
 
 
 cargaServicios()
-{  const url = this.uriServicio+'/'+this._gbl.hotelIdSelected;
+{  const url = this.uriServicio+this._gbl.hotelIdSelected;
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
 
-if(resp.ok === true)
-{
-this.registros = resp.servicio;
+    if(resp.ok === true)
+    {
+         this.registros = resp.servicio;
 
-this.totalRegistros = resp.total;
-
-this.cargando = false;
-
-  }
+         this.totalRegistros = resp.total;        
+    }
 },
 (error) => {},
-() => {
-
- 
- this.setDataPromesa().then();
+() => { 
+    this.setDataPromesa().then();
 }
 
-  
-  );
+);
 
-
+this.cargando = false;
 }
 
 
@@ -279,7 +273,7 @@ GetDepartamentos()
       {
        this.departamentos = resp.departamento;
       
-       this.departamentos[0].selected = true;     
+      // this.departamentos[0].selected = true;     
             
       }
   })
@@ -288,22 +282,33 @@ GetDepartamentos()
 
 GetDepartamentoServicio(ids:number)
 {
-    
+  this.InicializarSelectDepartamentos();
   const url = this.uriDepartamentoServicio + ids;
 
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
 
     if(resp.ok === true)
     {
+      for(var i= 0; i < this.departamentos.length; i++)
+      {
+             var iteme = resp.dservicio.find( ds => {return ds.departamentoId === this.departamentos[i].id });
 
-      console.log(resp);
-//continuar asqui con el for
-      
-    
-    }
+            if(iteme !== undefined)
+            {
+              this.departamentos[i].selected = true;
+            }
+      }
+  }
 
+ });
+
+}
+
+InicializarSelectDepartamentos()
+{
+  this.departamentos.forEach(function(ele, index) {        
+      ele.selected = false;
   });
-
 }
 
 // ************************************ CONSTRUIR FORMULARIO  *********************************
@@ -405,15 +410,15 @@ resetFormularioCat() {
 
 
 modalCrear()
-{  
-  
+{ 
   this.resetFormulario();
+  this.InicializarSelectDepartamentos();
   this.initSelect();
   this.modoEdicion = false;
   this.idEdicion = 0;
   this.selectedId = 0;
   //this.nameField.nativeElement.focus();
- // this.renderer.invokeElementMethod(this.nameField.nativeElement,"focus");
+  // this.renderer.invokeElementMethod(this.nameField.nativeElement,"focus");
 }
 
 modalCrearCat()
@@ -478,28 +483,48 @@ if(!this.modoEdicion)
   let itemNuevo: Servicio = Object.assign({}, this.fg.value)
 
   itemNuevo.hotelId = this._gbl.hotelIdSelected;
+  var depasArray = $('#multidepa').val();
 
-var test = $('#multidepa').val();
+
+this._servicioGenerico.CrearRegisto(itemNuevo,url).subscribe((resp:any) =>{
+
+//validar ok
+if(resp.ok === true)
+{
+  var itemdb:Servicio;
+  itemdb = resp.servicio;
+
+  let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
+  let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+
+  itemdb.strCategoria = itemCat.descripcion;
+  itemdb.strDivisa = itemDiv.clave;
 
 
-// this._servicioGenerico.CrearRegisto(itemNuevo,url).subscribe((resp:any) =>{
+  this.registros.push(resp.servicio)
+  M.toast({html: '<strong> Se agregó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
 
-// //validar ok
-// if(resp.ok === true)
-// {
-//   var itemdb:Servicio;
-//   itemdb = resp.servicio;
+  //registrar la configuracion depa-servicio
+  
+      var depaservicio:any=[];
 
-//   let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
-//   let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+      for(var i =0;  i< depasArray.length; i++)
+      {
+        var itds = {ServicioId:itemdb.id, DepartamentoId:depasArray[i]}
+        depaservicio.push(itds);
 
-//   itemdb.strCategoria = itemCat.descripcion;
-//   itemdb.strDivisa = itemDiv.clave;
+      }
 
-//   this.registros.push(resp.servicio)
-//   M.toast({html: '<strong> Se agregó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
-// }
-// });
+      var url = this.uriDepartamentoServicio+'/'+itemdb.id;
+        this._servicioGenerico.CrearRegisto(depaservicio,url).subscribe((resp:any) => {
+            console.log('deap-serv:' , resp);
+      });
+  //
+
+
+
+}
+});
 
 
 }
@@ -515,27 +540,28 @@ else // ACTUALIZAR
   this._servicioGenerico.Actualizar(itemEditado,urle).subscribe((resp:any) =>{
   
   //validar ok
-  if(resp.ok === true)
-  {
-    //Actualizar array
-    let itemEncontrado = this.registros.find( item => item.id === this.idEdicion);
+        if(resp.ok === true)
+        {
+             //Actualizar array
+             let itemEncontrado = this.registros.find( item => item.id === this.idEdicion);
 
-    let pos = this.registros.indexOf(itemEncontrado);
+             let pos = this.registros.indexOf(itemEncontrado);
 
-    var itemdb:Servicio;
-    itemdb = resp.servicio;
+             var itemdb:Servicio;
+             itemdb = resp.servicio;
 
 
-    let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
-    let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
-  
-    itemdb.strCategoria = itemCat.descripcion;
-    itemdb.strDivisa = itemDiv.clave;
+             let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
+             let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
 
-    this.registros[pos] = itemdb;
+             itemdb.strCategoria = itemCat.descripcion;
+             itemdb.strDivisa = itemDiv.clave;
 
-    M.toast({html: '<strong> Se actualizó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
-  }
+             this.registros[pos] = itemdb;
+
+             M.toast({html: '<strong> Se actualizó el nuevo registro, correctamente. <strong>', classes:' rounded  pink darken-2'});  
+        }
+
   });
 
 

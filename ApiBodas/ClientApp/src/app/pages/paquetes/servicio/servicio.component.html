@@ -125,10 +125,19 @@
                  </select>
                     <label class="active">Divisa</label>
                 </div>
-
-
-
             </div>
+
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <select multiple id="multidepa">
+                          <!-- <option value="" disabled [selected]="!modoEdicion">Seleccionar Departamentos</option> -->
+                        <option  *ngFor="let dep of departamentos " [selected]="dep.selected"  [value]="dep.id"  >{{dep.nombre}}</option>
+                     </select>
+                    <label class="active">Departamento</label>
+                </div>
+            </div>
+
 
             <div class="row">
                 <div class="input-field col s6">
@@ -139,19 +148,9 @@
                     <span class="helper-text" *ngIf="errorCampos.nota" [innerHTML]="errorCampos.nota">Helper text</span>
 
                 </div>
-
-
-                <div class="input-field col s6">
-                    <select multiple id="multidepa">
-                      <option value="" disabled [selected]="!modoEdicion">Seleccionar Departamentos</option>
-                    <option  *ngFor="let dep of departamentos " [selected]="dep.selected"  [value]="dep.id"  >{{dep.nombre}}</option>
-                 </select>
-                    <label class="active">Departamento</label>
-                </div>
-
-
-
             </div>
+
+
 
             <div class="row">
                 <div class="input-field col s6">
