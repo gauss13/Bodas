@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+
+                    <div class="progress" *ngIf="cargando">
+                        <div class="indeterminate"></div>
+                    </div>
+
+                    <div>
+                        <form [formGroup]="fg" (ngSubmit)="save()">
+                            <div class="modal-content">
+                                <h4> Nueva Paquete</h4>
+                                <div class="row">
+                                    <div class="input-field col s5">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input id="descripcion" type="text" [ngClass]=" errorCampos.descripcion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'descripcion') " formControlName="descripcion" maxlength="120">
+
+                                        <label for="descripcion" class="active">Nombre del Paquete</label>
+                                        <span class="helper-text" *ngIf="errorCampos.descripcion" [innerHTML]="errorCampos.descripcion">Helper text</span>
+
+                                    </div>
+
+                                    <div class="input-field col s2">
+
+                                        <input id="clave" type="text" [ngClass]=" errorCampos.clave  ? 'invalid' : 'valid' " (blur)="mostrarError( 'clave') " formControlName="clave" maxlength="120">
+
+                                        <label for="clave" class="active">Clave</label>
+                                        <span class="helper-text" *ngIf="errorCampos.clave" [innerHTML]="errorCampos.clave">Helper text</span>
+
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <i class="material-icons prefix">attach_money</i>
+                                        <input id="total" type="text" [ngClass]=" errorCampos.total  ? 'invalid' : 'valid' " (blur)="mostrarError( 'total') " formControlName="total" maxlength="120">
+
+                                        <label for="total" class="active">Total Paquete</label>
+                                        <span class="helper-text" *ngIf="errorCampos.total" [innerHTML]="errorCampos.total">Helper text</span>
+
+                                    </div>
+
+                                    <div class="input-field col s2">
+                                        <select formControlName="divisaId">                                       
+                                        <option *ngFor="let divisa of divisas; index as i " [selected]=" 0 == i" [value]="divisa.id"   >{{divisa.clave}}</option>
+                                     </select>
+                                        <label class="active">Divisa</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" [disabled]="!fg.valid" class="btn modal-close"> Guardar </button>
+                                <button type="button" *ngIf="!modoEdicion" class=" btn "> <i class="material-icons left">add</i> Agregar Servicios </button>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+<!-- Modal Categoria -->
+<div id="modals" class="modal">
+
+    <form [formGroup]="fg" (ngSubmit)="saveServices()">
+        <div class="modal-content">
+            <h4> Servicios</h4>
+
+
+
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
+            <button type="submit" [disabled]="!fgcat.valid" class="btn modal-close">  Guardar</button>
+        </div>
+    </form>
+
+</div>

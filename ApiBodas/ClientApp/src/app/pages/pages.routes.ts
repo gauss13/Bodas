@@ -6,6 +6,8 @@ import { AgendaComponent } from "./agenda/agenda.component";
 import { VerificaTokenGuard } from "../services/guards/verifica-token.guard";
 import { CategoriaComponent } from "./paquetes/categoria/categoria.component";
 import { ServicioComponent } from "./paquetes/servicio/servicio.component";
+import { PaqueteComponent } from "./paquetes/paquete/paquete.component";
+import { PaqueteServicioComponent } from "./paquetes/paquete-servicio/paquete-servicio.component";
 
 
 const pagesRoutes: Routes = [
@@ -16,6 +18,8 @@ const pagesRoutes: Routes = [
 {path: 'agenda/:abc', component: AgendaComponent ,data:{titulo:'Agenda'}},
 {path: 'categoria', component: CategoriaComponent ,data:{titulo:'Categoria de Servicios'}},
 {path: 'servicios', component: ServicioComponent ,data:{titulo:'Servicios'}},
+{path: 'paquetes', component: PaqueteComponent ,data:{titulo:'Paquetes'}},
+{path: 'paqueteservicio', component: PaqueteServicioComponent ,data:{titulo:'Paquetes Servicio'}},
 
 {path: '', redirectTo: '/dashboard', pathMatch : 'full'}
 

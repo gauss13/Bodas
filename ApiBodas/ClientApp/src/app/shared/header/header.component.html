@@ -2,8 +2,9 @@
 <ul id="dropdown1" class="dropdown-content">
     <li *ngIf="gbl.hotelSeleccionado"><a routerLinkActive="active" routerLink="/lugarcena">Lugar Cena</a></li>
     <li *ngIf="gbl.hotelSeleccionado"><a routerLinkActive="active" routerLink="/servicios">Servicios</a></li>
+    <li *ngIf="gbl.hotelSeleccionado"><a routerLinkActive="active" routerLink="/paquetes">Paquetes</a></li>
     <li *ngIf="gbl.hotelSeleccionado" class="divider"></li>
-    <li *ngIf="gbl.hotelSeleccionado"><a href="#">Tres</a></li>
+    <li *ngIf="gbl.hotelSeleccionado"><a href="#">item</a></li>
     <li *ngIf="!gbl.hotelSeleccionado"><a class="modal-trigger" href="#modalselhotel">Seleccionar hotel</a></li>
 </ul>
 <!-- movil -->
@@ -16,9 +17,7 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown2" class="dropdown-content">
     <li *ngIf="gbl.hotelSeleccionado"><a routerLinkActive="active" routerLink="/agenda/ini">Agenda</a></li>
-    <li *ngIf="gbl.hotelSeleccionado"><a href="#">Verde</a></li>
     <li *ngIf="gbl.hotelSeleccionado" class="divider"></li>
-    <li *ngIf="gbl.hotelSeleccionado"><a href="#">Rojo</a></li>
     <li *ngIf="!gbl.hotelSeleccionado"><a class="modal-trigger" href="#modalselhotel">Seleccionar hotel</a></li>
 </ul>
 <div class="navbar-fixed">

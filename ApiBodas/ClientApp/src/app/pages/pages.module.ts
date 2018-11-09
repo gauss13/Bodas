@@ -9,6 +9,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AgendaComponent } from './agenda/agenda.component';
 import { CategoriaComponent } from './paquetes/categoria/categoria.component';
 import { ServicioComponent } from './paquetes/servicio/servicio.component';
+import { PaqueteComponent } from './paquetes/paquete/paquete.component';
+import { PaqueteServicioComponent } from './paquetes/paquete-servicio/paquete-servicio.component';
 // import { Globalx } from "../config/global";
 
 
@@ -18,7 +20,7 @@ import { ServicioComponent } from './paquetes/servicio/servicio.component';
                   AutofocusDirective, 
                   DashboardComponent, 
                   AgendaComponent, 
-                  CategoriaComponent, ServicioComponent],
+                  CategoriaComponent, ServicioComponent, PaqueteComponent, PaqueteServicioComponent],
     exports:[LugarcenaComponent],
     imports:[CommonModule, FormsModule, ReactiveFormsModule,
             SharedModule,

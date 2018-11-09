@@ -25,8 +25,8 @@ namespace ApiBodas.Controllers
 
         // ->> ACTIONS
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{h:int}/{id:int}")]
+        public async Task<IActionResult> GetById(int h, int id)
         {
             var item = await this.Repositorio.Paquetes.GetByIdAsync(id);
 
@@ -49,11 +49,11 @@ namespace ApiBodas.Controllers
             });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("{h:int}")]
+        public async Task<IActionResult> GetAll(int h)
         {
-            var lista = await this.Repositorio.Paquetes.GetAllAsyc();
-
+            var lista = await this.Repositorio.Paquetes.FindAsyc(x => x.HotelId == h);
+            
             // BAD REQUEST
             if (!lista.Any())
             {
@@ -63,7 +63,7 @@ namespace ApiBodas.Controllers
                     mensaje = "No se encontrarón Registros",
                     errors = ""
                 };
-                return BadRequest(objB);
+                return Ok(objB);
             }
 
             // OK
@@ -71,7 +71,7 @@ namespace ApiBodas.Controllers
             {
                 ok = true,
                 total = lista.Count(),
-                Paquete = lista
+                paquete = lista
             };
 
             return Ok(obj);

@@ -9,10 +9,12 @@ import { Router } from '@angular/router';
 
 import { DivisaService, GenericoService  } from 'src/app/services/service.index';
 import { Servicio } from 'src/app/models/servicio.model';
-import { forEach } from '@angular/router/src/utils/collection';
-import { delay } from 'q';
+
 import { Categoria } from '../../../models/categoria.model';
 import { Departamento } from 'src/app/models/departamento.model';
+import { uriServicio, uriDepartamento, uriCategoria, uriDepartamentoServicio } from 'src/app/config/config';
+
+
 
 declare var $: any;
 declare var M: any;
@@ -38,10 +40,10 @@ export class ServicioComponent implements OnInit {
   fg : FormGroup;
   fgcat : FormGroup;
 
-  uriServicio:string =  '/api/Servicio/';
-  uriCategoria:string =  '/api/Categoria/';
-  uriDepartamento:string ='/api/Departamento/';
-  uriDepartamentoServicio:string ='/api/DepartamentoServicio/';
+  // uriServicio:string =  '/api/Servicio/';
+  // uriCategoria:string =  '/api/Categoria/';
+  // uriDepartamento:string ='/api/Departamento/';
+  // uriDepartamentoServicio:string ='/api/DepartamentoServicio/';
   
 
   registroId : number;//categroria id
@@ -151,7 +153,7 @@ loadData()
 
 
 cargaServicios()
-{  const url = this.uriServicio+this._gbl.hotelIdSelected;
+{  const url = uriServicio+this._gbl.hotelIdSelected;
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
 
     if(resp.ok === true)
@@ -247,7 +249,7 @@ return true;
 
 GetCategorias()
 {
-  const url = this.uriCategoria + '/'+this._gbl.hotelIdSelected;
+  const url = uriCategoria + '/'+this._gbl.hotelIdSelected;
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) =>  {
 
     if(resp.ok == true)
@@ -265,7 +267,7 @@ GetCategorias()
 GetDepartamentos()
 {
 
-  const url = this.uriDepartamento + '/'+this._gbl.hotelIdSelected;
+  const url = uriDepartamento + '/'+this._gbl.hotelIdSelected;
 
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
 
@@ -283,7 +285,7 @@ GetDepartamentos()
 GetDepartamentoServicio(ids:number)
 {
   this.InicializarSelectDepartamentos();
-  const url = this.uriDepartamentoServicio + ids;
+  const url = uriDepartamentoServicio + ids;
 
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
 
@@ -476,7 +478,7 @@ save() {
 
   this.ignorarExistenCambiosPendientes = true;
 
-  var url = this.uriServicio;
+  var url = uriServicio;
 
 if(!this.modoEdicion)
 {
@@ -515,7 +517,7 @@ if(resp.ok === true)
 
       }
 
-      var url = this.uriDepartamentoServicio+'/'+itemdb.id;
+      var url = uriDepartamentoServicio+'/'+itemdb.id;
         this._servicioGenerico.CrearRegisto(depaservicio,url).subscribe((resp:any) => {
             console.log('deap-serv:' , resp);
       });
@@ -531,7 +533,7 @@ if(resp.ok === true)
 else // ACTUALIZAR
 {
 
-  var urle = this.uriServicio + this.idEdicion;
+  var urle = uriServicio + this.idEdicion;
 
   let itemEditado: Servicio = Object.assign({}, this.fg.value)
 
@@ -575,7 +577,7 @@ saveCategoria()
 {
   this.ignorarExistenCambiosPendientes = true;
 
-  var url = this.uriCategoria;
+  var url = uriCategoria;
 
   let itemNuevo: Categoria = Object.assign({}, this.fgcat.value)
 
