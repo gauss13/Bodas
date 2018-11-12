@@ -163,11 +163,10 @@ cargaServicios()
          this.totalRegistros = resp.total;        
     }
 },
-(error) => {},
-() => { 
-    this.setDataPromesa().then();
-}
-
+    (error) => {},
+    () => { 
+        this.setDataPromesa().then();
+    }
 );
 
 this.cargando = false;

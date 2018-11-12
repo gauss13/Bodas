@@ -45,7 +45,7 @@ namespace ApiBodas.Controllers
             return Ok(new
             {
                 ok = true,
-                Role = item
+                paquete = item
             });
         }
 

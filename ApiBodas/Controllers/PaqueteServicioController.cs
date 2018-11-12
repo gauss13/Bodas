@@ -74,6 +74,67 @@ namespace ApiBodas.Controllers
             return Ok(obj);
         }
 
+        // Hotel / paquete 
+        [HttpGet("{h:int}/{p:int}")]
+        public async Task<IActionResult> GetSelected(int h, int p)
+        {
+
+            try
+            {
+                var listaServicio = await this.Repositorio.Servicios.GetServicioInclude(h);
+
+                var listaAsignados = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == p);
+
+                listaAsignados = listaAsignados.ToList();
+
+                List<ServiciConSelected> listaSelected = new List<ServiciConSelected>();
+                foreach (var s in listaServicio)
+                {
+                    ServiciConSelected ss = new ServiciConSelected();
+
+                    var asignado = listaAsignados.FirstOrDefault(x => x.ServicioId == s.Id);
+
+                    ss.ServicioId = s.Id;
+                    ss.PaqueteId = p;
+                    ss.Descripcion = s.Descripcion;
+                    ss.Cantidad = asignado != null ? asignado.Cantidad : 1;
+                    ss.Categoria = s.Categoria.Descripcion;
+                    ss.CategoriaId = s.CategoriaId;
+                    ss.PrecioUnitario = asignado != null ? asignado.PrecioUnitario : s.PrecioSugerido;
+                    ss.Total = asignado != null ? asignado.Total : s.PrecioSugerido;
+                    ss.Selected = asignado != null ? true : false;
+                    ss.ChangeValue = false;
+                    listaSelected.Add(ss);
+                }
+
+
+                var obj = new
+                {
+                    ok = true,
+                    total = listaSelected.Count(),
+                    servicio = listaSelected
+                };
+
+                return Ok(obj);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    ok = false,
+                    mensaje = "Se produjo un error al obtener los registros",
+                    errors = new { mensaje = ex.Message }
+
+                });
+
+            }       
+
+
+        }
+
+
+
+
         [HttpPost]
         public async Task<IActionResult> Crear([FromBody] PaqueteServicio item)
         {
@@ -153,18 +214,18 @@ namespace ApiBodas.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Eliminar([FromBody] PaqueteServicio itemBorrar)
+
+        //[HttpGet("{h:int}/{p:int}")]
+        [HttpDelete("{pid:int}/{sid:int}")]
+        public async Task<IActionResult> Eliminar(int pid, int sid)
         {
             //buscar la Role 
-            var itemEncontrado = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == itemBorrar.PaqueteId && x.ServicioId == itemBorrar.ServicioId);
+            var itemEncontrado = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == pid && x.ServicioId == sid);
 
             if (itemEncontrado == null)
             {
                 return BadRequest(new { ok = false, mensaje = $"No se encontró el registro ", erros = "" });
-            }
-
-            
+            }                   
            
             this.Repositorio.PaquetesServicios.RemoveRange(itemEncontrado);
             await this.Repositorio.CompleteAsync();

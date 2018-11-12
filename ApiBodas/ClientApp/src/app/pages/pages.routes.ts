@@ -19,7 +19,7 @@ const pagesRoutes: Routes = [
 {path: 'categoria', component: CategoriaComponent ,data:{titulo:'Categoria de Servicios'}},
 {path: 'servicios', component: ServicioComponent ,data:{titulo:'Servicios'}},
 {path: 'paquetes', component: PaqueteComponent ,data:{titulo:'Paquetes'}},
-{path: 'paqueteservicio', component: PaqueteServicioComponent ,data:{titulo:'Paquetes Servicio'}},
+{path: 'paqueteservicio/:id', component: PaqueteServicioComponent ,data:{titulo:'Paquetes Servicio'}},
 
 {path: '', redirectTo: '/dashboard', pathMatch : 'full'}
 

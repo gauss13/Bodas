@@ -357,6 +357,18 @@ namespace Repository
         {
             get { return Context as AppDbContext; }
         }
+
+        //
+      public async  Task<IEnumerable<Servicio>> GetServicioInclude(int h)
+        {
+
+            return await appDbContext.Servicios
+                .Include(c => c.Categoria)
+                .Include( d => d.Divisa)
+                .Where(s => s.HotelId == h)
+               .ToListAsync();
+
+         }
     }
 
 

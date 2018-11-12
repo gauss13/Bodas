@@ -38,12 +38,36 @@ namespace Entities.Models.Paquetes
         public string Img { get; set; }
         public int CategoriaId { get; set; }
         public bool Activo { get; set; }
-        public Categoria Categoria { get; set; }
+        public Categoria Categoria { get; set; }//nav
         public int DivisaId { get; set; }
         public Divisa Divisa { get; set; }
       //  public string Departamentos { get; set; } // un servicio puede estar ligado a uno o varios departamentos
 
     }
+
+    // VISTA
+    public class ServiciConSelected
+    {
+        public int ServicioId { get; set; }
+
+        public int PaqueteId { get; set; }
+
+        public string Descripcion { get; set; }
+        public int Cantidad { get; set; }
+
+        public string Categoria { get; set; }
+
+        public int CategoriaId { get; set; }
+
+        public decimal PrecioUnitario { get; set; }
+
+        public decimal Total { get; set; }
+
+        public bool Selected { get; set; }
+        public bool ChangeValue { get; set; }
+
+    }
+
 
     // un servicio puede estar ligado a uno o varios departamentos
     public class DepartamentoServicio
@@ -76,6 +100,7 @@ namespace Entities.Models.Paquetes
         public decimal Total { get; set; }
     }
 
+    
 
     public class Categoria
     {

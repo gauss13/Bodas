@@ -82,13 +82,16 @@ Borrar(strApi:string)
 //  const headerss = new HttpHeaders({'Content-Type':'application/json'});
 
 return this.http.delete(url).pipe(
-  map(resp =>  {
-    return true;
+  map((resp:any) =>  {
+    //return true;
+    return resp;
   })
 
 );
 
 }
+
+
 
 
 }

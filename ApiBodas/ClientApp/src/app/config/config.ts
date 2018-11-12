@@ -11,3 +11,4 @@
  export const uriDepartamentoServicio:string =  '/api/DepartamentoServicio/';
 
  export const uriPaquete:string =  '/api/Paquete/';
+ export const uriPaqueteServicio:string =  '/api/PaqueteServicio/';

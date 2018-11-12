@@ -12,9 +12,9 @@
                     <div>
                         <form [formGroup]="fg" (ngSubmit)="save()">
                             <div class="modal-content">
-                                <h4> Nueva Paquete</h4>
+                                <h4> {{ modoEdicion ? 'Editar Paquete' : 'Nuevo Paquete'}}</h4>
                                 <div class="row">
-                                    <div class="input-field col s5">
+                                    <div class="input-field col s6">
                                         <i class="material-icons prefix">account_circle</i>
                                         <input id="descripcion" type="text" [ngClass]=" errorCampos.descripcion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'descripcion') " formControlName="descripcion" maxlength="120">
 
@@ -23,7 +23,7 @@
 
                                     </div>
 
-                                    <div class="input-field col s2">
+                                    <div class="input-field col s1">
 
                                         <input id="clave" type="text" [ngClass]=" errorCampos.clave  ? 'invalid' : 'valid' " (blur)="mostrarError( 'clave') " formControlName="clave" maxlength="120">
 
@@ -33,7 +33,7 @@
                                     </div>
                                     <div class="input-field col s3">
                                         <i class="material-icons prefix">attach_money</i>
-                                        <input id="total" type="text" [ngClass]=" errorCampos.total  ? 'invalid' : 'valid' " (blur)="mostrarError( 'total') " formControlName="total" maxlength="120">
+                                        <input id="total" type="text" value="0.00" style="color:black" disabled class="validate" [ngClass]=" errorCampos.total  ? 'invalid' : 'valid' " (blur)="mostrarError( 'total') " formControlName="total" maxlength="120">
 
                                         <label for="total" class="active">Total Paquete</label>
                                         <span class="helper-text" *ngIf="errorCampos.total" [innerHTML]="errorCampos.total">Helper text</span>
@@ -51,11 +51,65 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" [disabled]="!fg.valid" class="btn modal-close"> Guardar </button>
-                                <button type="button" *ngIf="!modoEdicion" class=" btn "> <i class="material-icons left">add</i> Agregar Servicios </button>
+                                <button type="button" *ngIf="addServicio" class=" btn "> <i class="material-icons left">add</i> Agregar Servicios </button>
                             </div>
                         </form>
                     </div>
 
+
+
+                    <!-- Servicios -->
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Servicio</th>
+
+                                <th>Categoria</th>
+
+                                <th>Precio</th>
+                                <tH>Cantidad</tH>
+                                <th>Total: $ {{ totalPaquete}}</th>
+                                <th title="Guardar Cambios">Mod</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let reg of servicios; let i = index">
+
+                                <td>
+                                    <p>
+                                        <label>
+                                          <input type="checkbox" class="filled-in"  [checked]="reg.selected " (change)="cambioAgregar($event, i, reg)"/>
+                                          <span style="color:black">{{ reg.descripcion}}</span>
+                                                </label>
+                                    </p>
+                                </td>
+                                <!-- <td> {{ reg.descripcion}}</td> -->
+
+                                <td>{{reg.categoria}}</td>
+                                <td>
+
+                                    <input [(ngModel)]="reg.precioUnitario" #inputp [disabled]="!reg.selected" name="precioUnitario" [value]="reg.precioUnitario" (keyup)="setPrecio( inputp.value, reg )" class="form-control" type="text" placeholder="Precio" required>
+
+                                </td>
+                                <td>
+
+                                    <input [(ngModel)]="reg.cantidad" #inputc [disabled]="!reg.selected" name="cantidad" [value]="reg.cantidad" type="number" class="form-control" (keyup)="setCantidad( inputc.value, reg )" placeholder="Cantidad" required>
+
+                                </td>
+
+                                <td class="text-right">
+                                    $ {{reg.total }}
+                                </td>
+                                <td>
+                                    <button type="button" class=" btn " *ngIf="reg.changeValue && reg.selected" (click)="RegCambio(reg)">   <i class="large material-icons">save</i> </button>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
 
 
 
@@ -70,25 +124,4 @@
 
 
     </div>
-</div>
-
-
-<!-- Modal Categoria -->
-<div id="modals" class="modal">
-
-    <form [formGroup]="fg" (ngSubmit)="saveServices()">
-        <div class="modal-content">
-            <h4> Servicios</h4>
-
-
-
-
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
-            <button type="submit" [disabled]="!fgcat.valid" class="btn modal-close">  Guardar</button>
-        </div>
-    </form>
-
 </div>
