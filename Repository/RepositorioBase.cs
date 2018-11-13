@@ -40,7 +40,7 @@ namespace Repository
             return entities;
         }
 
-        public async Task<IEnumerable<T>> FindAsyc(Expression<Func<T, bool>> predicado)
+        public async Task<List<T>> FindAsyc(Expression<Func<T, bool>> predicado)
         {
             return await _entities.Where(predicado).ToListAsync();
         }

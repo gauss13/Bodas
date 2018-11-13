@@ -68,6 +68,8 @@ namespace ApiBodas.Controllers
                 return Ok(objB);
             }
 
+            lista = lista.OrderBy(x => x.CategoriaId).ThenBy(y => y.Descripcion).ToList();
+
             // OK
             var obj = new
             {

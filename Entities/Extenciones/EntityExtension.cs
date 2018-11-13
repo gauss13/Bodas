@@ -168,6 +168,8 @@ namespace Entities.Extenciones
             itemDb.Descripcion = item.Descripcion;
             itemDb.Clave = item.Clave ;
             itemDb.Activo = item.Activo;
+            itemDb.Total = item.Total;
+            itemDb.Nota = item.Nota;
     
         }
 

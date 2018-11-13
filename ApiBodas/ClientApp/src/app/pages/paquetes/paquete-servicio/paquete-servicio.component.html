@@ -11,66 +11,77 @@
 
                     <div>
                         <form [formGroup]="fg" (ngSubmit)="save()">
-                            <div class="modal-content">
-                                <h4> {{ modoEdicion ? 'Editar Paquete' : 'Nuevo Paquete'}}</h4>
-                                <div class="row">
-                                    <div class="input-field col s6">
-                                        <i class="material-icons prefix">account_circle</i>
-                                        <input id="descripcion" type="text" [ngClass]=" errorCampos.descripcion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'descripcion') " formControlName="descripcion" maxlength="120">
 
-                                        <label for="descripcion" class="active">Nombre del Paquete</label>
-                                        <span class="helper-text" *ngIf="errorCampos.descripcion" [innerHTML]="errorCampos.descripcion">Helper text</span>
+                            <h4>{{selectedId}} | {{ modoEdicion ? 'Editar Paquete' : 'Nuevo Paquete'}}</h4>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="descripcion" type="text" [ngClass]=" errorCampos.descripcion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'descripcion') " formControlName="descripcion" maxlength="120">
 
-                                    </div>
-
-                                    <div class="input-field col s1">
-
-                                        <input id="clave" type="text" [ngClass]=" errorCampos.clave  ? 'invalid' : 'valid' " (blur)="mostrarError( 'clave') " formControlName="clave" maxlength="120">
-
-                                        <label for="clave" class="active">Clave</label>
-                                        <span class="helper-text" *ngIf="errorCampos.clave" [innerHTML]="errorCampos.clave">Helper text</span>
-
-                                    </div>
-                                    <div class="input-field col s3">
-                                        <i class="material-icons prefix">attach_money</i>
-                                        <input id="total" type="text" value="0.00" style="color:black" disabled class="validate" [ngClass]=" errorCampos.total  ? 'invalid' : 'valid' " (blur)="mostrarError( 'total') " formControlName="total" maxlength="120">
-
-                                        <label for="total" class="active">Total Paquete</label>
-                                        <span class="helper-text" *ngIf="errorCampos.total" [innerHTML]="errorCampos.total">Helper text</span>
-
-                                    </div>
-
-                                    <div class="input-field col s2">
-                                        <select formControlName="divisaId">                                       
-                                        <option *ngFor="let divisa of divisas; index as i " [selected]=" 0 == i" [value]="divisa.id"   >{{divisa.clave}}</option>
-                                     </select>
-                                        <label class="active">Divisa</label>
-                                    </div>
+                                    <label for="descripcion" class="active">Nombre del Paquete</label>
+                                    <span class="helper-text" *ngIf="errorCampos.descripcion" [innerHTML]="errorCampos.descripcion">Helper text</span>
 
                                 </div>
+
+                                <div class="input-field col s1">
+
+                                    <input id="clave" type="text" [ngClass]=" errorCampos.clave  ? 'invalid' : 'valid' " (blur)="mostrarError( 'clave') " formControlName="clave" maxlength="4">
+
+                                    <label for="clave" class="active">Clave</label>
+                                    <span class="helper-text" *ngIf="errorCampos.clave" [innerHTML]="errorCampos.clave">Helper text</span>
+
+                                </div>
+                                <div class="input-field col s3">
+                                    <i class="material-icons prefix">attach_money</i>
+                                    <input id="total" type="text" value="0.00" style="color:black" disabled class="validate" [ngClass]=" errorCampos.total  ? 'invalid' : 'valid' " (blur)="mostrarError( 'total') " formControlName="total" maxlength="120">
+
+                                    <label for="total" class="active">Total Paquete</label>
+                                    <span class="helper-text" *ngIf="errorCampos.total" [innerHTML]="errorCampos.total">Helper text</span>
+
+                                </div>
+
+                                <div class="input-field col s2">
+                                    <select formControlName="divisaId">                                       
+                                        <option *ngFor="let divisa of divisas; index as i " [selected]=" 0 == i" [value]="divisa.id"   >{{divisa.clave}}</option>
+                                     </select>
+                                    <label class="active">Divisa</label>
+                                </div>
+
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" [disabled]="!fg.valid" class="btn modal-close"> Guardar </button>
-                                <button type="button" *ngIf="addServicio" class=" btn "> <i class="material-icons left">add</i> Agregar Servicios </button>
+                            <div class="row">
+                                <div class="input-field col s10">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="nota" type="text" [ngClass]=" errorCampos.nota  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nota') " formControlName="nota" maxlength="350">
+
+                                    <label for="nota" class="active">Nota</label>
+                                    <span class="helper-text" *ngIf="errorCampos.nota" [innerHTML]="errorCampos.nota">Helper text</span>
+
+                                </div>
+                                <div class="input-field col s2">
+                                    <button type="submit" [disabled]="!fg.valid" class="btn modal-close"> Guardar </button>
+                                </div>
+
                             </div>
+
+
+
+
                         </form>
                     </div>
 
 
 
-                    <!-- Servicios -->
+                    <!-- Servicios centered-->
 
-                    <table>
-                        <thead>
+                    <table class="striped highlight responsive-table">
+                        <thead class=" grey lighten-1">
                             <tr>
                                 <th>Servicio</th>
-
                                 <th>Categoria</th>
-
                                 <th>Precio</th>
                                 <tH>Cantidad</tH>
-                                <th>Total: $ {{ totalPaquete}}</th>
-                                <th title="Guardar Cambios">Mod</th>
+                                <th>Total: $ {{ totalPaquete }}</th>
+                                <th title="Guardar Cambios"></th>
 
                             </tr>
                         </thead>
@@ -80,9 +91,9 @@
                                 <td>
                                     <p>
                                         <label>
-                                          <input type="checkbox" class="filled-in"  [checked]="reg.selected " (change)="cambioAgregar($event, i, reg)"/>
-                                          <span style="color:black">{{ reg.descripcion}}</span>
-                                                </label>
+                                                  <input type="checkbox" class="filled-in"  [checked]="reg.selected " (change)="cambioAgregar($event, i, reg)"/>
+                                                  <span style="color:black">{{ reg.descripcion}}</span>
+                                                        </label>
                                     </p>
                                 </td>
                                 <!-- <td> {{ reg.descripcion}}</td> -->
@@ -103,13 +114,19 @@
                                     $ {{reg.total }}
                                 </td>
                                 <td>
-                                    <button type="button" class=" btn " *ngIf="reg.changeValue && reg.selected" (click)="RegCambio(reg)">   <i class="large material-icons">save</i> </button>
+                                    <button type="button" class=" btn " title="Guardar cambios" *ngIf="reg.changeValue && reg.selected" (click)="RegCambio(reg)">   <i class="large material-icons">save</i> </button>
                                 </td>
 
                             </tr>
                         </tbody>
                         <tfoot></tfoot>
                     </table>
+
+
+
+
+
+
 
 
 

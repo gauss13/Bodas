@@ -4,11 +4,12 @@ import { Globalx } from 'src/app/config/global';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { DivisaService, GenericoService  } from 'src/app/services/service.index';
-import {mostrarErrorx, onCambioValorx} from '../../../Utils/formUtils';
+import {mostrarErrorx, onCambioValorx, roundx} from '../../../Utils/formUtils';
 import { Paquete } from 'src/app/models/paquete.model';
 
 import { uriPaquete, uriServicio, uriPaqueteServicio  } from 'src/app/config/config';
 import { PaqueteServicio } from 'src/app/models/paqueteservicio.model';
+import { isNumber } from 'util';
 
 declare var $: any;
 declare var M: any;
@@ -31,6 +32,7 @@ export class PaqueteServicioComponent implements OnInit {
   cargando: boolean = false;  
   fg : FormGroup;
   totalPaquete:number = 0;
+  totalPaqueteReal:number = 0;
 
   paquete:any;
   divisas:any[];
@@ -39,11 +41,7 @@ export class PaqueteServicioComponent implements OnInit {
 
   servicioSelected:number[]=[];
 
-
-
   registroId : number;//categroria id
-
-
 
 
   constructor(private fb: FormBuilder,  
@@ -107,6 +105,9 @@ export class PaqueteServicioComponent implements OnInit {
     // READY JQUERY
     $(document).ready(function(){
  
+
+      //$('.collapsible').collapsible();
+
       // $('.modal').modal({ onOpenEnd: function () {  $('#lugarc').focus(); }});  
       
     });
@@ -158,12 +159,15 @@ GetDatosPaquete(id:number)
         {
             this.paquete = resp.paquete;
     
+            this.totalPaquete = resp.paquete.total;
+            this.totalPaqueteReal = resp.paquete.total;
 
-     this.fg.patchValue({    
+          this.fg.patchValue({    
           descripcion: resp.paquete.descripcion,
           clave: resp.paquete.clave,
           divisaId: resp.paquete.divisaId,
-          total: resp.paquete.total    
+          total: resp.paquete.total,
+          nota: resp.paquete.nota,
         });
 
         }
@@ -180,7 +184,8 @@ construirFormulario(des:string, clave:string, idd:number, total:number) {
     descripcion: ['', Validators.required],
     clave: ['', Validators.required],
     divisaId: ['', Validators.required],
-    total: ['0.00', Validators.required]    
+    total: ['0.00', Validators.required],
+    nota: ['', Validators.required]    
   });
   
   // manejador del evento de cambio de valor en los inputs
@@ -296,7 +301,6 @@ GetServiciosPaquete()
 
 cambioAgregar(event, sta:number, item:any)
 {
-console.log(item);
 
   item.selected = !item.selected;
 
@@ -342,25 +346,32 @@ actualizarPaqueteTotal()
 
   var url = uriPaquete +  this.selectedId;
 
-  //actualizar paquete
-    this.paquete.total = this.totalPaquete;
+    //actualizar paquete
+    this.paquete.total = this.totalPaqueteReal;
   
-  this._servicioGenerico.Actualizar(this.paquete,url).subscribe((resp:any) =>{
+    this._servicioGenerico.Actualizar(this.paquete,url).subscribe((resp:any) =>{
   
     //validar ok
     if(resp.ok === true)
     {
-      this.fg.patchValue({  total: this.totalPaquete });
+      this.fg.patchValue({  total: this.totalPaqueteReal });
     }
   
   });
   
-
 }
 
 
 setPrecio(precio, item:any)
 {
+  if(isNaN(precio))
+  {
+    M.toast({html: '<strong> Solo se aceptan numeros <strong>', classes:' rounded  pink darken-2'}); 
+
+    return;
+  }
+  
+  
   
 if(precio.length <= 0) 
 {
@@ -378,6 +389,15 @@ if(precio.length <= 0)
 
 setCantidad(cantidad, item:any)
 {
+
+  if(isNaN(cantidad))
+  {
+    M.toast({html: '<strong> Solo se aceptan numeros <strong>', classes:' rounded  pink darken-2'}); 
+
+    return;
+  }
+
+
   if(cantidad.length <= 0)
   {
     item.changeValue= false;
@@ -395,21 +415,51 @@ sumarTotalServicios()
 {
     var totalr = 0;
 
-   this.servicios.forEach(function(ele){
-   
+   this.servicios.forEach(function(ele){  
+
     if(ele.selected)
     totalr += ele.total;
 
    });
-
-    this.totalPaquete = totalr;
-
+   
+    this.totalPaquete = roundx(totalr,2); //totalr;
 }
+
+
+
+
 
 
 RegCambio(item:any)
 {
-    console.log(item);
+     //guardar cambio
+
+    if(item.selected)
+    {     
+      
+      const url = uriPaqueteServicio + item.servicioId;
+
+      this._servicioGenerico.Actualizar(item, url).subscribe((resp:any) => {
+    
+          if(resp.ok === true)
+          {
+
+            M.toast({html: '<strong> Se actualizó el servicio al paquete. <strong>', classes:' rounded  pink darken-2'});  
+          
+            this.totalPaqueteReal += item.total;
+
+            this.actualizarPaqueteTotal();
+            item.changeValue = false;
+
+          }
+    
+      });
+    
+    }
+
 }
+
+
+
 
 }

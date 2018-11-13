@@ -65,6 +65,10 @@ export class HeaderComponent implements OnInit {
           this.route = '/agenda/'+item.id;
         }
     }
+    else
+    {
+      this.route = '/dashboard';
+    }
 
     this._route.navigate([this.route]);
   }

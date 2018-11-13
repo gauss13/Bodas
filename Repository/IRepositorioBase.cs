@@ -18,7 +18,7 @@ namespace Repository
 
         Task<IEnumerable<T>> GetAllAsyc();
 
-        Task<IEnumerable<T>> FindAsyc(Expression<Func<T, bool>> predicado);
+        Task<List<T>> FindAsyc(Expression<Func<T, bool>> predicado);
 
         Task<T> AddAsync(T entity);
 

@@ -67,4 +67,9 @@ function mostrarErrorx(campo:string, fg:FormGroup, textoDeValidacion: any, error
   }
 
 
-export { mostrarErrorx, onCambioValorx};
+  function roundx(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+  }
+
+export { mostrarErrorx, onCambioValorx, roundx};

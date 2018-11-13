@@ -20,6 +20,8 @@ namespace Entities.Models.Paquetes
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Total { get; set; }
         public int DivisaId { get; set; }
+        [StringLength(350)]
+        public string Nota { get; set; }
     }
 
     
