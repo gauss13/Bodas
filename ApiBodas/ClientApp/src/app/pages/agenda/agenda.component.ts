@@ -160,6 +160,7 @@ activeRoute.params.subscribe(
       
       });  
 
+      $('.sidenav').sidenav({edge:'right' });
 
       //  $('body').on('click', 'button.fc-prev-button', function() {
       //  // ejecutar servicio fechas por mes
@@ -265,7 +266,14 @@ if(hid !== undefined && hid !== null)
         //   window.open(calEvent.url);
         //   return false;
         // }
-        $('#btnEditar').click();
+
+
+      //  $('#btnEditar').click();
+
+      $('#btnSideBar').click();
+
+
+
       
       },
       timeFormat: 'HH:mm',
