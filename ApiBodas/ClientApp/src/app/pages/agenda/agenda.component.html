@@ -16,25 +16,52 @@
 <!-- side -->
 <ul id="slide-out" class="sidenav">
     <li>
-        <div class="user-view">
-            <div class="background">
-                <img src="images/office.jpg">
-            </div>
-            <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
-            <a href="#name"><span class="white-text name">John Doe</span></a>
-            <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+
+        <div class="user-view teal">
+
+            <ul class="teal white-text">
+                <li>
+                    <h5>Fecha : {{fechaDato}}</h5>
+                </li>
+                <li> Pareja: <span>  {{parejaDato}}</span></li>
+                <li> Correo: <span>  {{correoDato}}</span></li>
+                <li> Deposito: <span>{{depositoDato}}</span></li>
+            </ul>
         </div>
+
+
+
+
+        <!-- <div class="background teal ">
+                <label class="white-text"> Fecha 2</label>
+            </div> -->
+
+
     </li>
-    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-    <li><a href="#!">Second Link</a></li>
+    <li><a href="#" data-target="modal1" class=" modal-trigger waves-effect"><i class="material-icons">view_list</i>Ver Completo</a></li>
+    <li><a href="#" class="waves-effect"><i class="material-icons ">update</i>Hist. de Cambios</a></li>
+
     <li>
         <div class="divider"></div>
     </li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-</ul>
-<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <li><a class="subheader">Acciones</a></li>
+    <li><a class="btn waves-effect pink accent-3" *ngIf="tipoAgendaSelected >  0 && tipoAgendaSelected <  3" (click)="CancelarAgenda()"><i class="material-icons ">timer_off</i>Cancelar Fecha</a></li>
 
+    <li><a class="btn waves-effect" *ngIf="tipoAgendaSelected == 1" (click)="ConfirmarAgenda()"><i class="material-icons " >playlist_add_check</i>Confirmar Fecha</a></li>
+    <li><a class="btn waves-effect" *ngIf="tipoAgendaSelected == 2" (click)="ConfirmarAgenda()"><i class="material-icons ">done_all</i>Finalizar</a></li>
+
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">Documentos</a></li>
+    <li><a href="#" class="waves-effect"><i class="material-icons ">timer_off</i> Ver Master File</a></li>
+    <li><a href="#" class="waves-effect"><i class="material-icons ">timer_off</i> Imp regs.</a></li>
+
+
+</ul>
+
+<!-- <a href="#" id="btnSideBar" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+<button id="btnSideBar" hidden data-target="slide-out" class="sidenav-trigger" (click)="modalEdicion()">Editar</button>
 
 
 <!-- Formulario Agenda disabled-->
@@ -45,12 +72,12 @@
         <div class="modal-content">
             <input type="hidden" id="idagendaedit" value="0" />
             <input type="hidden" id="tipoagenda" value="0" />
-            <h5 class=" "> {{idAgenda}} {{ modoEdicion ? ' | Editar' : ' | Agregar Nuevo'}} </h5>
+            <h5 class=" "> {{idAgenda}} {{ modoEdicion ? ' | Detalle reserva ' : ' | Nuevo '}} | {{ strTipo }} | <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button> </h5>
 
             <div class="progress ">
                 <div class="determinate blue darken-4" [style.width]="progreso +'%'"></div>
             </div>
-            <p>agregar nuevo registro de </p>
+            <p>{{ modoEdicion ? ' Fecha reservada ' : ' Reservar Fecha tentativa'}} </p>
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">event_available</i>
@@ -328,9 +355,9 @@
         <div class="modal-footer">
             <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button>
             <!-- <button type="button" id="patchfecha" class="btn grey darken-1  " (click)="patchFecha()">Patch </button> -->
-            <button type="submit" [disabled]="!formG.valid" class="btn modal-close"> {{ modoEdicion ? 'Guardar Cambios' : 'Guardar Nuevo'}} </button>
-            <button type="button" *ngIf="tipoAgendaSelected == 1" class="btn teal darken-3 modal-close " data-dismiss="modal" (click)="ConfirmarAgenda()">Confirmar </button>
-            <button type="button" *ngIf="tipoAgendaSelected >  0 && tipoAgendaSelected <  3" class="btn  red darken-3 modal-close " data-dismiss="modal" (click)="CancelarAgenda()">Cancelar </button>
+            <button type="submit" *ngIf="tipoAgendaSelected < 3" [disabled]="!formG.valid" class="btn modal-close"> {{ modoEdicion ? 'Guardar Cambios' : 'Guardar Nuevo'}} </button>
+            <!-- <button type="button" *ngIf="tipoAgendaSelected == 1" class="btn teal darken-3 modal-close " data-dismiss="modal" (click)="ConfirmarAgenda()">Confirmar </button>
+            <button type="button" *ngIf="tipoAgendaSelected >  0 && tipoAgendaSelected <  3" class="btn  red darken-3 modal-close " data-dismiss="modal" (click)="CancelarAgenda()">Cancelar </button> -->
         </div>
     </form>
 

@@ -170,18 +170,18 @@ namespace ApiBodas.Controllers
 
             switch (e)
             {
-                case -1:
-                    return ("Cancelado", "red", "white");
-                case 0:
-                    return ("Bloqueado", "gray", "black");                    
                 case 1:
-                    return ("Tentativo", "blue", "white"); 
+                    return ("Tentativo", "#b2dfdb", "black"); //blue
                 case 2:
-                    return ("Confirmado", "green", "white");  
+                    return ("Confirmado", "#009688 ", "white");  //green
                 case 3:
-                    return ("Terminado", "orange", "white");
+                    return ("Cancelado", "#e91e63", "white");//rojo
+                case 4:
+                    return ("Bloqueado", "#9e9e9e", "black");            //gray                       
+                case 5:
+                    return ("Terminado", "#9e9d24 ", "white"); //orange
                 default:
-                    return ("Otro", "blue", "white"); 
+                    return ("Disponible", "white", "white"); //
 
             }
         }

@@ -30,11 +30,14 @@ export class AgendaComponent implements OnInit {
   idAgenda= 0;
   tipoAgenda=0;
   progreso=10;
+  strTipo='Tentativo';
   
+  // disponible = 0 
   // tentativo   = 1 -> Edit -> Confirm -> Cancelar -> 
-  // confirmado  = 2 -> Editar ->  Cancelar -> 
-  // cancelado   = 3 -> Nada
+  // confirmado  = 2 -> Editar ->  Cancelar -> Finalizar
+  // cancelado   = 3 -> Nada - posible apertura
   // bloqueado   = 4 -> Nada
+  // Finalizado  = 5 -> nada
 
   horas: any;
   lugaresCeremonia: any;
@@ -58,7 +61,14 @@ export class AgendaComponent implements OnInit {
   selectedDivisaCom: number =0;
   selectedDivisaDepo: number =0;
 
-  countries = ['MX', 'US', 'BT', 'FR','AR',];
+  fechaDato:string='';
+  parejaDato:string='';
+  correoDato:string='';
+  depositoDato:string='';
+
+
+
+  
 
 // FORMULARIO 1
 formG: FormGroup
@@ -445,6 +455,14 @@ resetFormulario() {
 // ***************************************************************************************
 save(){
 
+  console.log(this.tipoAgendaSelected);
+  //validar el tipo de agenda antes de guardar
+  if(this.tipoAgendaSelected > 2)
+  {
+    M.toast({html: 'El registro No puede editar!', classes: 'rounded pink darken-3'});
+return false;
+  }
+
  let itemAgenda: Agenda = Object.assign({}, this.formG.value)
 
  itemAgenda.hotelId = this._gbl.hotelIdSelected; 
@@ -689,6 +707,7 @@ modalCrear()
   this.selectedDivisaCom =0;
   this.selectedDivisaDepo =0;
 
+  this.strTipo ='Tentativo';
 
 if(this.modoEdicion === true)
 {
@@ -755,15 +774,36 @@ modalEdicion()
   this.tipoAgenda=tipoa;
   this.modoEdicion = true;
 
-if(tipoa == -1) // Cancelado
-this.progreso = 0
-if(tipoa == 1)//Tentativo
-this.progreso = 15
-if(tipoa == 2) // Confirmado
-this.progreso = 55
-if(tipoa == 3) // terminado
-this.progreso = 100
+if(tipoa == 3 ) // Cancelado
+{
+  this.progreso = 0
+  this.strTipo ='Cancelado';
+}
+if(tipoa == 4) // Cancelado
+{
+  this.progreso = 0
+  this.strTipo ='Bloqueado';
+}
 
+
+
+if(tipoa == 1)//Tentativo
+{
+  this.strTipo ='Tentativo';
+this.progreso = 15
+}
+
+if(tipoa == 2) // Confirmado
+{
+  this.strTipo ='Confirmado';
+this.progreso = 55
+}
+
+if(tipoa == 5) // terminado
+{
+  this.strTipo ='Finalizado';
+this.progreso = 100
+}
 
   // this.resetFormulario();
 var agendadb:any;
@@ -789,6 +829,14 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
       this.selectedAgencia  =agendadb.agenciaId;
       this.selectedDivisaCom  =agendadb.divisaComision == null ? 0 : agendadb.divisaComision;
       this.selectedDivisaDepo  =agendadb.divisaDeposito == null ? 0 : agendadb.divisaDeposito;
+
+
+      //datos sidebar
+      this.fechaDato = this.GenFechaFromDb(agendadb.fechaBoda) +' ' +agendadb.horaBoda;
+      this.parejaDato = agendadb.nombrePareja;
+      this.correoDato = agendadb.correoPareja;
+      this.depositoDato = agendadb.deposito;
+
 
       this.formG.patchValue({
         fechaBoda         :  this.GenFechaFromDb(agendadb.fechaBoda),
@@ -823,7 +871,7 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
         fechaSelloAuditoria : agendadb.fechaSelloAuditoria  
       });
 
-// llenar los combos
+      // llenar los combos
       // this.GetHoras();
       // this.GetCeremonias();
       // this.GetCenas();
@@ -876,18 +924,28 @@ ConfirmarAgenda()
 // ***************************************************************************************
 CancelarAgenda()
 {
-  this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,-1).subscribe(
-    (resp:any)=> {
+  var r = confirm('¿Estas seguro de cancelar la fecha?');
 
-      if(resp.ok == true)
-      {
-        // obtener los cambios
-        var moment = $('#calendar').fullCalendar('getDate');
-        this.CargarFechas(moment._i[0], moment._i[1]+1);
-      }
+  if(r)
+  {
+        this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,3).subscribe(
+          (resp:any)=> {
+          
+            if(resp.ok == true)
+            {
 
-    }    
+              M.toast({html: '<strong>Se canceló la fecha, correctamente!</strong>', classes:'rounded  pink darken-3'});
+
+              this.tipoAgendaSelected = 3;
+              // obtener los cambios
+              var moment = $('#calendar').fullCalendar('getDate');
+              this.CargarFechas(moment._i[0], moment._i[1]+1);
+            }
+          
+          }    
   );
+
+  }
 }
 
 
