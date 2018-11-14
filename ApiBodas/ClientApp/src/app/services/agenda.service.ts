@@ -104,7 +104,7 @@ PutCambiarEstatus(id:number, ide:number)
   const url= URL_SERVICIOS + '/api/Agenda/estatus/'+id + '/'+ide;
   const headersj = new HttpHeaders({'Content-Type':'application/json'});
 
-
+console.log('destino',url);
   return this.http.put(url,null).pipe(
     map((resp:any) => {
       return resp;

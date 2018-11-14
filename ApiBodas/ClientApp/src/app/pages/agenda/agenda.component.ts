@@ -904,18 +904,12 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
 ConfirmarAgenda()
 {
   
-  this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,2).subscribe(
-    (resp:any)=> {
+  var r = confirm('¿Estas seguro de Confirmar la fecha?');
 
-      if(resp.ok == true)
-      {
-        // obtener los cambios
-        var moment = $('#calendar').fullCalendar('getDate');
-        this.CargarFechas(moment._i[0], moment._i[1]+1);
-      }
-    }    
-  );
-
+  if(r)
+  {
+    this.actualizarEstatus(this.agendaIdSelected,2);
+  }
 }
 
 
@@ -928,24 +922,51 @@ CancelarAgenda()
 
   if(r)
   {
-        this._servicioAgenda.PutCambiarEstatus(this.agendaIdSelected,3).subscribe(
-          (resp:any)=> {
-          
-            if(resp.ok == true)
-            {
+    this.actualizarEstatus(this.agendaIdSelected,3);
+  }
+}
 
-              M.toast({html: '<strong>Se canceló la fecha, correctamente!</strong>', classes:'rounded  pink darken-3'});
 
-              this.tipoAgendaSelected = 3;
-              // obtener los cambios
-              var moment = $('#calendar').fullCalendar('getDate');
-              this.CargarFechas(moment._i[0], moment._i[1]+1);
-            }
-          
-          }    
+// ***************************************************************************************
+//  FINALIZAR -  
+// ***************************************************************************************
+FinalizarAgenda()
+{
+  var r = confirm('¿Estas seguro de Finalizar la fecha?');
+
+  if(r)
+  {   
+      this.actualizarEstatus(this.agendaIdSelected,5);
+  }
+}
+
+// ***************************************************************************************
+//  UTILS 
+// ***************************************************************************************
+actualizarEstatus( id:number,tipo:number)
+{
+
+  console.log('datos: ', tipo, id);
+
+  this._servicioAgenda.PutCambiarEstatus(id,tipo).subscribe(
+    (resp:any)=> {
+    
+      if(resp.ok == true)
+      {
+
+        M.toast({html: '<strong>El registro se actualizó, correctamente!</strong>', classes:'rounded  pink darken-3'});
+       
+        this.tipoAgendaSelected = tipo;
+        // obtener los cambios
+        var moment = $('#calendar').fullCalendar('getDate');
+        this.CargarFechas(moment._i[0], moment._i[1]+1);
+      
+      }
+    
+    }    
   );
 
-  }
+
 }
 
 

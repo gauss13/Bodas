@@ -17,15 +17,15 @@
 <ul id="slide-out" class="sidenav">
     <li>
 
-        <div class="user-view teal">
+        <div class="user-view " [ngClass]=" tipoAgendaSelected == 3 ? 'pink' : 'teal' ">
 
-            <ul class="teal white-text">
+            <ul class=" white-text">
                 <li>
-                    <h5>Fecha : {{fechaDato}}</h5>
+                    <h5>{{fechaDato}}</h5>
                 </li>
                 <li> Pareja: <span>  {{parejaDato}}</span></li>
                 <li> Correo: <span>  {{correoDato}}</span></li>
-                <li> Deposito: <span>{{depositoDato}}</span></li>
+                <li> Deposito: <span>$ {{depositoDato}}</span></li>
             </ul>
         </div>
 
@@ -39,7 +39,7 @@
 
     </li>
     <li><a href="#" data-target="modal1" class=" modal-trigger waves-effect"><i class="material-icons">view_list</i>Ver Completo</a></li>
-    <li><a href="#" class="waves-effect"><i class="material-icons ">update</i>Hist. de Cambios</a></li>
+    <li><a href="#" class="waves-effect"><i class="material-icons ">update</i>Historial</a></li>
 
     <li>
         <div class="divider"></div>
@@ -48,7 +48,7 @@
     <li><a class="btn waves-effect pink accent-3" *ngIf="tipoAgendaSelected >  0 && tipoAgendaSelected <  3" (click)="CancelarAgenda()"><i class="material-icons ">timer_off</i>Cancelar Fecha</a></li>
 
     <li><a class="btn waves-effect" *ngIf="tipoAgendaSelected == 1" (click)="ConfirmarAgenda()"><i class="material-icons " >playlist_add_check</i>Confirmar Fecha</a></li>
-    <li><a class="btn waves-effect" *ngIf="tipoAgendaSelected == 2" (click)="ConfirmarAgenda()"><i class="material-icons ">done_all</i>Finalizar</a></li>
+    <li><a class="btn waves-effect lime darken-3" *ngIf="tipoAgendaSelected == 2" (click)="FinalizarAgenda()"><i class="material-icons ">done_all</i>Finalizar</a></li>
 
     <li>
         <div class="divider"></div>
