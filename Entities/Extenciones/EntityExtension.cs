@@ -50,6 +50,7 @@ namespace Entities.Extenciones
             itemDb.FechaMod = item.FechaMod;
             itemDb.EstadoAgendaId = item.EstadoAgendaId;
             itemDb.Pax3raEdad = item.Pax3raEdad;
+            itemDb.TtooId = item.TtooId;
 
         }
 

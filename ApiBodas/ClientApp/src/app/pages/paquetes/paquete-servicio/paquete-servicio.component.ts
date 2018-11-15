@@ -10,6 +10,7 @@ import { Paquete } from 'src/app/models/paquete.model';
 import { uriPaquete, uriServicio, uriPaqueteServicio  } from 'src/app/config/config';
 import { PaqueteServicio } from 'src/app/models/paqueteservicio.model';
 import { isNumber } from 'util';
+import { alertSuccess, alertWarning } from '../../../config/config';
 
 declare var $: any;
 declare var M: any;
@@ -113,13 +114,11 @@ export class PaqueteServicioComponent implements OnInit {
     });
     
     
-    setTimeout(function(){   
+    setTimeout(function(){  
       
       $('select').formSelect(); 
-      M.updateTextFields();
-  
-  
-  }, 3000);
+      M.updateTextFields(); 
+    },3000);
 
   }
 
@@ -313,8 +312,17 @@ if(item.selected)
 
       if(resp.ok === true)
       {
-        M.toast({html: '<strong> Se agregó el servicio al paquete. <strong>', classes:' rounded  pink darken-2'});  
+        
+        this.totalPaqueteReal += item.total;
+
         this.actualizarPaqueteTotal();
+
+        M.toast({html: '<strong> Se agregó el servicio al paquete. <strong>', classes:alertSuccess});  
+      }
+      else
+      {
+        M.toast({html: resp.mensaje, classes:alertWarning});  
+        // this.actualizarPaqueteTotal();
       }
 
   });
@@ -328,8 +336,10 @@ else // quitar
 
       if(resp.ok === true)
       {
-        M.toast({html: '<strong> Se quitó el servicio del paquete. <strong>', classes:' rounded  pink darken-2'});  
+        this.totalPaqueteReal -= item.total;
         this.actualizarPaqueteTotal();
+        M.toast({html: '<strong> Se quitó el servicio del paquete. <strong>', classes:' rounded  pink darken-2'});  
+        
       }
 
   });
@@ -342,13 +352,16 @@ else // quitar
 
 actualizarPaqueteTotal()
 {
-  this.sumarTotalServicios();
 
-  var url = uriPaquete +  this.selectedId;
+    var url = uriPaquete +  this.selectedId;
 
     //actualizar paquete
+    if(this.totalPaqueteReal < 0)
+    this.totalPaqueteReal = 0;
+    
     this.paquete.total = this.totalPaqueteReal;
   
+    //
     this._servicioGenerico.Actualizar(this.paquete,url).subscribe((resp:any) =>{
   
     //validar ok
@@ -358,8 +371,12 @@ actualizarPaqueteTotal()
     }
   
   });
+
   
 }
+
+
+
 
 
 setPrecio(precio, item:any)
@@ -425,7 +442,28 @@ sumarTotalServicios()
     this.totalPaquete = roundx(totalr,2); //totalr;
 }
 
+sumarTotalServiciosPromise()
+{
 
+return new Promise((resolve, reject ) => {
+
+  var totalr = 0;
+
+  this.servicios.forEach(function(ele){  
+
+   if(ele.selected)
+       totalr += ele.total;
+
+  });
+  
+      this.totalPaquete = roundx(totalr,2); //totalr;
+
+     resolve(this.totalPaquete);
+
+});//fin promesa
+
+    
+}
 
 
 

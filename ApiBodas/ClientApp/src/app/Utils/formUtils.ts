@@ -78,7 +78,7 @@ function mostrarErrorx(campo:string, fg:FormGroup, textoDeValidacion: any, error
     
     if(f === null)
     return null;
-console.log(f);
+
 
          var separateTime = f.split("T");
 
@@ -92,6 +92,8 @@ console.log(f);
 //espera una fecha en formato dd/MM/yyyy y retorna yyyy/MM/dd
   function dateFormatYYYYMMDDxD(f:string)
   {
+    if(f === null)
+    return null;
     
       var str = f.split("/");
   

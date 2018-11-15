@@ -8,7 +8,7 @@ import { Globalx } from 'src/app/config/global';
 import { ActivatedRoute } from '@angular/router';
 
 import { uriTtoo} from 'src/app/config/config';
-import { alertSuccess, alertError } from '../../config/config';
+import { alertSuccess, alertError, alertMessage, alertWarning } from '../../config/config';
 
 declare var $: any;
 declare var M: any;
@@ -133,14 +133,13 @@ activeRoute.params.subscribe(
     const texto = params['abc'];
     if(texto !== 'ini')
     {
-      // console.log(this.idHotel);
-      // console.log(this._gbl.hotelIdSelected);
+           
 
       if(this.idHotel !== this._gbl.hotelIdSelected)
       {  
         if( this.idHotel !== 0)
         {
-        // console.log('se inicia')
+        
         this.IniciarCal();
         }
         this.idHotel = this._gbl.hotelIdSelected;
@@ -325,7 +324,7 @@ var moment = $('#calendar').fullCalendar('getDate');
 
 this.CargarFechas(moment._i[0], moment._i[1]+1);
 
-    M.toast({html: '<strong> Calendario de ' + this._gbl.hotelSelected+ ' iniciado <strong>', classes:' rounded  pink darken-2'});
+    M.toast({html: '<strong> Calendario de BODAS en ' + this._gbl.hotelSelected+ ' - iniciado. <strong>', classes:alertMessage});
 }
 
 // ***************************************************************************************
@@ -400,9 +399,9 @@ construirFormulario()
     backUpId          : ['', Validators.required],
     paqueteId         : ['', Validators.required],
     agenciaId         : ['', Validators.required],
-    ttooId : ['', Validators.required],
+    ttooId            : ['', Validators.required],
     comision          : [''],
-    divisaComision    : ['MX'],
+    divisaComision    : [''],
     
     paxAdultos        : [''],
     paxJunior         : [''],
@@ -417,7 +416,7 @@ construirFormulario()
 
     promocion         : [''],
     deposito          : [''], 
-    divisaDeposito    : ['MX'],
+    divisaDeposito    : [''],
    
     fechaConfirmada   : [''],
     fechaPago         : [''],     
@@ -427,12 +426,16 @@ construirFormulario()
 
 // Fecha de pago =>  pago de la comision
 
-
+console.log('INICIAL',this.formG);
 
 // manejador del evento de cambio de valor en los inputs
 this.formChangesSub = this.formG.valueChanges.subscribe( data => this.onCambioValor());
 this.formG.touched;
 this.formG.markAsTouched();
+
+console.log('TOUCHED' , this.formG);
+
+
 
 }
 
@@ -492,7 +495,7 @@ if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === n
  if(!this.modoEdicion )
  {
  // CREAR
- //console.log('crear : ' +  this.formG.value.fechaBoda);
+ 
 
  this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
         //Respuesta post
@@ -506,9 +509,19 @@ if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === n
         }
         else if(resp.ok === false)
         {
-          M.toast({html: resp.mensaje, classes: alertError});
+          M.toast({html: resp.mensaje, classes: alertWarning});
         }
- });
+ },
+ (err)=>{
+
+  M.toast({html: err.mensaje, classes: alertError});
+  console.log(err.errors.mensaje);
+
+ },
+ () => {});
+
+
+
 }
 else
 {
@@ -529,11 +542,19 @@ else
         this.correoDato = resp.agenda.correoPareja;
         this.depositoDato = resp.agenda.deposito;
 
-        this.resetFormulario(); 
-
+        this.resetFormulario();
+    }
+    else if(resp.ok === false)
+    {
+      M.toast({html: resp.mensaje, classes: alertWarning});
     }
 
-});
+},
+(err) => {
+  M.toast({html: err.mensaje, classes: alertError});
+  console.log(err.errors.mensaje);
+},
+() => {});
 
 }
  // limpiar datos
@@ -748,7 +769,7 @@ patchFecha()
  var date = new Date($('#fboda').val());
 
 console.log('patch val :'  + fechab );
-console.log(dateFormatYYYYMMDDxD( fechab));
+
 
 
 this.fechaDato = fechab;
@@ -826,9 +847,8 @@ else
   this.patchFecha();
 }
 
-// this.formG.value.touched;
-// this.formG.markAsTouched();
 
+setTimeout(function() {  onCambioValorx( this.formG, this.textoDeValidacion, this.errorCampos);  }, 1000);
  
 }
 

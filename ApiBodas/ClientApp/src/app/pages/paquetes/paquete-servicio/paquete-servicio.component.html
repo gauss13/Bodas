@@ -58,7 +58,7 @@
 
                                 </div>
                                 <div class="input-field col s2">
-                                    <button type="submit" [disabled]="!fg.valid" class="btn modal-close"> Guardar </button>
+                                    <button type="submit" [disabled]="!fg.valid" [disabled]="fg.pristine" class="btn modal-close"> Guardar </button>
                                 </div>
 
                             </div>

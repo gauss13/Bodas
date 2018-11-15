@@ -203,7 +203,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    Agenda = r
+                    agenda = r
                 };
 
                 return Created("", obj);
