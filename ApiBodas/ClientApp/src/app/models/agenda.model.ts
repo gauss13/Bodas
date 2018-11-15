@@ -14,7 +14,8 @@ export class Agenda {
     public paxCunas:number ,
     public paqueteId: number,
     public agenciaId: number = 0,
-   
+    public ttooId: number = 0,
+    
 
     public comision: number = 0,
     public fechaSelloAuditoria:Date ,

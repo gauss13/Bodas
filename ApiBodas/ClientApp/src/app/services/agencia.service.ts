@@ -20,9 +20,9 @@ export class AgenciaService {
 // ***************************************************************************************
   //  GET - Agencia
   // ***************************************************************************************
-  GetAgencias() {
+  GetAgencias(tt:number) {
  
-    const url = URL_SERVICIOS + '/api/Agencia';
+    const url = URL_SERVICIOS + '/api/Agencia/'+tt;
     
   return this.http.get(url).pipe(
   map((resp:any) => {

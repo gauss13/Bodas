@@ -1,15 +1,15 @@
 <!-- <button (click)="IniciarCal()">Iniciar</button> -->
-<button (click)="GetFecha()">getfecha</button>
+<!-- <button (click)="GetFecha()">getfecha</button> -->
 
-<a id="inicialcal" name="inicialcal" (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>Iniciar Cal</a>
+<a id="inicialcal" name="inicialcal" (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>Iniciar Calendario</a>
 
 <button (click)="GoToday()" class="waves-effect waves-light btn">Hoy</button>
-<button (click)="GoAnterior()" class="waves-effect waves-light btn"> Ant. </button>
-<button (click)="GoSiguiente()" class="waves-effect waves-light btn">Sig. </button>
+<button (click)="GoAnterior()" class="waves-effect waves-light btn"> <i class="material-icons right">chevron_left</i>   </button>
+<button (click)="GoSiguiente()" class="waves-effect waves-light btn"> <i class="material-icons right">chevron_right</i>  </button>
 
 <!-- Modal Trigger -->
-<button data-target="modal1" id="btnCrear" class="btn modal-trigger" (click)="modalCrear()">Abrir</button>
-<button data-target="modal1" id="btnEditar" class="btn modal-trigger" (click)="modalEdicion()">Editar</button>
+<button id="btnCrear" hidden data-target="modal1" class=" modal-trigger" (click)="modalCrear()">Abrir</button>
+<!-- <button data-target="modal1" id="btnEditar" class="btn modal-trigger" (click)="modalEdicion()">Editar</button> -->
 
 <div id='calendar'></div>
 
@@ -29,16 +29,8 @@
             </ul>
         </div>
 
-
-
-
-        <!-- <div class="background teal ">
-                <label class="white-text"> Fecha 2</label>
-            </div> -->
-
-
     </li>
-    <li><a href="#" data-target="modal1" class=" modal-trigger waves-effect"><i class="material-icons">view_list</i>Ver Completo</a></li>
+    <li><a href="#" data-target="modal1" class=" modal-trigger waves-effect" (click)="modalEdicion()"><i class="material-icons">view_list</i>Ver Detalles</a></li>
     <li><a href="#" class="waves-effect"><i class="material-icons ">update</i>Historial</a></li>
 
     <li>
@@ -72,7 +64,7 @@
         <div class="modal-content">
             <input type="hidden" id="idagendaedit" value="0" />
             <input type="hidden" id="tipoagenda" value="0" />
-            <h5 class=" "> {{idAgenda}} {{ modoEdicion ? ' | Detalle reserva ' : ' | Nuevo '}} | {{ strTipo }} | <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button> </h5>
+            <h5 class=" "> {{idAgenda}} {{ modoEdicion ? ' | Detalle reserva ' : ' | Nuevo '}} | {{ strTipo }} | {{fechaDato}} | <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button> </h5>
 
             <div class="progress ">
                 <div class="determinate blue darken-4" [style.width]="progreso +'%'"></div>
@@ -81,8 +73,9 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">event_available</i>
-                    <input id="fboda" type="text" [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
-                    <label for="fboda" class="active">Fecha</label>
+                    <input type="hidden" id="fboda" value="">
+                    <input id="fboda2" name="fboda2" type="date" [ngClass]=" errorCampos.fechaBoda  ? 'invalid' : 'valid' " (blur)="mostrarError( 'fechaBoda') " formControlName="fechaBoda">
+                    <label for="fboda2" class="active">Fecha</label>
                     <span class="helper-text" *ngIf="errorCampos.fechaBoda" [innerHTML]="errorCampos.fechaBoda">Helper text</span>
                 </div>
 
@@ -184,28 +177,36 @@
             </div>
 
 
-
             <div class="row">
 
                 <div class="input-field col s6">
-                    <select formControlName="agenciaId">
+                    <select formControlName="ttooId" (change)="ttooChange($event.target.value)">
+                             <option  disabled >Seleccionar Ttoo</option>
+                                   <option *ngFor="let to of ttoos " [value]="to.id" [selected]="selectedTtoo == to.id"  >{{to.nombre}}</option>
+                            </select>
+                    <label class="active">TTOO</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <select formControlName="agenciaId" class="selAgencia">
                              <option  disabled >Seleccionar Agencia</option>
                                    <option *ngFor="let ag of agencias " [value]="ag.id" [selected]="selectedAgencia == ag.id"  >{{ag.nombre}}</option>
                             </select>
                     <label class="active">Agencia</label>
                 </div>
 
-                <div class="input-field col s6">
-                    <input id="correoAgencia" type="text" [ngClass]=" errorCampos.correoAgencia  ? 'invalid' : 'valid' " (blur)="mostrarError( 'correoAgencia') " formControlName="correoAgencia">
-                    <label for="correoAgencia" class="active">Correo Agencia</label>
-                    <span class="helper-text" *ngIf="errorCampos.correoAgencia" [innerHTML]="errorCampos.correoAgencia">...</span>
-                </div>
+
 
             </div>
 
 
             <div class="row">
 
+                <div class="input-field col s6">
+                    <input id="correoAgencia" type="text" [ngClass]=" errorCampos.correoAgencia  ? 'invalid' : 'valid' " (blur)="mostrarError( 'correoAgencia') " formControlName="correoAgencia">
+                    <label for="correoAgencia" class="active">Correo Agencia</label>
+                    <span class="helper-text" *ngIf="errorCampos.correoAgencia" [innerHTML]="errorCampos.correoAgencia">...</span>
+                </div>
 
                 <div class="input-field col s6">
                     <input id="nombreAgente" type="text" maxlength="50" [ngClass]=" errorCampos.nombreAgente  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nombreAgente') " formControlName="nombreAgente">
@@ -229,7 +230,7 @@
 
                 <div class="input-field col s2">
                     <select formControlName="divisaComision">
-                         <option  disabled >Sel Divisa</option>
+                         <!-- <option  disabled >Sel Divisa</option> -->
                                <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
                         </select>
                     <label class="active">Divisa</label>
@@ -314,7 +315,7 @@
 
                 <div class="input-field col s3">
                     <select formControlName="divisaDeposito">
-                             <option  disabled >Sel Divisa Deposito</option>
+                             <!-- <option  disabled >Sel Divisa Deposito</option> -->
                                    <option *ngFor="let dv of divisas " [value]="dv.id" [selected]="selectedDivisaCom == dv.id"  >{{dv.clave}}</option>
                             </select>
                     <label class="active">Divisa</label>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, TipoceremoniaService, BackupService, PaqueteService, AgenciaService, DivisaService  } from 'src/app/services/service.index';
+import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, TipoceremoniaService, BackupService, PaqueteService, AgenciaService, DivisaService, GenericoService  } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
-import {mostrarErrorx, onCambioValorx} from '../../Utils/formUtils';
+import {mostrarErrorx, onCambioValorx, dateFormatYYYYMMDDx,dateFormatYYYYMMDDxD} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
 import { Agenda } from '../../models/agenda.model';
 import { Globalx } from 'src/app/config/global';
 import { ActivatedRoute } from '@angular/router';
 
-
+import { uriTtoo} from 'src/app/config/config';
+import { alertSuccess, alertError } from '../../config/config';
 
 declare var $: any;
 declare var M: any;
@@ -47,6 +48,7 @@ export class AgendaComponent implements OnInit {
   paquetes: any;
   agencias:any;
   divisas:any;
+  ttoos:any;
 
   fechaSeleccionada: string ='';
   agendaIdSelected:number = 0;
@@ -58,8 +60,9 @@ export class AgendaComponent implements OnInit {
   selectedBack: number = 0;
   selectedPaquete: number =0;
   selectedAgencia: number =0;
-  selectedDivisaCom: number =0;
-  selectedDivisaDepo: number =0;
+  selectedTtoo: number =0;
+  selectedDivisaCom: number =5;
+  selectedDivisaDepo: number =5;
 
   fechaDato:string='';
   parejaDato:string='';
@@ -82,6 +85,7 @@ formG: FormGroup
     public _paqueteService: PaqueteService,
     public _agenciaService: AgenciaService,
     public _divisaService: DivisaService,
+    private _servicioGenerico: GenericoService,
     public _gbl:Globalx,
     public activeRoute: ActivatedRoute
     ) { 
@@ -101,6 +105,7 @@ this.textoDeValidacion = {
   backUpId:{ required: 'El campo backUp es <strong>requerido</strong>.' } ,
   paqueteId:{ required: 'El campo paquete es <strong>requerido</strong>.' } ,
   agenciaId:{ required: 'El campo agencia es <strong>requerido</strong>.' } ,
+  ttooId:{ required: 'El campo ttoo es <strong>requerido</strong>.' } ,
   
 }
 
@@ -118,7 +123,8 @@ this.errorCampos = {
   lugarCenaId: '',
   backUpId:'',
   paqueteId:'',
-  agenciaId:''
+  agenciaId:'',
+  ttooId:''
 }
 
 //Active Route
@@ -158,8 +164,9 @@ activeRoute.params.subscribe(
     this.GetTiposCeremonia();
     this.GetBackups();
     this.GetPaquetes();
-    this.GetAgencias();
+    //this.GetAgencias();
     this.GetDivisas();
+    this.GetTtoos();
 
    this.initSelect();
    // this.initNacionalidad();
@@ -393,8 +400,9 @@ construirFormulario()
     backUpId          : ['', Validators.required],
     paqueteId         : ['', Validators.required],
     agenciaId         : ['', Validators.required],
+    ttooId : ['', Validators.required],
     comision          : [''],
-    divisaComision    : [''],
+    divisaComision    : ['MX'],
     
     paxAdultos        : [''],
     paxJunior         : [''],
@@ -409,7 +417,7 @@ construirFormulario()
 
     promocion         : [''],
     deposito          : [''], 
-    divisaDeposito    : [''],
+    divisaDeposito    : ['MX'],
    
     fechaConfirmada   : [''],
     fechaPago         : [''],     
@@ -450,17 +458,17 @@ resetFormulario() {
   //this.selectedId = 0;
 }
 
-// ***************************************************************************************
+// **************************** SAVE -  UPDATE *******************************************
 //  GUARDAR CAMBIOS 
 // ***************************************************************************************
 save(){
 
-  console.log(this.tipoAgendaSelected);
+  
   //validar el tipo de agenda antes de guardar
   if(this.tipoAgendaSelected > 2)
   {
-    M.toast({html: 'El registro No puede editar!', classes: 'rounded pink darken-3'});
-return false;
+    M.toast({html: 'El registro No se puede editar!', classes: 'rounded pink darken-3'});
+      return false;
   }
 
  let itemAgenda: Agenda = Object.assign({}, this.formG.value)
@@ -478,9 +486,8 @@ if(this.formG.value.deposito === "" || this.formG.value.deposito === null)
 if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === null)
     itemAgenda.numHabitacion = 0;
 
-let fb = this.GenFecha(this.formG.value.fechaBoda); 
-
- itemAgenda.fechaBoda = fb;
+//let fb = this.GenFecha(this.formG.value.fechaBoda); 
+//itemAgenda.fechaBoda = fb;
 
  if(!this.modoEdicion )
  {
@@ -489,28 +496,43 @@ let fb = this.GenFecha(this.formG.value.fechaBoda);
 
  this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
         //Respuesta post
-        if(resp.ok)
+        if(resp.ok === true)
         {
-          M.toast({html: 'El registro se guardó correctamente!', classes: 'rounded pink darken-3'});
+          M.toast({html: 'El registro se guardó correctamente!', classes: alertSuccess});
           var moment = $('#calendar').fullCalendar('getDate');
-          this.resetFormulario();        
+              
           this.CargarFechas(moment._i[0], moment._i[1]+1); 
+          this.resetFormulario();   
+        }
+        else if(resp.ok === false)
+        {
+          M.toast({html: resp.mensaje, classes: alertError});
         }
  });
 }
 else
 {
-  //console.log('actualizar fboda: ' + this.formG.value.fechaBoda);
+
  //ACTUALIZAR
   this._servicioAgenda.ActualizarAgenda(itemAgenda, this.agendaIdSelected).subscribe( (resp:any) => {
     //Respuesta post
     if(resp.ok)
     {
-      M.toast({html: '<strong>El registro se actualizó correctamente!</strong>', classes:'rounded  pink darken-3'});
-      var moment = $('#calendar').fullCalendar('getDate');
-      this.resetFormulario();            
+      M.toast({html: '<strong>El registro se actualizó correctamente!</strong>', classes:alertSuccess});
+      var moment = $('#calendar').fullCalendar('getDate');                
       this.CargarFechas(moment._i[0], moment._i[1]+1);     
+
+
+        //datos sidebar
+        this.fechaDato = this.GenFechaFromDb(resp.agenda.fechaBoda) +' ' +resp.agenda.horaBoda;
+        this.parejaDato = resp.agenda.nombrePareja;
+        this.correoDato = resp.agenda.correoPareja;
+        this.depositoDato = resp.agenda.deposito;
+
+        this.resetFormulario(); 
+
     }
+
 });
 
 }
@@ -521,7 +543,7 @@ else
 
 
 
-this.resetFormulario();
+//this.resetFormulario();
 
 }
 
@@ -558,6 +580,9 @@ return strFecha;
 }
 
 
+
+
+
 // ***************************************************************************************
 //   GET Lugar Ceremonia
 // ***************************************************************************************
@@ -566,7 +591,7 @@ GetLugaresCeremonia()
 
 }
 
-// ***************************************************************************************
+// ********************************** GET DATAS SELECT ***********************************
 //  GETS SELECTS 
 // ***************************************************************************************
 GetHoras()
@@ -613,15 +638,33 @@ this.lugaresBack = resp.backUp;
 
 GetPaquetes()
 {
-  this._paqueteService.GetPaquetes().subscribe( (resp:any) => {
+  this._paqueteService.GetPaquetes(this._gbl.hotelIdSelected).subscribe( (resp:any) => {
   this.paquetes = resp.paquete;
   } );
 }
 
-GetAgencias()
+GetAgencias(idtt:number)
 {
-  this._agenciaService.GetAgencias().subscribe( (resp:any) => {
-  this.agencias = resp.agencia;
+  this._agenciaService.GetAgencias(idtt).subscribe( (resp:any) => {
+
+if(resp.ok === true)
+{  
+  this.agencias = resp.agencia;  
+  
+}
+else
+{
+  this.agencias = [];
+
+}
+
+},
+(err) => {alert('error');},
+()=> {
+
+  setTimeout(function() {  $('.selAgencia').formSelect(); }, 1000);
+
+
 });
 }
 
@@ -632,7 +675,34 @@ GetDivisas()
     });
 }
 
-// ***************************************************************************************
+
+GetTtoos()
+{
+  const url = uriTtoo + this._gbl.hotelIdSelected;
+
+  this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
+
+                if(resp.ok === true)
+                {
+                  this.ttoos = resp.ttoo;              
+                }
+    },
+    (error) => {},
+    () => { //complete   
+    }
+);
+
+}
+
+
+ttooChange(valor)
+{
+// cargar agencia
+this.GetAgencias(valor);
+
+}
+
+// *********************************** INIT SELECT ****************************************
 //  INIT - SELECT DATEPICKER 
 // ***************************************************************************************
 
@@ -663,31 +733,27 @@ initSelect()
  // $('.datepicker').datepicker();
 }
 
-initNacionalidad()
-{
 
-  $('input.autocomplete').autocomplete({
-    data: {
-      "Apple": null,
-      "Microsoft": null,
-      "Google": 'https://placehold.it/250x250'
-    },
-  });
 
-}
-
-// ======================================================
+// ========================== MODAL ============================
 // PATCHES
-// ======================================================
+// =============================================================
 patchFecha()
 {
  // this.formG.reset();
  var fechab = $('#fboda').val();
 
-console.log('patch val :'  + fechab);
+ //var testf = $('#fboda').html($('#datePicker').val());
 
+ var date = new Date($('#fboda').val());
+
+console.log('patch val :'  + fechab );
+console.log(dateFormatYYYYMMDDxD( fechab));
+
+
+this.fechaDato = fechab;
 this.formG.patchValue({
-    fechaBoda : fechab       
+    fechaBoda : dateFormatYYYYMMDDxD( fechab)       
   });
 
 }
@@ -709,13 +775,14 @@ modalCrear()
 
   this.strTipo ='Tentativo';
 
+
 if(this.modoEdicion === true)
 {
   
   this.modoEdicion = false;
 //  this.resetFormulario();
  
-  var fechab = $('#fboda').val();
+  var fechab = $('#fboda').val();  
 
   this.formG.patchValue({
     fechaBoda         :  fechab,
@@ -814,9 +881,7 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
 
     if(resp.ok === true)
     {
-      agendadb = resp.agenda;
-
-      // console.table(agendadb);
+      agendadb = resp.agenda;  
 
       this.agendaIdSelected = ida;
       this.tipoAgendaSelected = agendadb.estadoAgendaId;
@@ -829,6 +894,7 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
       this.selectedAgencia  =agendadb.agenciaId;
       this.selectedDivisaCom  =agendadb.divisaComision == null ? 0 : agendadb.divisaComision;
       this.selectedDivisaDepo  =agendadb.divisaDeposito == null ? 0 : agendadb.divisaDeposito;
+      this.selectedTtoo = agendadb.ttooId == null ? 0 : agendadb.ttooId;
 
 
       //datos sidebar
@@ -837,9 +903,8 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
       this.correoDato = agendadb.correoPareja;
       this.depositoDato = agendadb.deposito;
 
-
       this.formG.patchValue({
-        fechaBoda         :  this.GenFechaFromDb(agendadb.fechaBoda),
+        fechaBoda         : dateFormatYYYYMMDDx(agendadb.fechaBoda), // this.GenFechaFromDb(agendadb.fechaBoda),
         horaBoda          :  agendadb.horaBoda,
         nombrePareja      :  agendadb.nombrePareja,
         correoPareja      :  agendadb.correoPareja,
@@ -850,6 +915,7 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
         backUpId          :  agendadb.backUpId,
         paqueteId         :  agendadb.paqueteId,
         agenciaId         : agendadb.agenciaId,
+        ttooId            : agendadb.ttooId, 
         comision          :  agendadb.comision,
         divisaComision    :  agendadb.divisaComision,
         paxAdultos        :  agendadb.paxAdultos,
@@ -865,10 +931,10 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
         promocion         :  agendadb.promocion,
         deposito          :  agendadb.deposito,
         divisaDeposito    :  agendadb.divisaDeposito,
-        fechaConfirmada   :  agendadb.fechaConfirmada,
-        fechaPago         :  agendadb.fechaPago,
-        fechaLlegada      :  agendadb.fechaLlegada,
-        fechaSelloAuditoria : agendadb.fechaSelloAuditoria  
+        fechaConfirmada   :  dateFormatYYYYMMDDx(agendadb.fechaConfirmada),
+        fechaPago         :  dateFormatYYYYMMDDx(agendadb.fechaPago),//agendadb.fechaPago, //yyyy-MM-dd"
+        fechaLlegada      :  dateFormatYYYYMMDDx(agendadb.fechaLlegada),
+        fechaSelloAuditoria : dateFormatYYYYMMDDx(agendadb.fechaSelloAuditoria)  
       });
 
       // llenar los combos
@@ -880,6 +946,8 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
       // this.GetPaquetes();
       // this.GetAgencias();
       // this.GetDivisas();
+
+      this.GetAgencias(agendadb.ttooId);
       this.initSelect();
 
       this.formG.touched;
@@ -898,7 +966,7 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
 }
 
 
-// ***************************************************************************************
+// ****************************** ESTATUS ****************************************************
 //    CONFIRMAR
 // ***************************************************************************************
 ConfirmarAgenda()
@@ -946,7 +1014,7 @@ FinalizarAgenda()
 actualizarEstatus( id:number,tipo:number)
 {
 
-  console.log('datos: ', tipo, id);
+ 
 
   this._servicioAgenda.PutCambiarEstatus(id,tipo).subscribe(
     (resp:any)=> {

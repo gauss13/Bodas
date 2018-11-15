@@ -72,4 +72,33 @@ function mostrarErrorx(campo:string, fg:FormGroup, textoDeValidacion: any, error
     return Math.round(value * multiplier) / multiplier;
   }
 
-export { mostrarErrorx, onCambioValorx, roundx};
+// espera una fecha en formato dd-MM-yyyyT00:00:00
+ function dateFormatYYYYMMDDx(f:string)
+  {
+    
+    if(f === null)
+    return null;
+console.log(f);
+
+         var separateTime = f.split("T");
+
+         var str = separateTime[0].split("-");
+
+         var strFecha = `${str[0]}-${str[1]}-${str[2]}`
+
+         return strFecha;  
+  
+  }
+//espera una fecha en formato dd/MM/yyyy y retorna yyyy/MM/dd
+  function dateFormatYYYYMMDDxD(f:string)
+  {
+    
+      var str = f.split("/");
+  
+      var strFecha = `${str[2]}-${str[1]}-${str[0]}`
+      
+      return strFecha;
+    
+  }
+
+export { mostrarErrorx, onCambioValorx, roundx, dateFormatYYYYMMDDx, dateFormatYYYYMMDDxD};

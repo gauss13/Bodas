@@ -19,9 +19,9 @@ export class PaqueteService {
 // ***************************************************************************************
 //  GET Paquetes 
 // ***************************************************************************************
-GetPaquetes()
+GetPaquetes(idh:number)
 {
-  const url = URL_SERVICIOS + '/api/Paquete';
+  const url = URL_SERVICIOS + '/api/Paquete/'+idh;
   
   
   return this.http.get(url).pipe(

@@ -25,8 +25,8 @@ namespace ApiBodas.Controllers
 
         // ->> ACTIONS
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{tt:int}/{id:int}")]
+        public async Task<IActionResult> GetById(int tt, int id)
         {
             var item = await this.Repositorio.Agencias.GetByIdAsync(id);
 
@@ -72,6 +72,35 @@ namespace ApiBodas.Controllers
                 ok = true,
                 total = lista.Count(),
                 Agencia = lista
+            };
+
+            return Ok(obj);
+        }
+
+        [HttpGet("{tt:int}")]
+        public async Task<IActionResult> GetAllPorTtoo(int tt)
+        {
+            //var lista = await this.Repositorio.Agencias.GetAllAsyc();
+            var lista = await this.Repositorio.Agencias.FindAsyc(x => x.TtooId == tt);
+
+            // BAD REQUEST
+            if (!lista.Any())
+            {
+                var objB = new
+                {
+                    ok = false,
+                    mensaje = "No se encontrarón Registros",
+                    errors = ""
+                };
+                return Ok(objB);
+            }
+
+            // OK
+            var obj = new
+            {
+                ok = true,
+                total = lista.Count(),
+                agencia = lista
             };
 
             return Ok(obj);

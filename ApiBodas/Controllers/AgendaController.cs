@@ -248,7 +248,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    Agenda = itemEncontrado
+                    agenda = itemEncontrado
                 };
 
                 return Created("", obj);
