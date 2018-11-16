@@ -155,6 +155,68 @@ namespace ApiBodas.Controllers
 
         }
 
+        //      [Route("/login/google")]
+        //        [HttpGet("[action]")]
+        //[HttpGet("fechas/{h:int}/{a:int}/{m:int}")]
+        [HttpPut("total/{id}")]  
+        public async Task<IActionResult> ActualizarTotal(int id)
+        {
+            try
+            {
+                //busca los servicios del paquete
+                var listaservicios = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == id);
+
+                //busca el paquete
+                var itemEncontrado = await this.Repositorio.Paquetes.GetByIdAsync(id);
+
+                //valida a lista y el item
+
+                if(!listaservicios.Any() && itemEncontrado == null)
+                {
+                    return Ok(new
+                    {
+                        ok = false,
+                        mensaje = "Se pudo actualizar el total del paquete."
+
+                    });
+                }
+
+
+                //obtenemos el total de los servicios
+                var totalservicios = listaservicios.Sum(x => x.Total);
+
+                itemEncontrado.Total = totalservicios;
+
+                var r = this.Repositorio.Paquetes.Update(itemEncontrado);
+                await this.Repositorio.CompleteAsync();
+
+                //nav set null
+                itemEncontrado.PaqueteServicios = null;
+
+
+                var obj = new
+                {
+                    ok = true,
+                    paquete = itemEncontrado
+                };
+
+                return Ok(obj);
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    ok = false,
+                    mensaje = "Se produjo un error al Actualizar el registro",
+                    errors = new { mensaje = ex.Message }
+
+                });
+            }
+
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {

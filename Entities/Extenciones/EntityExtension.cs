@@ -151,7 +151,10 @@ namespace Entities.Extenciones
         public static void Map(this PaqueteServicio itemDb, PaqueteServicio item)
         {
             itemDb.PaqueteId = item.PaqueteId;
-            itemDb.ServicioId= item.ServicioId;
+            itemDb.ServicioId = item.ServicioId;
+            itemDb.PrecioUnitario = item.PrecioUnitario;
+            itemDb.Cantidad = item.Cantidad;
+            itemDb.Total = item.Total;
         }
 
         public static void Map(this Servicio itemDb, Servicio item)
@@ -167,20 +170,20 @@ namespace Entities.Extenciones
         public static void Map(this Paquete itemDb, Paquete item)
         {
             itemDb.Descripcion = item.Descripcion;
-            itemDb.Clave = item.Clave ;
+            itemDb.Clave = item.Clave;
             itemDb.Activo = item.Activo;
             itemDb.Total = item.Total;
             itemDb.Nota = item.Nota;
-    
+
         }
 
 
 
 
-            //public static void Map(this Ejecutivo itemDb, Ejecutivo itemNuevo)
-            //{
-            //    itemDb.Nombre = itemNuevo.Nombre;
-            //    itemDb.Iniciales = itemNuevo.Iniciales;
-            //}
-        }
+        //public static void Map(this Ejecutivo itemDb, Ejecutivo itemNuevo)
+        //{
+        //    itemDb.Nombre = itemNuevo.Nombre;
+        //    itemDb.Iniciales = itemNuevo.Iniciales;
+        //}
+    }
 }

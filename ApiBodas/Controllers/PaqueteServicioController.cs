@@ -175,7 +175,6 @@ namespace ApiBodas.Controllers
             try
             {
 
-
                 var lista = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == itemNuevo.PaqueteId && x.ServicioId == itemNuevo.ServicioId);
 
                 var itemEncontrado = lista.FirstOrDefault();
@@ -198,7 +197,6 @@ namespace ApiBodas.Controllers
 
                 return Created("", obj);
 
-
             }
             catch (Exception ex)
             {
@@ -214,6 +212,8 @@ namespace ApiBodas.Controllers
 
         }
 
+
+      
 
         //[HttpGet("{h:int}/{p:int}")]
         [HttpDelete("{pid:int}/{sid:int}")]

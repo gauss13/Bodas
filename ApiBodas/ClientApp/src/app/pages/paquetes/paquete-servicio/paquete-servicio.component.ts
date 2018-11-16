@@ -313,7 +313,7 @@ if(item.selected)
       if(resp.ok === true)
       {
         
-        this.totalPaqueteReal += item.total;
+        //this.totalPaqueteReal += item.total;
 
         this.actualizarPaqueteTotal();
 
@@ -336,7 +336,7 @@ else // quitar
 
       if(resp.ok === true)
       {
-        this.totalPaqueteReal -= item.total;
+        //this.totalPaqueteReal -= item.total;
         this.actualizarPaqueteTotal();
         M.toast({html: '<strong> Se quitó el servicio del paquete. <strong>', classes:' rounded  pink darken-2'});  
         
@@ -351,27 +351,19 @@ else // quitar
 }
 
 actualizarPaqueteTotal()
-{
-
-    var url = uriPaquete +  this.selectedId;
-
-    //actualizar paquete
-    if(this.totalPaqueteReal < 0)
-    this.totalPaqueteReal = 0;
-    
-    this.paquete.total = this.totalPaqueteReal;
+{ 
+    var url = uriPaquete +'total/'+  this.selectedId;
   
-    //
     this._servicioGenerico.Actualizar(this.paquete,url).subscribe((resp:any) =>{
   
     //validar ok
     if(resp.ok === true)
     {
+      this.totalPaqueteReal = resp.paquete.total;      
       this.fg.patchValue({  total: this.totalPaqueteReal });
     }
   
   });
-
   
 }
 
@@ -484,7 +476,7 @@ RegCambio(item:any)
 
             M.toast({html: '<strong> Se actualizó el servicio al paquete. <strong>', classes:' rounded  pink darken-2'});  
           
-            this.totalPaqueteReal += item.total;
+           // this.totalPaqueteReal += item.total;
 
             this.actualizarPaqueteTotal();
             item.changeValue = false;

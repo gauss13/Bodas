@@ -35,6 +35,7 @@ namespace Entities.Models.Extras
         public int UsuarioId { get; set; }
         public DateTime FechaReg { get; set; }
         public bool Activo { get; set; }
+        public int ModuloId { get; set; } // para identificar en que modulo se realizo el comentario
 
     }
 

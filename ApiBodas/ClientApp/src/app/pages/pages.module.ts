@@ -11,6 +11,7 @@ import { CategoriaComponent } from './paquetes/categoria/categoria.component';
 import { ServicioComponent } from './paquetes/servicio/servicio.component';
 import { PaqueteComponent } from './paquetes/paquete/paquete.component';
 import { PaqueteServicioComponent } from './paquetes/paquete-servicio/paquete-servicio.component';
+import { MasterFileComponent } from './masterfile/master-file/master-file.component';
 // import { Globalx } from "../config/global";
 
 
@@ -20,7 +21,7 @@ import { PaqueteServicioComponent } from './paquetes/paquete-servicio/paquete-se
                   AutofocusDirective, 
                   DashboardComponent, 
                   AgendaComponent, 
-                  CategoriaComponent, ServicioComponent, PaqueteComponent, PaqueteServicioComponent],
+                  CategoriaComponent, ServicioComponent, PaqueteComponent, PaqueteServicioComponent, MasterFileComponent],
     exports:[LugarcenaComponent],
     imports:[CommonModule, FormsModule, ReactiveFormsModule,
             SharedModule,

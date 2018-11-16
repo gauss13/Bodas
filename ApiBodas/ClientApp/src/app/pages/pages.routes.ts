@@ -8,6 +8,7 @@ import { CategoriaComponent } from "./paquetes/categoria/categoria.component";
 import { ServicioComponent } from "./paquetes/servicio/servicio.component";
 import { PaqueteComponent } from "./paquetes/paquete/paquete.component";
 import { PaqueteServicioComponent } from "./paquetes/paquete-servicio/paquete-servicio.component";
+import { MasterFileComponent } from "./masterfile/master-file/master-file.component";
 
 
 const pagesRoutes: Routes = [
@@ -20,6 +21,8 @@ const pagesRoutes: Routes = [
 {path: 'servicios', component: ServicioComponent ,data:{titulo:'Servicios'}},
 {path: 'paquetes', component: PaqueteComponent ,data:{titulo:'Paquetes'}},
 {path: 'paqueteservicio/:id', component: PaqueteServicioComponent ,data:{titulo:'Paquetes Servicio'}},
+// id de la agenda - la consulta lo hace por id agenda y id hotel
+{path: 'masterfile/:ida', component: MasterFileComponent ,data:{titulo:'Master File'}},
 
 {path: '', redirectTo: '/dashboard', pathMatch : 'full'}
 

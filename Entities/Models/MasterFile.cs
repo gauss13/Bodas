@@ -13,8 +13,15 @@ namespace Entities.Models.Masterfiles
         public string Hotel { get; set; }
         public int AgendaId { get; set; }
         public bool Activo { get; set; }
+        [StringLength(150)]
         public string  Descripcion { get; set; }
-
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal TotalIncuido { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal TotalAdicional { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal TotalMaster { get; set; } //suma de los totales Inciudos + Adicionales
+        public int DivisaId { get; set; }//divisa principal, cada item tiene su propia divisa, inicialmente no la mostraremos, tomaremos esta la principal
     }
 
     public class MasterFileContent
@@ -29,10 +36,18 @@ namespace Entities.Models.Masterfiles
         public decimal Total { get; set; }
         [StringLength(150)]
         public string Img { get; set; } // img podra ser una imagen por servicio
-        public int DivisaId { get; set; }
-        public bool Adicional { get; set; } // productos adicionales 
+        public bool TieneImagen { get; set; } // para mostrar o no en el documento final
+        public int DivisaId { get; set; } // no se mostrará de manera inicial o version 1, sino que todos los servicios tendran la divisa del master
+        public bool Incluido { get; set; } // productos adicionales 
         public bool OcRequerido { get; set; } //requiere orden de compra ?
         public bool OcRealizado { get; set; } //requiere orden de compra ?
+        //NOTAS
+        [StringLength(150)]
+        public string Nota { get; set; }
+        [StringLength(150)]
+        public string Nota2 { get; set; }
+        [StringLength(150)]
+        public string Nota3 { get; set; }
 
     }
 

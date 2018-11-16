@@ -78,7 +78,7 @@
                             <tr>
                                 <th>Servicio</th>
                                 <th>Categoria</th>
-                                <th>Precio</th>
+                                <th>Precio $</th>
                                 <tH>Cantidad</tH>
                                 <th>Total: $ {{ totalPaquete }}</th>
                                 <th title="Guardar Cambios"></th>
@@ -97,16 +97,15 @@
                                     </p>
                                 </td>
                                 <!-- <td> {{ reg.descripcion}}</td> -->
-
                                 <td>{{reg.categoria}}</td>
                                 <td>
 
-                                    <input [(ngModel)]="reg.precioUnitario" #inputp [disabled]="!reg.selected" name="precioUnitario" [value]="reg.precioUnitario" (keyup)="setPrecio( inputp.value, reg )" class="form-control" type="text" placeholder="Precio" required>
+                                    <input class=" col s4 text-right" type="text" [(ngModel)]="reg.precioUnitario" #inputp [disabled]="!reg.selected" name="precioUnitario" [value]="reg.precioUnitario" (keyup)="setPrecio( inputp.value, reg )" placeholder="Precio" required>
 
                                 </td>
                                 <td>
+                                    <input type="number" class="form-control col s2" [(ngModel)]="reg.cantidad" #inputc [disabled]="!reg.selected" name="cantidad" [value]="reg.cantidad" (keyup)="setCantidad( inputc.value, reg )" placeholder="Cantidad" required>
 
-                                    <input [(ngModel)]="reg.cantidad" #inputc [disabled]="!reg.selected" name="cantidad" [value]="reg.cantidad" type="number" class="form-control" (keyup)="setCantidad( inputc.value, reg )" placeholder="Cantidad" required>
 
                                 </td>
 

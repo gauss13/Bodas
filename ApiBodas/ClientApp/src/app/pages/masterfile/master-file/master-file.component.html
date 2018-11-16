@@ -1,0 +1,83 @@
+<!-- scrollspy -->
+<div class="row">
+    <div class="col s12 m9 l10">
+        <div id="introduction" class="section scrollspy">
+            <h4>Master File</h4>
+            <table>
+                <tr>
+                    <td><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
+                    <td><strong> Hotel : </strong>{{strHotel}} </td>
+                    <td><strong> Wedding date:  </strong>{{strFechaBoda}} </td>
+                </tr>
+                <tr>
+                    <td><strong>Meeting with Coordinator: </strong>{{strReunionCoordinador}}</td>
+                    <td><strong>Booking Number: </strong>{{strBooking}}</td>
+                    <td><strong>Couple´s contact info:</strong> {{ strContacto }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Paquete: </strong>{{strPaquete}}</td>
+                    <td><strong>Num. Personas:</strong> {{strTotal}}</td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div id="structure" class="section scrollspy">
+            <h5>Servicios </h5>
+
+            <!-- collection ini -->
+            <ul class="collection">
+                <li class="collection-item avatar">
+                    <!-- <img src="images/yuna.jpg" alt="" class="circle"> -->
+                    <i class="material-icons circle">insert_chart</i>
+                    <span class="title col s8">
+                        <a href="#!" >1 | Nombre Servicio</a>
+                      </span>
+                    <span class="title col s2"> Precio</span>
+                    <span class="title col s2"> Total</span>
+
+                    <p>Nota 1 <br> Nota 2 <br> Nota 3 </p>
+
+                    <span class="secondary-content"><i class="material-icons">done</i></span>
+                </li>
+                <li class="collection-item avatar">
+                    <i class="material-icons circle">insert_chart</i>
+                    <span class="title">Title</span>
+                    <p>First Line <br> Second Line
+                    </p>
+                    <a href="#!" class="secondary-content"><i class="material-icons">add</i></a>
+                </li>
+                <li class="collection-item avatar">
+                    <i class="material-icons circle ">insert_chart</i>
+                    <span class="title">Title</span>
+                    <p>First Line <br> Second Line</p>
+                    <a href="#!" class="secondary-content"><i class="material-icons">done</i></a>
+                </li>
+                <li class="collection-item avatar">
+                    <i class="material-icons circle ">insert_chart</i>
+                    <span class="title">Title</span>
+                    <p>First Line <br> Second Line
+                    </p>
+                    <a href="#!" class="secondary-content"><i class="material-icons">done</i></a>
+                </li>
+            </ul>
+            <!-- collection fin -->
+
+
+
+        </div>
+
+        <div id="initialization" class="section scrollspy">
+            <p>Content 3</p>
+            <input type="button" (click)="activarscroll()" value="Activar">
+        </div>
+    </div>
+    <div class="col hide-on-small-only m3 l2">
+        <ul class="section table-of-contents">
+            <li><a href="#introduction">Master File</a></li>
+            <li><a href="#structure">Ceremonia</a></li>
+            <li><a href="#initialization">Servicios</a></li>
+        </ul>
+    </div>
+</div>
