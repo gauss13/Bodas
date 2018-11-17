@@ -40,11 +40,7 @@ export class ServicioComponent implements OnInit {
   fg : FormGroup;
   fgcat : FormGroup;
 
-  // uriServicio:string =  '/api/Servicio/';
-  // uriCategoria:string =  '/api/Categoria/';
-  // uriDepartamento:string ='/api/Departamento/';
-  // uriDepartamentoServicio:string ='/api/DepartamentoServicio/';
-  
+ 
 
   registroId : number;//categroria id
   listaABorrar: number[] = [];

@@ -31,22 +31,23 @@
                 <li class="collection-item avatar">
                     <!-- <img src="images/yuna.jpg" alt="" class="circle"> -->
                     <i class="material-icons circle">insert_chart</i>
-                    <span class="title col s8">
-                        <a href="#!" >1 | Nombre Servicio</a>
-                      </span>
-                    <span class="title col s2"> Precio</span>
-                    <span class="title col s2"> Total</span>
+                    <span class="title col s12">                            
+                        <a href="#" data-target="slide-out" class="sidenav-trigger">Nombre Servicio</a>
+                    </span>
+                    <span class=" col s4 ">1</span>
+                    <span class=" col s4 ">$ 99,599.99</span>
+                    <span class=" col s4 ">$ 99,599.99</span>
 
                     <p>Nota 1 <br> Nota 2 <br> Nota 3 </p>
 
-                    <span class="secondary-content"><i class="material-icons">done</i></span>
+                    <span class="secondary-content" title="incluido"><i class="material-icons">done</i></span>
                 </li>
                 <li class="collection-item avatar">
                     <i class="material-icons circle">insert_chart</i>
                     <span class="title">Title</span>
                     <p>First Line <br> Second Line
                     </p>
-                    <a href="#!" class="secondary-content"><i class="material-icons">add</i></a>
+                    <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
                 </li>
                 <li class="collection-item avatar">
                     <i class="material-icons circle ">insert_chart</i>
@@ -73,11 +74,56 @@
             <input type="button" (click)="activarscroll()" value="Activar">
         </div>
     </div>
+
+
+    <!-- scrollspy col hide-on-small-only m3 l2 -->
+
     <div class="col hide-on-small-only m3 l2">
-        <ul class="section table-of-contents">
-            <li><a href="#introduction">Master File</a></li>
-            <li><a href="#structure">Ceremonia</a></li>
-            <li><a href="#initialization">Servicios</a></li>
-        </ul>
+        <div class="toc-wrapper pinned" style="top: 0px;">
+            <div class="buysellads hide-on-small-only">
+                <!-- CarbonAds Zone Code -->
+
+                <div class="card ">
+                    <span class="white-text">I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+                        </span>
+
+                </div>
+                <div style="height: 1px;">
+
+                    <ul class="section table-of-contents">
+                        <li><a href="#introduction">Master File</a></li>
+                        <li><a href="#structure">Ceremonia</a></li>
+                        <li><a href="#initialization">Servicios</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+
+
     </div>
-</div>
+
+    <!-- sideout -->
+
+
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="images/office.jpg">
+                </div>
+                <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+                <a href="#name"><span class="white-text name">John Doe</span></a>
+                <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div>
+        </li>
+        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+        <li><a href="#!">Second Link</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+    </ul>

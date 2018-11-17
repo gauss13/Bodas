@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, TipoceremoniaService, BackupService, PaqueteService, AgenciaService, DivisaService, GenericoService  } from 'src/app/services/service.index';
+import { AgendaService, HoraService,LugarcenaService, LugarceremoniaService, TipoceremoniaService, BackupService,
+   PaqueteService, AgenciaService, DivisaService, GenericoService  } from 'src/app/services/service.index';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormControl, ReactiveFormsModule   } from '@angular/forms';
 import {mostrarErrorx, onCambioValorx, dateFormatYYYYMMDDx,dateFormatYYYYMMDDxD} from '../../Utils/formUtils';
 import { ObjectUnsubscribedError } from 'rxjs';
 import { Agenda } from '../../models/agenda.model';
 import { Globalx } from 'src/app/config/global';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { uriTtoo} from 'src/app/config/config';
-import { alertSuccess, alertError, alertMessage, alertWarning } from '../../config/config';
+import { alertSuccess, alertError, alertMessage, alertWarning, alertInfo } from '../../config/config';
+
+import { uriMasterFile } from 'src/app/config/config';
+import { MasterFile } from 'src/app/models/masterfile.model';
 
 declare var $: any;
 declare var M: any;
@@ -87,7 +91,8 @@ formG: FormGroup
     public _divisaService: DivisaService,
     private _servicioGenerico: GenericoService,
     public _gbl:Globalx,
-    public activeRoute: ActivatedRoute
+    public activeRoute: ActivatedRoute,
+    private _router:Router
     ) { 
 
 
@@ -221,9 +226,9 @@ if(hid !== undefined && hid !== null)
 
 }
 
-  // ***************************************************************************************
-  //  Inicializar el calendario 
-  // ***************************************************************************************
+  // *****************************   Inicializar el calendario  **********************************************************
+  
+  
   IniciarCal()
   {
 
@@ -327,8 +332,8 @@ this.CargarFechas(moment._i[0], moment._i[1]+1);
     M.toast({html: '<strong> Calendario de BODAS en ' + this._gbl.hotelSelected+ ' - iniciado. <strong>', classes:alertMessage});
 }
 
-// ***************************************************************************************
-//  Destruir el calendario 
+// ************************************** Destruir el calendario *************************************************
+//  
 // ***************************************************************************************
   DestroyCal()
   {
@@ -378,8 +383,8 @@ GoSiguiente()
 }
 
 
-// ***************************************************************************************
-//  FORMULARIO  - hotel id - sera el que seleccione antes entrar a la agenda
+// *********** FORMULARIO  - hotel id - sera el que seleccione antes entrar a la agenda ****************************************************************************
+//  
 // ***************************************************************************************
 // captura evento
 formChangesSub: any;
@@ -462,8 +467,7 @@ resetFormulario() {
 }
 
 // **************************** SAVE -  UPDATE *******************************************
-//  GUARDAR CAMBIOS 
-// ***************************************************************************************
+
 save(){
 
   
@@ -494,7 +498,8 @@ if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === n
 
  if(!this.modoEdicion )
  {
- // CREAR
+
+ // CREAR - Tentativo - Master File
  
 
  this._servicioAgenda.CrearAgenda(itemAgenda).subscribe( (resp:any) => {
@@ -506,6 +511,22 @@ if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === n
               
           this.CargarFechas(moment._i[0], moment._i[1]+1); 
           this.resetFormulario();   
+
+          console.log(resp);
+
+          var mf = new MasterFile(0,this._gbl.hotelSelected,resp.agenda.id,true,"Master File " + resp.agenda.id,0,0,0,0);
+          // mf.id = 0;
+          // mf.hotel = this._gbl.hotelSelected;
+          // mf.agendaId = resp.agenda.id;
+          // mf.activo = true;
+          // mf.descripcion = "Master File " + resp.agenda.id;
+          // mf.totalIncuido = 0;
+          // mf.totalAdicional = 0;
+          // mf.totalMaster = 0;
+          // mf.divisaId = 0;
+
+          this.crearMasterFile(mf);
+
         }
         else if(resp.ok === false)
         {
@@ -565,6 +586,26 @@ else
 
 
 //this.resetFormulario();
+
+}
+
+// **************************************** MASTER FILE ***********************************************
+crearMasterFile(itemm:MasterFile)
+{
+
+  const url = uriMasterFile;
+  this._servicioGenerico.CrearRegisto(itemm, url).subscribe( (resp:any) => {
+
+        if(resp.ok === true)
+        {    
+          M.toast({html: 'Se creo el master file!', classes: alertInfo});
+        }
+  },
+  (error) => {},
+  () => {}
+);
+
+
 
 }
 
@@ -896,7 +937,7 @@ this.progreso = 100
 var agendadb:any;
 
 // consular agenda
-this._servicioAgenda.GetAgendaById(ida).subscribe(
+this._servicioAgenda.GetAgendaById(this._gbl.hotelIdSelected,ida).subscribe(
   (resp:any)=>{
 
     if(resp.ok === true)
@@ -983,6 +1024,25 @@ this._servicioAgenda.GetAgendaById(ida).subscribe(
 
 
 
+}
+
+// **************************************** VER MASTER FILE ***********************************************/
+verMasterFile()
+{
+  console.log('ir master');
+
+  var ida = $('#idagendaedit').val();
+  var tipoa = $('#tipoagenda').val();
+
+  this.idAgenda= ida;
+  this.tipoAgenda=tipoa;
+
+
+  var ruta = '/masterfile/' + ida;
+
+  console.log(ruta);
+
+  this._router.navigate([ruta]); 
 }
 
 

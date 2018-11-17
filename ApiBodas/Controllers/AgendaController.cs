@@ -24,11 +24,24 @@ namespace ApiBodas.Controllers
 
         // ->> ACTIONS
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{h:int}/{id}")]
+        public async Task<IActionResult> GetById(int h, int id)
         {
-            var item = await this.Repositorio.Agendas.GetByIdAsync(id);
-                       
+            //var item = await this.Repositorio.Agendas.GetByIdAsync(id);
+            var item = await this.Repositorio.Agendas.FindAsyc(x => x.HotelId == h && x.Id == id);
+
+            if (!item.Any())
+            {
+                var objB = new
+                {
+                    ok = false,
+                    mensaje = $"No se encontró el registro con id {id}",
+                    errors = ""
+                };
+
+                return Ok(objB);
+            }
+
 
             if (item == null)
             {
@@ -43,14 +56,67 @@ namespace ApiBodas.Controllers
             }
 
 
-            
+
 
             return Ok(new
             {
                 ok = true,
-                agenda = item
+                agenda = item.FirstOrDefault()
             });
         }
+
+        [HttpGet("{h:int}/master/{id}")]
+        public async Task<IActionResult> GetByIdForMaster(int h, int id)
+        {            
+            var item = await this.Repositorio.Agendas.FindAsyc(x => x.HotelId == h && x.Id == id);
+
+            if (!item.Any())
+            {
+                var objB = new
+                {
+                    ok = false,
+                    mensaje = $"No se encontró el registro con id {id}",
+                    errors = ""
+                };
+
+                return Ok(objB);
+            }
+
+
+            if (item == null)
+            {
+                var objB = new
+                {
+                    ok = false,
+                    mensaje = $"No se encontró el registro con id {id}",
+                    errors = ""
+                };
+
+                return Ok(objB);
+            }
+
+            var agenda = item.FirstOrDefault();
+
+            //buscamos el paquete
+            var paq = await this.Repositorio.Paquetes.GetByIdAsync(agenda.PaqueteId);
+            //buscamos el master file
+            var mfl = await this.Repositorio.MasterFile.FindAsyc(x => x.AgendaId == agenda.Id);
+
+            var mf = mfl.FirstOrDefault();
+            //buscamos el contenido de master file
+            //var mfc = await this.Repositorio.MasterFileContent.FindAsyc(x => x.MasterFileId == mf.Id);
+
+
+            return Ok(new
+            {
+                ok = true,
+                agenda,
+                paquete=paq,
+                master= mf               
+
+            });
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

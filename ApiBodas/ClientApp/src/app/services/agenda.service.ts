@@ -75,9 +75,9 @@ ActualizarAgenda(item: Agenda, id:number)
 // ======================================================
 // GET AGENDA by ID
 // ======================================================
-GetAgendaById(id:number)
+GetAgendaById(h:number,id:number)
 {
-  const url= URL_SERVICIOS + "/api/Agenda/"+id;
+  const url= URL_SERVICIOS + "/api/Agenda/"+h+'/'+id;
   const headersj = new HttpHeaders({'Content-Type':'application/json'});
 
   return this.http.get(url).pipe(

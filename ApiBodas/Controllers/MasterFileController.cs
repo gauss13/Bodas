@@ -9,6 +9,7 @@ using Entities.Extenciones;
 using Entities.Models.Catalogos;
 using Entities.Models.Masterfiles;
 
+
 namespace ApiBodas.Controllers
 {
     [Route("api/[controller]")]
@@ -81,14 +82,54 @@ namespace ApiBodas.Controllers
         {
             try
             {
+                //1) obtener los datos de la agenda
+                var ra = await this.Repositorio.Agendas.GetByIdAsync(item.AgendaId);
+                var paq = await this.Repositorio.Paquetes.GetByIdAsync(ra.PaqueteId);
 
-                var r = await this.Repositorio.MasterFile.AddAsync(item);
+                //2) Crear registro de master file
+                item.DivisaId = paq.DivisaId;
+                var m = await this.Repositorio.MasterFile.AddAsync(item);
+                await this.Repositorio.CompleteAsync();                            
+
+                //3) obtener los registros del paquete 
+                var listaIncluidos = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == ra.PaqueteId);
+                
+                //4)  agregarlos como incluidos = true al masterfile content
+                List<MasterFileContent> listaContenido = new List<MasterFileContent>();
+
+                var totalIncluido = 0m;
+                foreach (var incluido in listaIncluidos)
+                {
+                    MasterFileContent mfc = new MasterFileContent();
+                    mfc.Id = 0;
+                    mfc.MasterFileId = m.Id;
+                    mfc.ServicioId = incluido.ServicioId;
+                    mfc.PrecioUnitario = incluido.PrecioUnitario;
+                    mfc.Cantidad = incluido.Cantidad;
+                    mfc.Total = incluido.Total;
+                    mfc.Img = null;
+                    mfc.DivisaId = m.DivisaId;
+                    mfc.TieneImagen = false;
+                    mfc.OcRealizado = false;
+                    mfc.OcRequerido = false;
+                    mfc.Incluido = true;
+
+                    totalIncluido += incluido.Total;
+
+                    listaContenido.Add(mfc);
+                }
+
+                //5) guardar contenido
+                await this.Repositorio.MasterFileContent.AddRangeAsync(listaContenido);
+                m.TotalIncuido = totalIncluido;
+                m.TotalMaster = totalIncluido;
                 await this.Repositorio.CompleteAsync();
+
 
                 var obj = new
                 {
                     ok = true,
-                    MasterFile = r
+                    masterfile = m
                 };
 
                 return Created("", obj);
