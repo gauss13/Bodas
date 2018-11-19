@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Globalx } from 'src/app/config/global';
 import { GenericoService } from 'src/app/services/service.index';
-import { uriMasterFile, uriAgenda, alertError } from 'src/app/config/config';
+import { uriMasterFile, uriMasterFileContenido, uriAgenda, alertError } from 'src/app/config/config';
 
 
 declare var $: any;
@@ -23,12 +23,13 @@ strReunionCoordinador:string ='TBC';
 strBooking:string='SC977HSI';
 strContacto:string='ludo@perez.com';
 strPaquete:string='Emerald Breeze';
-strTotal:number=10;
+strTotalPersonas:number=10;
 iniciarMaster:boolean = false;
 
 agenda:any;
 master:any;
 paquete:any;
+servicios:any;
 
 idAgenda:number = 0;
 
@@ -76,6 +77,7 @@ activeRoute.params.subscribe(
     {
       console.log('iniciar carga');
       //cargar datos del master
+      this.getAgenda();
     }
 
   }
@@ -84,8 +86,25 @@ activeRoute.params.subscribe(
 
 // **************************************** Master y Content ***********************************************
 
-getMasterContent()
+getMasterContent(mfid:number)
 {
+  const url = uriMasterFileContenido+'contenido/' + mfid;
+
+  this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
+
+        if(resp.ok === true)
+        {          
+          console.log('contenido', JSON.parse(resp.contenido));
+
+          if(resp.contenido !== null )
+          this.servicios = JSON.parse(resp.contenido);
+
+        }
+  },
+  (error) => {},
+  () => {}
+);
+
 
 }
 
@@ -95,16 +114,20 @@ getMasterContent()
 getAgenda()
 {
 
-  const url = uriAgenda+ this._gbl.hotelIdSelected+'/' + this.idAgenda;
+  const url = uriAgenda+ this._gbl.hotelIdSelected+'/master/' + this.idAgenda;
 
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
 
         if(resp.ok === true)
         {    
+          console.log('apm', resp)
+
           this.agenda = resp.agenda;
           this.paquete = resp.paquete;
           this.master = resp.master;
+
           this.setData();
+          this.getMasterContent(this.master.id);
         }
   },
   (error) => {},
@@ -122,14 +145,15 @@ getAgenda()
 
 setData()
 {
-this.strNombrePareja = this.agenda.nNombrePareja;
-this.strHotel= this.master.hotel;
-this.strFechaBoda = this.agenda.fechaBoda + ' ' + this.agenda.horaBoda;
-this.strReunionCoordinador = 'TBC'
-this.strBooking= this.agenda.BookingReference;
-this.strContacto = this.agenda.CorreoPareja;
-this.strPaquete = this.paquete.Descripcion;
-this.strTotal = this.agenda.
+
+    this.strNombrePareja = this.agenda.nombrePareja;
+    this.strHotel= this.master.hotel;
+    this.strFechaBoda = this.agenda.fechaBoda + ' ' + this.agenda.horaBoda;
+    this.strReunionCoordinador = 'TBC'
+    this.strBooking= this.agenda.BookingReference;
+    this.strContacto = this.agenda.correoPareja;
+    this.strPaquete = this.paquete.descripcion;
+    this.strTotalPersonas = this.agenda.paxAdultos;
   
 }
 

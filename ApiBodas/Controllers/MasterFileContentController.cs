@@ -9,6 +9,7 @@ using Repository;
 using Entities.Extenciones;
 using Entities.Models.Catalogos;
 using Entities.Models.Masterfiles;
+using Newtonsoft.Json;
 
 namespace ApiBodas.Controllers
 {
@@ -48,10 +49,11 @@ namespace ApiBodas.Controllers
             });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("contenido/{mfid:int}")]
+        public async Task<IActionResult> GetContenido(int mfid)
         {
-            var lista = await this.Repositorio.MasterFileContent.GetAllAsyc();
+             //var lista = await this.Repositorio.MasterFileContent.FindAsyc(x=> x.MasterFileId == mfid);
+            var lista = await this.Repositorio.MasterFileContent.GetContenido(mfid);
 
             // BAD REQUEST
             if (!lista.Any())
@@ -59,18 +61,21 @@ namespace ApiBodas.Controllers
                 var objB = new
                 {
                     ok = false,
-                    mensaje = "No se encontrarón Registros",
+                    mensaje = "No se encontrarón Registros contenido",
                     errors = ""
                 };
                 return BadRequest(objB);
             }
+
+            //Serializar
+            string json = JsonConvert.SerializeObject(lista);
 
             // OK
             var obj = new
             {
                 ok = true,
                 total = lista.Count(),
-                MasterFileContent = lista
+                contenido = json
             };
 
             return Ok(obj);

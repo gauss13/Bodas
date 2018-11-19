@@ -22,5 +22,6 @@ export const alertMessage = '  deep-orange darken-1';
  export const uriTtoo:string =  '/api/Ttoo/';
 
  export const uriMasterFile:string =  '/api/MasterFile/';
+ export const uriMasterFileContenido:string =  '/api/MasterFileContent/';
 
  export const uriAgenda:string =  '/api/Agenda/';

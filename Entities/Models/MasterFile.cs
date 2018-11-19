@@ -1,4 +1,5 @@
 ﻿using Entities.Models.Catalogos;
+using Entities.Models.Paquetes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -48,6 +49,11 @@ namespace Entities.Models.Masterfiles
         public string Nota2 { get; set; }
         [StringLength(150)]
         public string Nota3 { get; set; }
+
+        // NAV
+        public Servicio Servicio { get; set; }
+        public Divisa Divisa { get; set; }
+
 
     }
 

@@ -330,6 +330,48 @@ namespace Repository
         {
             get { return Context as AppDbContext; }
         }
+
+        public async Task<IEnumerable<MasterFileContent>> GetContenido(int mfid)
+        {
+            //return await appDbContext.LugaresCena.Include(h => h.Hotel)
+            //   .Where(l => l.Activo == true)
+            //   .Select(h => new LugarCena { Id = h.Id, Lugar = h.Lugar, HotelId = h.HotelId, Hotel = h.Hotel, Activo = h.Activo })
+            //   .ToListAsync();
+
+            //return await appDbContext.Servicios
+            //   .Include(c => c.Categoria)
+            //   .Include(d => d.Divisa)
+            //   .Where(s => s.HotelId == h)
+            //  .ToListAsync();
+
+            try
+            {
+
+                //var lista2 =  appDbContext.MasterFileContenido
+                //        .Include(s => s.Servicio)                       
+                //        .Where(m => m.MasterFileId == mfid);
+
+                //var query = lista2.ToString();
+
+                var lista =  await appDbContext.MasterFileContenido
+                          .Include(s => s.Servicio)
+                          .ThenInclude(d => d.Divisa)                       
+                          .Where(m => m.MasterFileId == mfid)
+                          .ToListAsync();
+
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+
+         
+
+        }
     }
 
     public class RepositorioPaquete : RepositorioBase<Paquete>, IRepositorioPaquete
