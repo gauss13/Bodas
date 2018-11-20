@@ -1,68 +1,54 @@
 <!-- scrollspy -->
 <div class="row">
     <div class="col s12 m9 l10">
-        <div id="introduction" class="section scrollspy">
+        <div id="master" class="section scrollspy">
             <h4>Master File</h4>
             <table>
                 <tr>
                     <td><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
                     <td><strong> Hotel : </strong>{{strHotel}} </td>
-                    <td><strong> Wedding date:  </strong>{{strFechaBoda}} </td>
+                    <td><strong> Wedding date:  </strong>{{strFechaBoda | date}} {{strHoraBoda}}</td>
                 </tr>
                 <tr>
                     <td><strong>Meeting with Coordinator: </strong>{{strReunionCoordinador}}</td>
-                    <td><strong>Booking Number: </strong>{{strBooking}}</td>
-                    <td><strong>Couple´s contact info:</strong> {{ strContacto }}</td>
+                    <td colspan="2"><strong>Couple´s contact info:</strong> {{ strContacto }}</td>
                 </tr>
                 <tr>
                     <td><strong>Paquete: </strong>{{strPaquete}}</td>
-                    <td><strong>Num. Personas:</strong> {{strTotalPersonas}}</td>
-                    <td></td>
+                    <td colspan="2"><strong>Booking Number: </strong>{{strBooking}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Num. Adultos:</strong> {{strTotalPersonas}}</td>
+                    <td><strong>Num. Menores:</strong> {{strTotalPersonas}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Incluido:</strong></td>
+                    <td><strong>Total Adicional:</strong></td>
+                    <td><strong>TOTAL:</strong></td>
+
                 </tr>
             </table>
 
         </div>
 
-        <div id="structure" class="section scrollspy">
-            <h5>Servicios </h5>
 
 
 
+        <div id="serviciopaquete" class="section scrollspy">
+            <h5>Servicios Incluidos</h5>
             <!-- collection ini -->
             <ul class="collection">
-                <li class="collection-item avatar">
-                    <!-- <img src="images/yuna.jpg" alt="" class="circle"> -->
-                    <i class="material-icons circle">insert_chart</i>
-                    <span class="title col s12">                            
-                        <a href="#" data-target="slide-out" class="sidenav-trigger">Categoria | Nombre Servicio</a>
-                    </span>
-                    <span class=" col s4 ">1</span>
-                    <span class=" col s4 ">$ 99,599.99</span>
-                    <span class=" col s4 ">$ 99,599.99</span>
 
-                    <p>Nota 1 <br> Nota 2 <br> Nota 3 </p>
+                <li *ngFor="let srv of servicios" class="collection-item avatar">
+                    <i class="material-icons circle pink">insert_chart</i>
+                    <span class="title col s12   "><a data-target="slide-out" class="sidenav-trigger  " (click)="setFormulario(srv)"><strong> {{ srv.servicio.categoria.descripcion }} | {{ srv.servicio.descripcion }}</strong></a></span>
+                    <span class=" col s4 ">{{ srv.cantidad }}</span>
+                    <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
+                    <span class=" col s4 "> <strong>$ {{ srv.total }}</strong></span>
 
-                    <span class="secondary-content" title="incluido"><i class="material-icons">done</i></span>
-                </li>
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">insert_chart</i>
-                    <span class="title">Title</span>
-                    <p>First Line <br> Second Line
-                    </p>
-                    <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
-                </li>
-                <li class="collection-item avatar">
-                    <i class="material-icons circle ">insert_chart</i>
-                    <span class="title">Title</span>
-                    <p>First Line <br> Second Line</p>
-                    <a href="#!" class="secondary-content"><i class="material-icons">done</i></a>
-                </li>
-                <li class="collection-item avatar">
-                    <i class="material-icons circle ">insert_chart</i>
-                    <span class="title">Title</span>
-                    <p>First Line <br> Second Line
-                    </p>
-                    <a href="#!" class="secondary-content"><i class="material-icons">done</i></a>
+                    <p>{{srv.nota}}<br> {{srv.nota2}} <br> {{srv.nota3}} </p>
+
+                    <span class="secondary-content " title="incluido"><i class="material-icons ">done</i></span>
                 </li>
             </ul>
             <!-- collection fin -->
@@ -71,9 +57,15 @@
 
         </div>
 
-        <div id="initialization" class="section scrollspy">
-            <p>Content 3</p>
-            <input type="button" (click)="activarscroll()" value="Activar">
+        <div id="servicioagregados" class="section scrollspy">
+            <h5>Servicios Adicionales </h5>
+
+        </div>
+
+
+        <div id="agregar" class="section scrollspy">
+            <p>Agregar Servicios </p>
+            <input type="button" class="btn" (click)="activarscroll()" value="Agregar +">
         </div>
     </div>
 
@@ -86,17 +78,18 @@
                 <!-- CarbonAds Zone Code -->
 
                 <div class="card ">
-                    <span class="white-text">I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+                    <span class="white-text">
+                        ...
                         </span>
 
                 </div>
                 <div style="height: 1px;">
 
                     <ul class="section table-of-contents">
-                        <li><a href="#introduction">Master File</a></li>
-                        <li><a href="#structure">Ceremonia</a></li>
-                        <li><a href="#initialization">Servicios</a></li>
+                        <li><a href="#master">Master File</a></li>
+                        <li><a href="#serviciopaquete">Servicios del paquete</a></li>
+                        <li><a href="#servicioagregados">Servicios del agregados</a></li>
+                        <li><a href="#agregar">Agregar Servicios</a></li>
                     </ul>
                 </div>
             </div>
@@ -112,20 +105,89 @@
 
     <ul id="slide-out" class="sidenav">
         <li>
-            <div class="user-view">
-                <div class="background">
-                    <img src="images/office.jpg">
-                </div>
-                <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
-                <a href="#name"><span class="white-text name">John Doe</span></a>
-                <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            <div class="user-view " [ngClass]=" frmIncluido ?  'teal' : 'pink'  ">
+
+                <ul class=" white-text">
+                    <li>
+                        <h5>{{frmServicio}}</h5>
+                    </li>
+                    <li><span>  {{ frmIncluido ? 'Incluido' : 'No incluido' }}</span></li>
+                    <!-- <li> Correo: <span>  {{correoDato}}</span></li>
+                            <li> Deposito: <span>$ {{depositoDato}}</span></li> -->
+                </ul>
             </div>
         </li>
-        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-        <li><a href="#!">Second Link</a></li>
+        <li>
+            <form #f="ngForm" ngNativeValidate (ngSubmit)="guardaFormulario(f)">
+
+                <ul>
+                    <li>
+                        <div class="input-field col s5">
+                            <input [(ngModel)]="frmCantidad" #inputp (keyup)="cambioCantidad( inputp.value)" name="frmCantidad" id="first_name" type="number" class="validate" required>
+                            <label class="active" for="first_name">Cantidad</label>
+                        </div>
+
+                        <div class="input-field col s7">
+                            <input [(ngModel)]="frmUnitario" #inputu (keyup)="cambioUnitario( inputu.value)" name="frmUnitario" id="frmUnitario" type="text" class="validate" required>
+                            <label class="active" for="frmUnitario">Precio Unitario $</label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="input-field col s12">
+                            <input [(ngModel)]="frmTotal" readonly="true" name="frmTotal" id="frmTotal" type="text" class="validate">
+                            <label class="active" for="frmTotal">Total $</label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <p>
+                            <label>
+                            <input type="checkbox" class="filled-in" checklist-model="frmIncluido" id="frmIncluido" name="frmIncluido" [checked]="frmIncluido" (change)="frmIncluido = !frmIncluido"  />
+                                    <span>Incluido</span>
+                                  </label>
+                        </p>
+                    </li>
+
+                    <li>
+                        <div class="divider"></div>
+                    </li>
+                    <li><a class="subheader">NOTAS</a></li>
+
+                    <li>
+                        <div class="input-field col s12">
+                            <input [(ngModel)]="frmNota" name="frmNota" id="frmNota" type="text" class="validate">
+                            <label class="active" for="frmNota">Linea1</label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="input-field col s12">
+                            <input [(ngModel)]="frmNota2" name="frmNota2" id="frmNota2" type="text" class="validate">
+                            <label class="active" for="frmNota2">Linea2</label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="input-field col s12">
+                            <input [(ngModel)]="frmNota3" name="frmNota3" id="frmNota3" type="text" class="validate">
+                            <label class="active" for="frmNota3">Linea3</label>
+                        </div>
+                    </li>
+
+
+                    <li>
+                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10"><i class="fa fa-save"></i>Guardar</button>
+                    </li>
+
+                    <li></li>
+                </ul>
+
+            </form>
+
+        </li>
         <li>
             <div class="divider"></div>
         </li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+
     </ul>

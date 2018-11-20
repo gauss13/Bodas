@@ -332,46 +332,44 @@ namespace Repository
         }
 
         public async Task<IEnumerable<MasterFileContent>> GetContenido(int mfid)
-        {
-            //return await appDbContext.LugaresCena.Include(h => h.Hotel)
-            //   .Where(l => l.Activo == true)
-            //   .Select(h => new LugarCena { Id = h.Id, Lugar = h.Lugar, HotelId = h.HotelId, Hotel = h.Hotel, Activo = h.Activo })
-            //   .ToListAsync();
-
-            //return await appDbContext.Servicios
-            //   .Include(c => c.Categoria)
-            //   .Include(d => d.Divisa)
-            //   .Where(s => s.HotelId == h)
-            //  .ToListAsync();
-
+        {          
             try
-            {
+            {      
 
-                //var lista2 =  appDbContext.MasterFileContenido
-                //        .Include(s => s.Servicio)                       
-                //        .Where(m => m.MasterFileId == mfid);
+                //var lista =  await appDbContext.MasterFileContenido
+                //          .Include(s => s.Servicio)
+                //          .Include(d => d.Divisa)
+                //          .Include(s => s.Servicio.Categoria)                                               
+                //          .Where(m => m.MasterFileId == mfid)
+                //          .ToListAsync();
 
-                //var query = lista2.ToString();
-
-                var lista =  await appDbContext.MasterFileContenido
-                          .Include(s => s.Servicio)
-                          .ThenInclude(d => d.Divisa)                       
+                var lista2 = await appDbContext.MasterFileContenido
+                          .Include(s => s.Servicio).ThenInclude(x=> x.Categoria)
+                          .Include(d => d.Divisa)
                           .Where(m => m.MasterFileId == mfid)
                           .ToListAsync();
 
-
-                return lista;
+                return lista2;
             }
             catch (Exception ex)
             {
-
                 return null;
-            }
-
-
-         
+            }        
 
         }
+
+        public async Task<MasterFileContent> GetContenidoById(int id)
+        {
+            var item = await appDbContext.MasterFileContenido
+                           .Include(s => s.Servicio).ThenInclude(x => x.Categoria)
+                           .Include(d => d.Divisa)
+                           .Where(m => m.Id == id)
+                           .FirstOrDefaultAsync();
+
+            return item;
+        }
+
+       
     }
 
     public class RepositorioPaquete : RepositorioBase<Paquete>, IRepositorioPaquete

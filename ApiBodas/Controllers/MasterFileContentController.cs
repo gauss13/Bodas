@@ -68,14 +68,14 @@ namespace ApiBodas.Controllers
             }
 
             //Serializar
-            string json = JsonConvert.SerializeObject(lista);
+            //string json = JsonConvert.SerializeObject(lista);
 
             // OK
             var obj = new
             {
                 ok = true,
                 total = lista.Count(),
-                contenido = json
+                contenido = lista
             };
 
             return Ok(obj);
@@ -135,10 +135,12 @@ namespace ApiBodas.Controllers
                 var r = this.Repositorio.MasterFileContent.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 
+                var item = await this.Repositorio.MasterFileContent.GetContenidoById(id);
+
                 var obj = new
                 {
                     ok = true,
-                    MasterFileContent = itemEncontrado
+                    contenido = item
                 };
 
                 return Created("", obj);

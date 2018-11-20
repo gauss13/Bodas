@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Globalx } from 'src/app/config/global';
 import { GenericoService } from 'src/app/services/service.index';
-import { uriMasterFile, uriMasterFileContenido, uriAgenda, alertError } from 'src/app/config/config';
+import { uriMasterFile, uriMasterFileContenido, uriAgenda, alertSuccess, alertError, alertMessage, alertWarning, alertInfo } from 'src/app/config/config';
+import { NgForm } from '@angular/forms';
+import { MasterFileContenido } from 'src/app/models/masterfilecontenido.model';
 
 
 declare var $: any;
@@ -24,6 +26,7 @@ strBooking:string='SC977HSI';
 strContacto:string='ludo@perez.com';
 strPaquete:string='Emerald Breeze';
 strTotalPersonas:number=10;
+strHoraBoda:string='';
 iniciarMaster:boolean = false;
 
 agenda:any;
@@ -32,6 +35,22 @@ paquete:any;
 servicios:any;
 
 idAgenda:number = 0;
+
+
+// FORMULARIO
+frmId:number=0;
+frmCantidad:number=0;
+frmDivisa:number=0;
+frmDivisaId:number=0;
+frmUnitario:number=0;
+frmTotal:number=0;
+frmServicio:number=0;
+frmServicioId:number=0;
+frmIncluido:boolean=false;
+frmNota:string;
+frmNota2:string;
+frmNota3:string;
+//IMG cambiar imagen // version 2
 
   constructor(     public _gbl:Globalx,
                    public activeRoute: ActivatedRoute,
@@ -94,10 +113,11 @@ getMasterContent(mfid:number)
 
         if(resp.ok === true)
         {          
-          console.log('contenido', JSON.parse(resp.contenido));
+          //console.log('contenido', JSON.parse(resp.contenido));
+          console.log('Contenido', resp);
 
           if(resp.contenido !== null )
-          this.servicios = JSON.parse(resp.contenido);
+          this.servicios = resp.contenido;  //JSON.parse(resp.contenido);
 
         }
   },
@@ -154,6 +174,7 @@ setData()
     this.strContacto = this.agenda.correoPareja;
     this.strPaquete = this.paquete.descripcion;
     this.strTotalPersonas = this.agenda.paxAdultos;
+    this.strHoraBoda = this.agenda.horaBoda;
   
 }
 
@@ -162,7 +183,100 @@ activarscroll()
   $('.scrollspy').scrollSpy();
 }
 
+// **************************************** SET Datos Formulario ***********************************************
 
+setFormulario(servicio:any)
+{
+
+  console.log('seleccionado: ', servicio);
+
+  this.frmId = servicio.id;
+  this.frmCantidad= servicio.cantidad;
+  // this.frmDivisa= servicio.;
+  // this.frmDivisaId= servicio.divisaId; // divisa sera la que tiene le masterfile que lo tomará del paquete
+  this.frmUnitario= servicio.precioUnitario;
+  this.frmTotal= servicio.total;
+  this.frmServicio= servicio.servicio.descripcion;
+  this.frmServicioId= servicio.servicioId;
+  this.frmIncluido= servicio.incluido;
+
+this.frmNota = servicio.nota;
+this.frmNota2 = servicio.nota2;
+this.frmNota3 = servicio.nota3;
+
+}
+
+guardaFormulario(f:NgForm)
+{ 
+  let item: MasterFileContenido;
+
+item = {
+  id	:	0,
+  masterFileId	:	    this.master.id,
+  servicioId	:	    this.frmServicioId,
+  precioUnitario	:	    this.frmUnitario,
+  cantidad	:	    this.frmCantidad,
+  total	:	    this.frmTotal,
+  img	:	    null,
+  divisaId	:	    this.master.divisaId,
+  tieneImagen	:	    false,//imagen
+  ocRealizado	:	    false,
+  ocRequerido	:	    false,
+  incluido	:	    this.frmIncluido,
+  nota	:	    this.frmNota,
+  nota2	:	    this.frmNota2,
+  nota3	:	    this.frmNota3
+
+};
+
+// **************************************** api ***********************************************
+  const url = uriMasterFileContenido + this.frmId;
+
+  this._servicioGenerico.Actualizar(item, url).subscribe( (resp:any) => {
+
+        if( resp.ok === true)
+        {    
+          M.toast({html: 'Se actualizó el registro, correctamente!', classes: alertInfo});
+
+          //buscar el registro en el array
+          let itemEncontrado = this.servicios.find( item => item.id ===  this.frmId);
+          let pos = this.servicios.indexOf(itemEncontrado);          
+          this.servicios[pos] = resp.contenido;  
+
+        }  
+
+  },
+  (error) => {},
+  () => {}
+);
+
+
+}
+
+cambioCantidad(cantidad)
+{
+  if(isNaN(cantidad))
+  {
+    M.toast({html: '<strong> Solo se aceptan numeros <strong>', classes:' rounded  pink darken-2'}); 
+    this.frmCantidad = 0;
+    return;
+  }
+
+  this.frmTotal = this.frmCantidad * this.frmUnitario;
+
+}
+
+cambioUnitario(preciounitario)
+{
+  if(isNaN(preciounitario))
+  {
+    M.toast({html: '<strong> Solo se aceptan numeros <strong>', classes:' rounded  pink darken-2'}); 
+    this.frmCantidad = 0;
+    return;
+  }
+
+  this.frmTotal = this.frmCantidad * this.frmUnitario;
+}
 
 
 }

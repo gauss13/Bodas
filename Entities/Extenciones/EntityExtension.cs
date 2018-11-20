@@ -135,7 +135,14 @@ namespace Entities.Extenciones
             itemDb.Cantidad = item.Cantidad;
             itemDb.Total = item.Total;
             itemDb.Img = item.Img;
-            itemDb.DivisaId = item.DivisaId;
+            //itemDb.DivisaId = item.DivisaId;
+            itemDb.TieneImagen = item.TieneImagen;
+            itemDb.OcRealizado = item.OcRealizado;
+            itemDb.OcRequerido = item.OcRequerido;
+            itemDb.Incluido = item.Incluido;
+            itemDb.Nota = item.Nota;
+            itemDb.Nota2 = item.Nota2;
+            itemDb.Nota3 = item.Nota3;
         }
 
         //PAQUETES

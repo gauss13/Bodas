@@ -111,6 +111,7 @@ namespace Repository
     public interface IRepositorioMasterFileContent : IRepositorioBase<MasterFileContent>
     {
         Task<IEnumerable<MasterFileContent>> GetContenido(int mfid);
+        Task<MasterFileContent> GetContenidoById(int id);
     }
 
     public interface IRepositorioPaquete : IRepositorioBase<Paquete>
