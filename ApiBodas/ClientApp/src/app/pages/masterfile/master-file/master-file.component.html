@@ -7,7 +7,7 @@
                 <tr>
                     <td><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
                     <td><strong> Hotel : </strong>{{strHotel}} </td>
-                    <td><strong> Wedding date:  </strong>{{strFechaBoda | date}} {{strHoraBoda}}</td>
+                    <td><strong> Wedding date:  </strong>{{strFechaBoda }} {{strHoraBoda}}</td>
                 </tr>
                 <tr>
                     <td><strong>Meeting with Coordinator: </strong>{{strReunionCoordinador}}</td>
@@ -25,22 +25,18 @@
                     <td><strong>Total Incluido:</strong></td>
                     <td><strong>Total Adicional:</strong></td>
                     <td><strong>TOTAL:</strong></td>
-
                 </tr>
             </table>
 
         </div>
-
-
-
 
         <div id="serviciopaquete" class="section scrollspy">
             <h5>Servicios Incluidos</h5>
             <!-- collection ini -->
             <ul class="collection">
 
-                <li *ngFor="let srv of servicios" class="collection-item avatar">
-                    <i class="material-icons circle pink">insert_chart</i>
+                <li *ngFor="let srv of serviciosInc " class="collection-item avatar">
+                    <i class="material-icons circle teal">insert_chart</i>
                     <span class="title col s12   "><a data-target="slide-out" class="sidenav-trigger  " (click)="setFormulario(srv)"><strong> {{ srv.servicio.categoria.descripcion }} | {{ srv.servicio.descripcion }}</strong></a></span>
                     <span class=" col s4 ">{{ srv.cantidad }}</span>
                     <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
@@ -53,25 +49,36 @@
             </ul>
             <!-- collection fin -->
 
-
-
         </div>
 
         <div id="servicioagregados" class="section scrollspy">
             <h5>Servicios Adicionales </h5>
+            <ul class="collection">
+
+                <li *ngFor="let srv of serviciosAdicionales " class="collection-item avatar">
+                    <i class="material-icons circle pink">insert_chart</i>
+                    <span class="title col s12   "><a data-target="slide-out" class="sidenav-trigger  " (click)="setFormulario(srv)"><strong> {{ srv.servicio.categoria.descripcion }} | {{ srv.servicio.descripcion }}</strong></a></span>
+                    <span class=" col s4 ">{{ srv.cantidad }}</span>
+                    <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
+                    <span class=" col s4 "> <strong>$ {{ srv.total }}</strong></span>
+
+                    <p>{{srv.nota}}<br> {{srv.nota2}} <br> {{srv.nota3}} </p>
+
+                    <span class="secondary-content " title="incluido"><i class="material-icons ">done</i></span>
+                </li>
+            </ul>
 
         </div>
 
 
         <div id="agregar" class="section scrollspy">
             <p>Agregar Servicios </p>
-            <input type="button" class="btn" (click)="activarscroll()" value="Agregar +">
+            <input type="button" class="btn" value="Agregar +">
         </div>
     </div>
 
 
     <!-- scrollspy col hide-on-small-only m3 l2 -->
-
     <div class="col hide-on-small-only m3 l2">
         <div class="toc-wrapper pinned" style="top: 0px;">
             <div class="buysellads hide-on-small-only">
@@ -84,25 +91,18 @@
 
                 </div>
                 <div style="height: 1px;">
-
                     <ul class="section table-of-contents">
                         <li><a href="#master">Master File</a></li>
                         <li><a href="#serviciopaquete">Servicios del paquete</a></li>
-                        <li><a href="#servicioagregados">Servicios del agregados</a></li>
+                        <li><a href="#servicioagregados">Servicios Adicionales</a></li>
                         <li><a href="#agregar">Agregar Servicios</a></li>
                     </ul>
                 </div>
             </div>
-
-
         </div>
-
-
     </div>
 
     <!-- sideout -->
-
-
     <ul id="slide-out" class="sidenav">
         <li>
             <div class="user-view " [ngClass]=" frmIncluido ?  'teal' : 'pink'  ">
@@ -145,7 +145,7 @@
                             <label>
                             <input type="checkbox" class="filled-in" checklist-model="frmIncluido" id="frmIncluido" name="frmIncluido" [checked]="frmIncluido" (change)="frmIncluido = !frmIncluido"  />
                                     <span>Incluido</span>
-                                  </label>
+                            </label>
                         </p>
                     </li>
 
@@ -191,3 +191,5 @@
         </li>
 
     </ul>
+
+    <!-- modal -->

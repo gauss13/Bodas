@@ -33,6 +33,8 @@ agenda:any;
 master:any;
 paquete:any;
 servicios:any;
+serviciosInc:any;
+serviciosAdicionales:any;
 
 idAgenda:number = 0;
 
@@ -118,6 +120,13 @@ getMasterContent(mfid:number)
 
           if(resp.contenido !== null )
           this.servicios = resp.contenido;  //JSON.parse(resp.contenido);
+
+          // this.serviciosInc = this.servicios.filter(item => item.incluido === true);
+          // this.serviciosAdicionales = this.servicios.filter(item => item.incluido === false);
+          this.separarIncluidos();
+          
+          console.log('incluidos',  this.serviciosInc);
+          console.log('adicionales',  this.serviciosAdicionales);
 
         }
   },
@@ -243,6 +252,7 @@ item = {
           let pos = this.servicios.indexOf(itemEncontrado);          
           this.servicios[pos] = resp.contenido;  
 
+          this.separarIncluidos();
         }  
 
   },
@@ -251,6 +261,12 @@ item = {
 );
 
 
+}
+
+separarIncluidos()
+{
+  this.serviciosInc = this.servicios.filter(item => item.incluido === true);
+  this.serviciosAdicionales = this.servicios.filter(item => item.incluido === false);
 }
 
 cambioCantidad(cantidad)
