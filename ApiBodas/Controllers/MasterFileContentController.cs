@@ -52,7 +52,7 @@ namespace ApiBodas.Controllers
         [HttpGet("contenido/{mfid:int}")]
         public async Task<IActionResult> GetContenido(int mfid)
         {
-             //var lista = await this.Repositorio.MasterFileContent.FindAsyc(x=> x.MasterFileId == mfid);
+            //var lista = await this.Repositorio.MasterFileContent.FindAsyc(x=> x.MasterFileId == mfid);
             var lista = await this.Repositorio.MasterFileContent.GetContenido(mfid);
 
             // BAD REQUEST
@@ -173,8 +173,8 @@ namespace ApiBodas.Controllers
             }
 
             //  se borra fisicamente el registro
-           
-             this.Repositorio.MasterFileContent.Remove(itemEncontrado);
+
+            this.Repositorio.MasterFileContent.Remove(itemEncontrado);
             await this.Repositorio.CompleteAsync();
 
             var obj = new
@@ -188,6 +188,80 @@ namespace ApiBodas.Controllers
 
         }
 
+        [HttpPost("registrar/{h:int}/{idm:int}")]
+        public async Task<IActionResult> RegistrarAdicionales(int h, int idm, [FromBody] int[] lista)
+        {
+            try
+            {
+
+                // obtener los servicios que estan en el array
+                var listaServicios = await this.Repositorio.Servicios.GetServicioInclude(h, lista);
+
+                var master = await this.Repositorio.MasterFile.GetByIdAsync(idm);
+                // 
+                List<MasterFileContent> listaContenido = new List<MasterFileContent>();
+
+                foreach (var serv in listaServicios)
+                {
+                    MasterFileContent mfc = new MasterFileContent();
+
+                    mfc.Id = 0;
+                    mfc.MasterFileId = master.Id;
+                    mfc.ServicioId = serv.Id;
+                    mfc.PrecioUnitario = serv.PrecioSugerido;
+                    mfc.Cantidad = 1;
+                    mfc.Total = serv.PrecioSugerido;
+                    mfc.Img = null;
+                    mfc.DivisaId = master.DivisaId;
+                    mfc.TieneImagen = false;
+                    mfc.OcRealizado = false;
+                    mfc.OcRequerido = false;
+                    mfc.Incluido = false;
+
+                    listaContenido.Add(mfc);
+                }
+
+                // Guardar contenido
+                await this.Repositorio.MasterFileContent.AddRangeAsync(listaContenido);
+                await this.Repositorio.CompleteAsync();
+
+                // Actualizar los totales
+
+                var listaActual = await this.Repositorio.MasterFileContent.GetContenido(idm);
+
+                var totalInc = listaActual.Where(x => x.Incluido == true).Sum(x => x.Total);
+                var totalAdd = listaActual.Where(x => x.Incluido == false).Sum(x => x.Total);
+
+                master.TotalAdicional = totalInc;
+                master.TotalIncuido = totalAdd;
+                master.TotalMaster = totalInc + totalAdd;
+                await this.Repositorio.CompleteAsync();
+
+
+                // OK
+                var obj = new
+                {
+                    ok = true,
+                    contenido = listaActual,
+                    master = master
+                };
+
+                return Ok(obj);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    ok = false,
+                    mensaje = "Se produjo un error al Actualizar el registro",
+                    errors = new { mensaje = ex.Message }
+
+                });
+            }
+
+
+        }
 
         // <<- ACTIONS
 

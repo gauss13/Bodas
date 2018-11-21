@@ -121,6 +121,8 @@ namespace Repository
     public interface IRepositorioServicio : IRepositorioBase<Servicio>
     {
         Task<IEnumerable<Servicio>> GetServicioInclude(int h);
+
+        Task<IEnumerable<Servicio>> GetServicioInclude(int h, int[] ids);
     }
 
     public interface IRepositorioPaqueteServicio : IRepositorioBase<PaqueteServicio>

@@ -37,14 +37,14 @@
 
                 <li *ngFor="let srv of serviciosInc " class="collection-item avatar">
                     <i class="material-icons circle teal">insert_chart</i>
-                    <span class="title col s12   "><a data-target="slide-out" class="sidenav-trigger  " (click)="setFormulario(srv)"><strong> {{ srv.servicio.categoria.descripcion }} | {{ srv.servicio.descripcion }}</strong></a></span>
+                    <span class="title col s12 teal-text  "><strong> {{ srv.servicio.categoria.descripcion }} | </strong>  {{ srv.servicio.descripcion }}</span>
                     <span class=" col s4 ">{{ srv.cantidad }}</span>
                     <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
-                    <span class=" col s4 "> <strong>$ {{ srv.total }}</strong></span>
+                    <span class=" col s4 "><strong>$ {{ srv.total }}</strong></span>
 
-                    <p>{{srv.nota}}<br> {{srv.nota2}} <br> {{srv.nota3}} </p>
+                    <p class="teal-text">- {{srv.nota}}<br>- {{srv.nota2}} <br>- {{srv.nota3}} </p>
 
-                    <span class="secondary-content " title="incluido"><i class="material-icons ">done</i></span>
+                    <span data-target="slide-out" class="secondary-content  sidenav-trigger" title="incluido" (click)="setFormulario(srv)"><i class="material-icons ">edit</i></span>
                 </li>
             </ul>
             <!-- collection fin -->
@@ -57,14 +57,14 @@
 
                 <li *ngFor="let srv of serviciosAdicionales " class="collection-item avatar">
                     <i class="material-icons circle pink">insert_chart</i>
-                    <span class="title col s12   "><a data-target="slide-out" class="sidenav-trigger  " (click)="setFormulario(srv)"><strong> {{ srv.servicio.categoria.descripcion }} | {{ srv.servicio.descripcion }}</strong></a></span>
+                    <span class="title col s12   "><strong> {{ srv.servicio.categoria.descripcion }} | {{ srv.servicio.descripcion }}</strong></span>
                     <span class=" col s4 ">{{ srv.cantidad }}</span>
                     <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
                     <span class=" col s4 "> <strong>$ {{ srv.total }}</strong></span>
 
                     <p>{{srv.nota}}<br> {{srv.nota2}} <br> {{srv.nota3}} </p>
 
-                    <span class="secondary-content " title="incluido"><i class="material-icons ">done</i></span>
+                    <span data-target="slide-out" class="secondary-content  sidenav-trigger" title="incluido" (click)="setFormulario(srv)"><i class="material-icons ">edit</i></span>
                 </li>
             </ul>
 
@@ -72,8 +72,11 @@
 
 
         <div id="agregar" class="section scrollspy">
-            <p>Agregar Servicios </p>
-            <input type="button" class="btn" value="Agregar +">
+            <h6>Agregar Servicios </h6>
+
+            <a class="waves-effect waves-light btn modal-trigger" (click)="getCatalogoServicios()" href="#modalAdi">Agregar +</a>
+            <!-- <button class="modal-close waves-effect waves-green btn-flat" (click)="getCatalogoServicios()">Guardar</button> -->
+
         </div>
     </div>
 
@@ -177,7 +180,9 @@
 
 
                     <li>
-                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10"><i class="fa fa-save"></i>Guardar</button>
+                        <button type="button" class="btn grey darken-1 waves-effect waves-light m-r-10">Cerrar</button>
+                        <button type="submit" class="btn waves-effect waves-light m-r-10">Guardar</button>
+                        <button type="button" class="btn pink waves-effect waves-light m-r-10">Eliminar</button>
                     </li>
 
                     <li></li>
@@ -193,3 +198,27 @@
     </ul>
 
     <!-- modal -->
+    <div id="modalAdi" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Agregar Servicios</h4>
+            <p>Seleccionar servicios</p>
+
+            <ul class="collection ">
+                <li class="collection-item" *ngFor="let srv of catServicios">
+                    <p>
+                        <label>
+                        <input type="checkbox" id="cbxAdd" name="cbxAdd" value="{{srv.id}}"  class="filled-in" />
+                        <span style="color:black">{{srv.id}} | {{ srv.descripcion}}</span>
+                    </label>
+                    </p>
+                </li>
+
+            </ul>
+
+
+        </div>
+        <div class="modal-footer">
+            <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            <a class="modal-close waves-effect waves-green btn-flat" (click)="agregarServicio()">Agregar</a>
+        </div>
+    </div>

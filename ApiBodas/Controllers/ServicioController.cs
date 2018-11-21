@@ -53,8 +53,10 @@ namespace ApiBodas.Controllers
           //  var lista = await this.Repositorio.Servicios.GetAllAsyc();
             //var lista = await this.Repositorio.PaquetesServicios.FindAsyc(x => x.PaqueteId == itemNuevo.PaqueteId && x.ServicioId == itemNuevo.ServicioId);
 
-            var lista = await this.Repositorio.Servicios.FindAsyc(x => x.HotelId == h);
-            
+            //var lista = await this.Repositorio.Servicios.FindAsyc(x => x.HotelId == h);
+
+            var lista = await this.Repositorio.Servicios.GetServicioInclude(h);
+
 
             // BAD REQUEST
             if (!lista.Any())
@@ -70,12 +72,12 @@ namespace ApiBodas.Controllers
 
             lista = lista.OrderBy(x => x.CategoriaId).ThenBy(y => y.Descripcion).ToList();
 
-            // OK
+            // OK - 
             var obj = new
             {
                 ok = true,
                 total = lista.Count(),
-                Servicio = lista
+                servicio = lista
             };
 
             return Ok(obj);

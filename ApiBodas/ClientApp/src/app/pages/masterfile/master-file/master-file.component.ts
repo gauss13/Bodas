@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Globalx } from 'src/app/config/global';
 import { GenericoService } from 'src/app/services/service.index';
-import { uriMasterFile, uriMasterFileContenido, uriAgenda, alertSuccess, alertError, alertMessage, alertWarning, alertInfo } from 'src/app/config/config';
+import { uriServicio, uriMasterFileContenido, uriAgenda, alertSuccess, alertError, alertMessage, alertWarning, alertInfo } from 'src/app/config/config';
 import { NgForm } from '@angular/forms';
 import { MasterFileContenido } from 'src/app/models/masterfilecontenido.model';
 
@@ -32,9 +32,11 @@ iniciarMaster:boolean = false;
 agenda:any;
 master:any;
 paquete:any;
-servicios:any;
+servicios:any;// agregados al master file
 serviciosInc:any;
 serviciosAdicionales:any;
+
+catServicios:any;// servicios disponibles para agregar
 
 idAgenda:number = 0;
 
@@ -92,6 +94,8 @@ activeRoute.params.subscribe(
       $('.scrollspy').scrollSpy();
       $('.sidenav').sidenav({edge:'right' });
 
+      $('.modal').modal({});  
+
     });
 
     if(this.iniciarMaster)
@@ -119,12 +123,13 @@ getMasterContent(mfid:number)
           console.log('Contenido', resp);
 
           if(resp.contenido !== null )
+          {
           this.servicios = resp.contenido;  //JSON.parse(resp.contenido);
 
           // this.serviciosInc = this.servicios.filter(item => item.incluido === true);
           // this.serviciosAdicionales = this.servicios.filter(item => item.incluido === false);
           this.separarIncluidos();
-          
+          }
           console.log('incluidos',  this.serviciosInc);
           console.log('adicionales',  this.serviciosAdicionales);
 
@@ -165,10 +170,62 @@ getAgenda()
 
 }
 
-// **************************************** GET servicios ***********************************************
 
-// **************************************** GET divisas ***********************************************
 
+
+// **************************************** GET CAT servicios ***********************************************
+getCatalogoServicios()
+{
+  console.log('cat servicios');
+
+  const url = uriServicio + this._gbl.hotelIdSelected;
+
+  this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
+  if(resp.ok === true)
+  {    
+    this.catServicios = resp.servicio;
+  }
+  },
+  (error) => {},
+  () => {}
+  );
+
+}
+
+agregarServicio()
+{
+  //obtener todos los marcados
+
+var checks = []
+$("input[name='cbxAdd']:checked").each(function ()
+{
+  checks.push($(this).val());
+});
+
+console.log(checks);
+// 
+const url = uriMasterFileContenido + 'registrar/' + this._gbl.hotelIdSelected + '/' + this.master.id;
+
+this._servicioGenerico.CrearRegisto(checks,url).subscribe( (resp:any) => {
+    
+    if(resp.ok === true)
+    {      
+      if(resp.contenido !== null )
+      {
+          this.servicios = resp.contenido;  //JSON.parse(resp.contenido);    
+          this.separarIncluidos();
+      }
+
+    }
+
+},
+(error) => {},
+() => {}
+);
+
+
+
+}
 
 // **************************************** SET datos a las variables ***********************************************
 

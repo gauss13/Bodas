@@ -386,7 +386,9 @@ namespace Repository
 
 
 
-
+    /// <summary>
+    /// SERVICIOS
+    /// </summary>
     public class RepositorioServicio : RepositorioBase<Servicio>, IRepositorioServicio
     {
         public RepositorioServicio(AppDbContext contexto) : base(contexto)
@@ -409,6 +411,15 @@ namespace Repository
                .ToListAsync();
 
          }
+
+        public async Task<IEnumerable<Servicio>> GetServicioInclude(int h, int[] ids)
+        {
+            return await appDbContext.Servicios
+            .Include(c => c.Categoria)
+            .Include(d => d.Divisa)
+            .Where(s => s.HotelId == h && ids.Contains(s.Id) )
+           .ToListAsync();
+        }
     }
 
 
