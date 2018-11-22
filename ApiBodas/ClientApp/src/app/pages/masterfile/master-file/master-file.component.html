@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col s12 m9 l10">
         <div id="master" class="section scrollspy">
-            <h4>Master File</h4>
+            <h5>{{idMaster}} | Master File</h5>
             <table>
                 <tr>
                     <td><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
@@ -22,9 +22,9 @@
                     <td><strong>Num. Menores:</strong> {{strTotalPersonas}}</td>
                 </tr>
                 <tr>
-                    <td><strong>Total Incluido:</strong></td>
-                    <td><strong>Total Adicional:</strong></td>
-                    <td><strong>TOTAL:</strong></td>
+                    <td><strong>Total Incluido: {{strTotalIncluido}}</strong></td>
+                    <td><strong>Total Adicional: {{strTotalAdicional}}</strong></td>
+                    <td><strong>TOTAL: {{strTotalMaster}}</strong></td>
                 </tr>
             </table>
 
@@ -36,7 +36,7 @@
             <ul class="collection">
 
                 <li *ngFor="let srv of serviciosInc " class="collection-item avatar">
-                    <i class="material-icons circle teal">insert_chart</i>
+                    <i class="material-icons circle teal">done</i>
                     <span class="title col s12 teal-text  "><strong> {{ srv.servicio.categoria.descripcion }} | </strong>  {{ srv.servicio.descripcion }}</span>
                     <span class=" col s4 ">{{ srv.cantidad }}</span>
                     <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
@@ -56,7 +56,7 @@
             <ul class="collection">
 
                 <li *ngFor="let srv of serviciosAdicionales " class="collection-item avatar">
-                    <i class="material-icons circle pink">insert_chart</i>
+                    <i class="material-icons circle pink">add</i>
                     <span class="title col s12   "><strong> {{ srv.servicio.categoria.descripcion }} | {{ srv.servicio.descripcion }}</strong></span>
                     <span class=" col s4 ">{{ srv.cantidad }}</span>
                     <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
@@ -112,9 +112,9 @@
 
                 <ul class=" white-text">
                     <li>
-                        <h5>{{frmServicio}}</h5>
+                        <h6>{{frmServicio}}</h6>
                     </li>
-                    <li><span>  {{ frmIncluido ? 'Incluido' : 'No incluido' }}</span></li>
+                    <li><span>  {{ frmIncluido ? 'Incluido' : 'No incluido' }}</span> | <span class="sidenav-close">Cerrar</span> </li>
                     <!-- <li> Correo: <span>  {{correoDato}}</span></li>
                             <li> Deposito: <span>$ {{depositoDato}}</span></li> -->
                 </ul>
@@ -178,14 +178,12 @@
                         </div>
                     </li>
 
-
                     <li>
-                        <button type="button" class="btn grey darken-1 waves-effect waves-light m-r-10">Cerrar</button>
-                        <button type="submit" class="btn waves-effect waves-light m-r-10">Guardar</button>
-                        <button type="button" class="btn pink waves-effect waves-light m-r-10">Eliminar</button>
+                        <button type="button" class="sidenav-close btn grey darken-1 waves-effect waves-light m-r-10">Cerrar</button> |
+                        <button type="submit" class="btn waves-effect waves-light m-r-10">guardar</button> |
+                        <button type="button" class="btn pink waves-effect waves-light m-r-10" (click)="quitarServicio()">Elim</button>
                     </li>
 
-                    <li></li>
                 </ul>
 
             </form>

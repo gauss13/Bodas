@@ -1,0 +1,5 @@
+192.168.101.25:7046/DynamicsNAVCaracol------->Dynamics Caracol----->Usuario:administrator  Password:S1st3m4sM3x1c02017
+192.168.102.22:7046/DynamicsNAVPlayacar------>Dynamics Playacar---->Usuario:administrator  Password:S1st3m4sM3x1c02017
+192.168.10.10:7046/DynamicsNAVCancun--------->Dynamics Cancun------>Usuario:administrator  Password:S1st3m4sM3x1c02017
+192.168.203.21:7046/DynamicsNAVCabos--------->Dynamics Finisterra-->Usuario:administrator  Password:S1st3m4sM3x1c02017
+192.168.101.24:7046/DynamicsNAVCentral------->Dynamics Central----->Usuario:administrator  Password:S1st3m4sM3x1c02017

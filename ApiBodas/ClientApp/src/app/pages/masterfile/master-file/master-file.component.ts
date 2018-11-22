@@ -27,22 +27,27 @@ strContacto:string='ludo@perez.com';
 strPaquete:string='Emerald Breeze';
 strTotalPersonas:number=10;
 strHoraBoda:string='';
+strTotalIncluido:number = 0;
+strTotalAdicional:number = 0;
+strTotalMaster:number = 0;
+
 iniciarMaster:boolean = false;
 
 agenda:any;
 master:any;
 paquete:any;
 servicios:any;// agregados al master file
-serviciosInc:any;
-serviciosAdicionales:any;
+serviciosInc:any; // separacion de los incluidos
+serviciosAdicionales:any; // separacion de los servicios adicionales
 
-catServicios:any;// servicios disponibles para agregar
+catServicios:any;// catalogo de servicios disponibles para agregar al master
 
 idAgenda:number = 0;
+idMaster:number =0;
 
 
 // FORMULARIO
-frmId:number=0;
+frmId:number=0;// id del master file
 frmCantidad:number=0;
 frmDivisa:number=0;
 frmDivisaId:number=0;
@@ -99,8 +104,7 @@ activeRoute.params.subscribe(
     });
 
     if(this.iniciarMaster)
-    {
-      console.log('iniciar carga');
+    {     
       //cargar datos del master
       this.getAgenda();
     }
@@ -153,9 +157,7 @@ getAgenda()
   this._servicioGenerico.GetRegistros(url).subscribe( (resp:any) => {
 
         if(resp.ok === true)
-        {    
-          console.log('apm', resp)
-
+        {  
           this.agenda = resp.agenda;
           this.paquete = resp.paquete;
           this.master = resp.master;
@@ -241,6 +243,12 @@ setData()
     this.strPaquete = this.paquete.descripcion;
     this.strTotalPersonas = this.agenda.paxAdultos;
     this.strHoraBoda = this.agenda.horaBoda;
+
+    this.strTotalIncluido = this.master.totalIncluido;
+    this.strTotalAdicional = this.master.totalAdicional;
+    this.strTotalMaster = this.master.totalMaster;
+
+    this.idMaster = this.master.id;
   
 }
 
@@ -351,5 +359,38 @@ cambioUnitario(preciounitario)
   this.frmTotal = this.frmCantidad * this.frmUnitario;
 }
 
+// **************************************** Quitar SERVICIO ***********************************************
+quitarServicio()
+{
+  var r = confirm('¿Esta seguro de eliminar el servicio ?');
+
+  if(r)
+  {
+        const url = uriMasterFileContenido + this.frmId;  
+        this._servicioGenerico.Borrar(url).subscribe( (resp:any) => {
+        
+        if(resp.ok === true)
+        {    
+          M.toast({html: 'Se actualizó el registro, correctamente!', classes: alertInfo});
+        
+          // actualizar el array de servicios
+          let itemEncontrado = this.servicios.find( item => item.id ===  this.frmId);
+          let pos = this.servicios.indexOf(itemEncontrado); 
+          var itemEliminado = this.servicios.splice(pos, 1);
+          // hacer la division de tipos 
+          this.separarIncluidos();
+        
+          //actualizar totales del master        
+        }
+      
+        },
+        (error) => {},
+        () => {}
+        );
+
+
+  }
+
+}
 
 }

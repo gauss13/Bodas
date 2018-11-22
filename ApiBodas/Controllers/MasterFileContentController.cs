@@ -173,7 +173,6 @@ namespace ApiBodas.Controllers
             }
 
             //  se borra fisicamente el registro
-
             this.Repositorio.MasterFileContent.Remove(itemEncontrado);
             await this.Repositorio.CompleteAsync();
 
@@ -181,7 +180,7 @@ namespace ApiBodas.Controllers
             {
                 ok = true,
                 mensaje = $"Se Elimino el registro {id}, correctamente",
-                MasterFileContent = itemEncontrado
+                contenido = itemEncontrado
             };
 
             return Ok(obj);
