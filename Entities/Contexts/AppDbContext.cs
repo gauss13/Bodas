@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq;
+using System.Linq; 
 using Entities.Models.Catalogos;
 using Entities.Models.Paquetes;
 using Entities.Models.Extras;
