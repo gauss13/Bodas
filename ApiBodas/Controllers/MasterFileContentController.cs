@@ -93,7 +93,7 @@ namespace ApiBodas.Controllers
                 var obj = new
                 {
                     ok = true,
-                    MasterFileContent = r
+                    masterFileContent = r
                 };
 
                 return Created("", obj);
@@ -114,8 +114,8 @@ namespace ApiBodas.Controllers
 
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Actualizar([FromBody] MasterFileContent itemNuevo, int id)
+        [HttpPut("{id}/{idm:int}")]
+        public async Task<IActionResult> Actualizar([FromBody] MasterFileContent itemNuevo, int id, int idm)
         {
 
             try
@@ -135,12 +135,28 @@ namespace ApiBodas.Controllers
                 var r = this.Repositorio.MasterFileContent.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 
-                var item = await this.Repositorio.MasterFileContent.GetContenidoById(id);
+                // var item = await this.Repositorio.MasterFileContent.GetContenidoById(id);
+
+                var master = await this.Repositorio.MasterFile.GetByIdAsync(idm);
+
+                //obtener los nuevos totales
+                var listaActual = await this.Repositorio.MasterFileContent.GetContenido(idm);
+
+                var totalInc = listaActual.Where(x => x.Incluido == true).Sum(x => x.Total);
+                var totalAdd = listaActual.Where(x => x.Incluido == false).Sum(x => x.Total);
+
+                master.TotalAdicional = totalAdd;
+                master.TotalIncluido = totalInc ;
+                master.TotalMaster = totalInc + totalAdd;
+
+                var rm = this.Repositorio.MasterFile.Update(master);
+                await this.Repositorio.CompleteAsync();
 
                 var obj = new
                 {
                     ok = true,
-                    contenido = item
+                    contenido = r,
+                    master = master
                 };
 
                 return Created("", obj);
@@ -161,8 +177,8 @@ namespace ApiBodas.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Eliminar(int id)
+        [HttpDelete("{id}/{idm:int}")]
+        public async Task<IActionResult> Eliminar(int id, int idm)
         {
             //buscar la Role 
             var itemEncontrado = await this.Repositorio.MasterFileContent.GetByIdAsync(id);
@@ -172,15 +188,33 @@ namespace ApiBodas.Controllers
                 return BadRequest(new { ok = false, mensaje = $"No se encontró el registro con Id {id}", erros = "" });
             }
 
+            var master = await this.Repositorio.MasterFile.GetByIdAsync(idm);
+
             //  se borra fisicamente el registro
             this.Repositorio.MasterFileContent.Remove(itemEncontrado);
             await this.Repositorio.CompleteAsync();
+
+
+            //obtener los nuevos totales
+            var listaActual = await this.Repositorio.MasterFileContent.GetContenido(idm);
+
+            var totalInc = listaActual.Where(x => x.Incluido == true).Sum(x => x.Total);
+            var totalAdd = listaActual.Where(x => x.Incluido == false).Sum(x => x.Total);
+
+            master.TotalAdicional = totalAdd;
+            master.TotalIncluido = totalInc ;
+            master.TotalMaster = totalInc + totalAdd;
+
+            var r = this.Repositorio.MasterFile.Update(master);
+            await this.Repositorio.CompleteAsync();
+
 
             var obj = new
             {
                 ok = true,
                 mensaje = $"Se Elimino el registro {id}, correctamente",
-                contenido = itemEncontrado
+                contenido = itemEncontrado,
+                master = master
             };
 
             return Ok(obj);
@@ -211,7 +245,7 @@ namespace ApiBodas.Controllers
                     mfc.Cantidad = 1;
                     mfc.Total = serv.PrecioSugerido;
                     mfc.Img = null;
-                    mfc.DivisaId = master.DivisaId;
+                    //mfc.DivisaId = master.DivisaId;
                     mfc.TieneImagen = false;
                     mfc.OcRealizado = false;
                     mfc.OcRequerido = false;
@@ -231,11 +265,13 @@ namespace ApiBodas.Controllers
                 var totalInc = listaActual.Where(x => x.Incluido == true).Sum(x => x.Total);
                 var totalAdd = listaActual.Where(x => x.Incluido == false).Sum(x => x.Total);
 
-                master.TotalAdicional = totalInc;
-                master.TotalIncuido = totalAdd;
+                master.TotalAdicional = totalAdd;
+                master.TotalIncluido = totalInc ;
                 master.TotalMaster = totalInc + totalAdd;
-                await this.Repositorio.CompleteAsync();
 
+                var r = this.Repositorio.MasterFile.Update(master);
+
+                await this.Repositorio.CompleteAsync();
 
                 // OK
                 var obj = new

@@ -17,7 +17,7 @@ namespace Entities.Models.Masterfiles
         [StringLength(150)]
         public string  Descripcion { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal TotalIncuido { get; set; }
+        public decimal TotalIncluido { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalAdicional { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
@@ -38,7 +38,7 @@ namespace Entities.Models.Masterfiles
         [StringLength(150)]
         public string Img { get; set; } // img podra ser una imagen por servicio
         public bool TieneImagen { get; set; } // para mostrar o no en el documento final
-        public int DivisaId { get; set; } // no se mostrará de manera inicial o version 1, sino que todos los servicios tendran la divisa del master
+        //public int DivisaId { get; set; } // no se mostrará de manera inicial o version 1, sino que todos los servicios tendran la divisa del master
         public bool Incluido { get; set; } // productos adicionales 
         public bool OcRequerido { get; set; } //requiere orden de compra ?
         public bool OcRealizado { get; set; } //requiere orden de compra ?
@@ -52,7 +52,7 @@ namespace Entities.Models.Masterfiles
 
         // NAV
         public Servicio Servicio { get; set; }
-        public Divisa Divisa { get; set; }
+        //public Divisa Divisa { get; set; }
 
 
     }

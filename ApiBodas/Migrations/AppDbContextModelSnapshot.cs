@@ -438,7 +438,7 @@ namespace ApiBodas.Migrations
                     b.Property<decimal>("TotalAdicional")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<decimal>("TotalIncuido")
+                    b.Property<decimal>("TotalIncluido")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<decimal>("TotalMaster")
@@ -456,8 +456,6 @@ namespace ApiBodas.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Cantidad");
-
-                    b.Property<int>("DivisaId");
 
                     b.Property<string>("Img")
                         .HasMaxLength(150);

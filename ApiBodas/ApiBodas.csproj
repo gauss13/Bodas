@@ -39,12 +39,6 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\EjecutivosController.cs" />
-    <Compile Remove="Migrations\20181119190802_nav master contenido.cs" />
-    <Compile Remove="Migrations\20181119190802_nav master contenido.Designer.cs" />
-    <Compile Remove="Migrations\20181119191504_nav master contenido 2.cs" />
-    <Compile Remove="Migrations\20181119191504_nav master contenido 2.Designer.cs" />
-    <Compile Remove="Migrations\20181119191617_nav master contenido 3.cs" />
-    <Compile Remove="Migrations\20181119191617_nav master contenido 3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -152,4 +152,14 @@ INSERT INTO [dbo].[Paquetes] ([Descripcion],[Clave],[Activo]) VALUES ('Paquete 2
 INSERT INTO [dbo].[LugaresCena]([Lugar],[HotelId],[Activo]) VALUES ('Lugar cena 1', 1  ,1)
 INSERT INTO [dbo].[LugaresCena]([Lugar],[HotelId],[Activo]) VALUES ('Lugar cena 2', 1  ,1)
 
+
+INSERT INTO [dbo].[Categorias]  ([HotelId],[Descripcion]) VALUES (1,'Categoria 1')
+INSERT INTO [dbo].[Categorias]  ([HotelId],[Descripcion]) VALUES (1,'Categoria 2')
+INSERT INTO [dbo].[Categorias]  ([HotelId],[Descripcion]) VALUES (1,'Categoria 3')
+
+
+INSERT INTO [dbo].[Departamentos] ([HotelId],[Nombre])  VALUES (1, 'Depto 1')
+INSERT INTO [dbo].[Departamentos] ([HotelId],[Nombre])  VALUES (1, 'Depto 2')
+INSERT INTO [dbo].[Departamentos] ([HotelId],[Nombre])  VALUES (1, 'Depto 3')
+
 GO

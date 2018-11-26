@@ -5,9 +5,12 @@
             <h5>{{idMaster}} | Master File</h5>
             <table>
                 <tr>
-                    <td><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
                     <td><strong> Hotel : </strong>{{strHotel}} </td>
-                    <td><strong> Wedding date:  </strong>{{strFechaBoda }} {{strHoraBoda}}</td>
+                    <td><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
+                </tr>
+                <tr>
+                    <td><strong> Wedding date:  </strong>{{strFechaBoda | date:'dd/MM/yyyy' }}</td>
+                    <td><strong> Hour:  </strong> {{strHoraBoda}}</td>
                 </tr>
                 <tr>
                     <td><strong>Meeting with Coordinator: </strong>{{strReunionCoordinador}}</td>
@@ -22,9 +25,9 @@
                     <td><strong>Num. Menores:</strong> {{strTotalPersonas}}</td>
                 </tr>
                 <tr>
-                    <td><strong>Total Incluido: {{strTotalIncluido}}</strong></td>
-                    <td><strong>Total Adicional: {{strTotalAdicional}}</strong></td>
-                    <td><strong>TOTAL: {{strTotalMaster}}</strong></td>
+                    <td><strong> Incluido: {{strTotalIncluido | currency}}</strong></td>
+                    <td><strong> Adicional: {{strTotalAdicional | currency}}</strong></td>
+                    <td><strong>TOTAL: {{strTotalMaster | currency}}</strong></td>
                 </tr>
             </table>
 
@@ -42,7 +45,7 @@
                     <span class=" col s4 ">$ {{ srv.precioUnitario }}</span>
                     <span class=" col s4 "><strong>$ {{ srv.total }}</strong></span>
 
-                    <p class="teal-text">- {{srv.nota}}<br>- {{srv.nota2}} <br>- {{srv.nota3}} </p>
+                    <p class="teal-text">{{srv.nota}}<br>{{srv.nota2}} <br>{{srv.nota3}} </p>
 
                     <span data-target="slide-out" class="secondary-content  sidenav-trigger" title="incluido" (click)="setFormulario(srv)"><i class="material-icons ">edit</i></span>
                 </li>

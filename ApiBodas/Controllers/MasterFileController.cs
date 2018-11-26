@@ -108,7 +108,7 @@ namespace ApiBodas.Controllers
                     mfc.Cantidad = incluido.Cantidad;
                     mfc.Total = incluido.Total;
                     mfc.Img = null;
-                    mfc.DivisaId = m.DivisaId;
+                    //mfc.DivisaId = m.DivisaId;
                     mfc.TieneImagen = false;
                     mfc.OcRealizado = false;
                     mfc.OcRequerido = false;
@@ -121,7 +121,7 @@ namespace ApiBodas.Controllers
 
                 //5) guardar contenido
                 await this.Repositorio.MasterFileContent.AddRangeAsync(listaContenido);
-                m.TotalIncuido = totalIncluido;
+                m.TotalIncluido = totalIncluido;
                 m.TotalMaster = totalIncluido;
                 await this.Repositorio.CompleteAsync();
 
@@ -149,6 +149,8 @@ namespace ApiBodas.Controllers
 
 
         }
+
+        
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Actualizar([FromBody] MasterFile itemNuevo, int id)

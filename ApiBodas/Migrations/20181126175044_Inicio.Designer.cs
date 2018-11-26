@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20181023165353_agendaValoresNull")]
-    partial class agendaValoresNull
+    [Migration("20181126175044_Inicio")]
+    partial class Inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,6 +33,9 @@ namespace ApiBodas.Migrations
 
                     b.Property<int>("BackUpId");
 
+                    b.Property<string>("BookingReference")
+                        .HasMaxLength(30);
+
                     b.Property<decimal>("Comision")
                         .HasColumnType("decimal(18, 2)");
 
@@ -48,6 +51,10 @@ namespace ApiBodas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(18, 2)")
                         .HasDefaultValue(0m);
+
+                    b.Property<int?>("DivisaComision");
+
+                    b.Property<int?>("DivisaDeposito");
 
                     b.Property<int>("EjecutivoId");
 
@@ -69,7 +76,7 @@ namespace ApiBodas.Migrations
 
                     b.Property<DateTime>("FechaReg");
 
-                    b.Property<DateTime>("FechaSelloAuditoria")
+                    b.Property<DateTime?>("FechaSelloAuditoria")
                         .HasColumnType("Date");
 
                     b.Property<string>("HoraBoda")
@@ -90,33 +97,35 @@ namespace ApiBodas.Migrations
                     b.Property<string>("NombrePareja")
                         .HasMaxLength(50);
 
+                    b.Property<int>("NumHabitacion");
+
                     b.Property<string>("NumReserva")
                         .HasMaxLength(25);
 
                     b.Property<int>("PaqueteId");
 
-                    b.Property<int>("Pax3raEdad");
+                    b.Property<int?>("Pax3raEdad");
 
-                    b.Property<int>("PaxAdultos");
+                    b.Property<int?>("PaxAdultos");
 
-                    b.Property<int>("PaxCunas");
+                    b.Property<int?>("PaxCunas");
 
-                    b.Property<int>("PaxJunior");
+                    b.Property<int?>("PaxJunior");
 
-                    b.Property<int>("PaxNinos");
+                    b.Property<int?>("PaxNinos");
 
                     b.Property<string>("Promocion")
                         .HasMaxLength(20);
 
                     b.Property<int>("TipoCeremoniaId");
 
+                    b.Property<int>("TtooId");
+
                     b.Property<int>("UsuarioId");
 
                     b.Property<int?>("UsuarioMod");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AgenciaId");
 
                     b.HasIndex("BackUpId");
 
@@ -147,9 +156,30 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Nombre")
                         .HasMaxLength(50);
 
+                    b.Property<int>("TtooId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Agencias");
+                });
+
+            modelBuilder.Entity("Entities.Models.Catalogos.Agente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AgenciaId");
+
+                    b.Property<string>("Iniciales")
+                        .HasMaxLength(3);
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(150);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Agentes");
                 });
 
             modelBuilder.Entity("Entities.Models.Catalogos.BackUp", b =>
@@ -207,6 +237,8 @@ namespace ApiBodas.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Activo");
 
                     b.Property<string>("Clave")
                         .HasMaxLength(2);
@@ -278,6 +310,24 @@ namespace ApiBodas.Migrations
                     b.ToTable("TiposCeremonia");
                 });
 
+            modelBuilder.Entity("Entities.Models.Catalogos.Ttoo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Activo");
+
+                    b.Property<int>("HotelId");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ttoos");
+                });
+
             modelBuilder.Entity("Entities.Models.EstadoAgenda", b =>
                 {
                     b.Property<int>("Id")
@@ -308,6 +358,8 @@ namespace ApiBodas.Migrations
                         .HasMaxLength(150);
 
                     b.Property<DateTime>("FechaReg");
+
+                    b.Property<int>("ModuloId");
 
                     b.Property<int>("UsuarioId");
 
@@ -374,9 +426,25 @@ namespace ApiBodas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Activo");
+
                     b.Property<int>("AgendaId");
 
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(150);
+
+                    b.Property<int>("DivisaId");
+
                     b.Property<string>("Hotel");
+
+                    b.Property<decimal>("TotalAdicional")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("TotalIncluido")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("TotalMaster")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -391,29 +459,44 @@ namespace ApiBodas.Migrations
 
                     b.Property<int>("Cantidad");
 
-                    b.Property<int>("DivisaId");
-
                     b.Property<string>("Img")
                         .HasMaxLength(150);
 
+                    b.Property<bool>("Incluido");
+
                     b.Property<int>("MasterFileId");
+
+                    b.Property<string>("Nota")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Nota2")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Nota3")
+                        .HasMaxLength(150);
+
+                    b.Property<bool>("OcRealizado");
+
+                    b.Property<bool>("OcRequerido");
 
                     b.Property<decimal>("PrecioUnitario")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("ServicioId");
 
+                    b.Property<bool>("TieneImagen");
+
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DivisaId");
+                    b.HasIndex("ServicioId");
 
                     b.ToTable("MasterFileContenido");
                 });
 
-            modelBuilder.Entity("Entities.Models.Paquetes.CategoriaServicio", b =>
+            modelBuilder.Entity("Entities.Models.Paquetes.Categoria", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -422,9 +505,37 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
+                    b.Property<int>("HotelId");
+
                     b.HasKey("Id");
 
-                    b.ToTable("CategoriasServicios");
+                    b.ToTable("Categorias");
+                });
+
+            modelBuilder.Entity("Entities.Models.Paquetes.Departamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("HotelId");
+
+                    b.Property<string>("Nombre");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departamentos");
+                });
+
+            modelBuilder.Entity("Entities.Models.Paquetes.DepartamentoServicio", b =>
+                {
+                    b.Property<int>("DepartamentoId");
+
+                    b.Property<int>("ServicioId");
+
+                    b.HasKey("DepartamentoId", "ServicioId");
+
+                    b.ToTable("DepartamentosServicios");
                 });
 
             modelBuilder.Entity("Entities.Models.Paquetes.Paquete", b =>
@@ -441,6 +552,16 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
+                    b.Property<int>("DivisaId");
+
+                    b.Property<int>("HotelId");
+
+                    b.Property<string>("Nota")
+                        .HasMaxLength(350);
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Paquetes");
@@ -451,6 +572,14 @@ namespace ApiBodas.Migrations
                     b.Property<int>("PaqueteId");
 
                     b.Property<int>("ServicioId");
+
+                    b.Property<int>("Cantidad");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("PaqueteId", "ServicioId");
 
@@ -465,12 +594,16 @@ namespace ApiBodas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoriaServicioId");
+                    b.Property<bool>("Activo");
+
+                    b.Property<int>("CategoriaId");
 
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
                     b.Property<int>("DivisaId");
+
+                    b.Property<int>("HotelId");
 
                     b.Property<string>("Img")
                         .HasMaxLength(250);
@@ -483,7 +616,7 @@ namespace ApiBodas.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaServicioId");
+                    b.HasIndex("CategoriaId");
 
                     b.HasIndex("DivisaId");
 
@@ -562,11 +695,6 @@ namespace ApiBodas.Migrations
 
             modelBuilder.Entity("Entities.Models.Agenda", b =>
                 {
-                    b.HasOne("Entities.Models.Catalogos.Agencia", "Agencia")
-                        .WithMany()
-                        .HasForeignKey("AgenciaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Entities.Models.Catalogos.BackUp", "BackUp")
                         .WithMany("Agendas")
                         .HasForeignKey("BackUpId")
@@ -624,9 +752,9 @@ namespace ApiBodas.Migrations
 
             modelBuilder.Entity("Entities.Models.Masterfiles.MasterFileContent", b =>
                 {
-                    b.HasOne("Entities.Models.Catalogos.Divisa", "Divisa")
+                    b.HasOne("Entities.Models.Paquetes.Servicio", "Servicio")
                         .WithMany()
-                        .HasForeignKey("DivisaId")
+                        .HasForeignKey("ServicioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -645,9 +773,9 @@ namespace ApiBodas.Migrations
 
             modelBuilder.Entity("Entities.Models.Paquetes.Servicio", b =>
                 {
-                    b.HasOne("Entities.Models.Paquetes.CategoriaServicio", "Categoria")
+                    b.HasOne("Entities.Models.Paquetes.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("CategoriaServicioId")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Entities.Models.Catalogos.Divisa", "Divisa")

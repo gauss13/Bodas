@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ApiBodas.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class Inicio : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,9 @@ namespace ApiBodas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(maxLength: 50, nullable: true),
-                    Correo = table.Column<string>(maxLength: 50, nullable: true)
+                    Correo = table.Column<string>(maxLength: 50, nullable: true),
+                    TtooId = table.Column<int>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,16 +25,32 @@ namespace ApiBodas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoriasServicios",
+                name: "Agentes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(maxLength: 150, nullable: true),
+                    Iniciales = table.Column<string>(maxLength: 3, nullable: true),
+                    AgenciaId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Agentes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categorias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    HotelId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoriasServicios", x => x.Id);
+                    table.PrimaryKey("PK_Categorias", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,11 +62,39 @@ namespace ApiBodas.Migrations
                     AgendaId = table.Column<int>(nullable: false),
                     Comentarios = table.Column<string>(maxLength: 150, nullable: true),
                     UsuarioId = table.Column<int>(nullable: false),
-                    FechaReg = table.Column<DateTime>(nullable: false)
+                    FechaReg = table.Column<DateTime>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false),
+                    ModuloId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comentarios", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departamentos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    HotelId = table.Column<int>(nullable: false),
+                    Nombre = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departamentos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DepartamentosServicios",
+                columns: table => new
+                {
+                    ServicioId = table.Column<int>(nullable: false),
+                    DepartamentoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DepartamentosServicios", x => new { x.DepartamentoId, x.ServicioId });
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +103,7 @@ namespace ApiBodas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Fecha = table.Column<DateTime>(nullable: false),
+                    Fecha = table.Column<DateTime>(type: "Date", nullable: false),
                     Parcial = table.Column<bool>(nullable: false),
                     HoraInicio = table.Column<string>(maxLength: 20, nullable: true),
                     HoraFinal = table.Column<string>(maxLength: 20, nullable: true),
@@ -81,6 +127,20 @@ namespace ApiBodas.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Divisas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EstadosAgenda",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Descripcion = table.Column<string>(nullable: true),
+                    Acronimo = table.Column<string>(maxLength: 3, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EstadosAgenda", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,7 +182,8 @@ namespace ApiBodas.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(maxLength: 30, nullable: true),
                     Clave = table.Column<string>(maxLength: 2, nullable: true),
-                    Img = table.Column<string>(maxLength: 250, nullable: true)
+                    Img = table.Column<string>(maxLength: 250, nullable: true),
+                    Activo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,7 +196,14 @@ namespace ApiBodas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Hotel = table.Column<string>(nullable: true)
+                    Hotel = table.Column<string>(nullable: true),
+                    AgendaId = table.Column<int>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false),
+                    Descripcion = table.Column<string>(maxLength: 150, nullable: true),
+                    TotalIncluido = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    TotalAdicional = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    TotalMaster = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    DivisaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,9 +216,13 @@ namespace ApiBodas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    HotelId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(maxLength: 150, nullable: true),
                     Clave = table.Column<string>(maxLength: 50, nullable: true),
-                    Activo = table.Column<bool>(nullable: false)
+                    Activo = table.Column<bool>(nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    DivisaId = table.Column<int>(nullable: false),
+                    Nota = table.Column<string>(maxLength: 350, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -177,7 +249,8 @@ namespace ApiBodas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Descripcion = table.Column<string>(maxLength: 50, nullable: true)
+                    Descripcion = table.Column<string>(maxLength: 50, nullable: true),
+                    Activo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -185,28 +258,18 @@ namespace ApiBodas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MasterFileContenido",
+                name: "Ttoos",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    MasterFileId = table.Column<int>(nullable: false),
-                    ServicioId = table.Column<int>(nullable: false),
-                    PrecioUnitario = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Cantidad = table.Column<int>(nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Img = table.Column<string>(maxLength: 150, nullable: true),
-                    DivisaId = table.Column<int>(nullable: false)
+                    Nombre = table.Column<string>(maxLength: 50, nullable: true),
+                    Activo = table.Column<bool>(nullable: false),
+                    HotelId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MasterFileContenido", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MasterFileContenido_Divisas_DivisaId",
-                        column: x => x.DivisaId,
-                        principalTable: "Divisas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Ttoos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,20 +278,22 @@ namespace ApiBodas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    HotelId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(maxLength: 150, nullable: true),
                     PrecioSugerido = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Nota = table.Column<string>(maxLength: 150, nullable: true),
                     Img = table.Column<string>(maxLength: 250, nullable: true),
-                    CategoriaServicioId = table.Column<int>(nullable: false),
+                    CategoriaId = table.Column<int>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false),
                     DivisaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Servicios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Servicios_CategoriasServicios_CategoriaServicioId",
-                        column: x => x.CategoriaServicioId,
-                        principalTable: "CategoriasServicios",
+                        name: "FK_Servicios_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -246,7 +311,8 @@ namespace ApiBodas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Lugar = table.Column<string>(maxLength: 150, nullable: true),
-                    HotelId = table.Column<int>(nullable: false)
+                    HotelId = table.Column<int>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -266,7 +332,8 @@ namespace ApiBodas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Lugar = table.Column<string>(maxLength: 150, nullable: true),
-                    HotelId = table.Column<int>(nullable: false)
+                    HotelId = table.Column<int>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -286,7 +353,8 @@ namespace ApiBodas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Lugar = table.Column<string>(maxLength: 150, nullable: true),
-                    HotelId = table.Column<int>(nullable: false)
+                    HotelId = table.Column<int>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -327,11 +395,45 @@ namespace ApiBodas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MasterFileContenido",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MasterFileId = table.Column<int>(nullable: false),
+                    ServicioId = table.Column<int>(nullable: false),
+                    PrecioUnitario = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Cantidad = table.Column<int>(nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Img = table.Column<string>(maxLength: 150, nullable: true),
+                    TieneImagen = table.Column<bool>(nullable: false),
+                    Incluido = table.Column<bool>(nullable: false),
+                    OcRequerido = table.Column<bool>(nullable: false),
+                    OcRealizado = table.Column<bool>(nullable: false),
+                    Nota = table.Column<string>(maxLength: 150, nullable: true),
+                    Nota2 = table.Column<string>(maxLength: 150, nullable: true),
+                    Nota3 = table.Column<string>(maxLength: 150, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasterFileContenido", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MasterFileContenido_Servicios_ServicioId",
+                        column: x => x.ServicioId,
+                        principalTable: "Servicios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaqueteServicio",
                 columns: table => new
                 {
                     PaqueteId = table.Column<int>(nullable: false),
-                    ServicioId = table.Column<int>(nullable: false)
+                    ServicioId = table.Column<int>(nullable: false),
+                    PrecioUnitario = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Cantidad = table.Column<int>(nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -356,49 +458,50 @@ namespace ApiBodas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EstadoAgenda = table.Column<int>(nullable: false),
+                    EstadoAgendaId = table.Column<int>(nullable: false),
                     EjecutivoId = table.Column<int>(nullable: false),
                     FechaConfirmada = table.Column<DateTime>(type: "Date", nullable: true),
                     CordinadorId = table.Column<int>(nullable: false),
-                    FechaBoda = table.Column<DateTime>(type: "Date", nullable: false),
+                    FechaBoda = table.Column<DateTime>(type: "Date", nullable: true),
                     HoraBoda = table.Column<string>(maxLength: 20, nullable: true),
                     LugarCeremoniaId = table.Column<int>(nullable: false),
                     LugarCenaId = table.Column<int>(nullable: false),
                     BackUpId = table.Column<int>(nullable: false),
-                    TipoCereminiaId = table.Column<int>(nullable: false),
-                    PaxAdultos = table.Column<int>(nullable: false),
-                    PaxMenores = table.Column<int>(nullable: false),
-                    PaxBebes = table.Column<int>(nullable: false),
+                    TipoCeremoniaId = table.Column<int>(nullable: false),
+                    Pax3raEdad = table.Column<int>(nullable: true),
+                    PaxAdultos = table.Column<int>(nullable: true),
+                    PaxJunior = table.Column<int>(nullable: true),
+                    PaxNinos = table.Column<int>(nullable: true),
+                    PaxCunas = table.Column<int>(nullable: true),
                     PaqueteId = table.Column<int>(nullable: false),
                     NombrePareja = table.Column<string>(maxLength: 50, nullable: true),
                     CorreoPareja = table.Column<string>(maxLength: 50, nullable: true),
-                    Nacionalidad = table.Column<string>(maxLength: 3, nullable: true),
+                    Nacionalidad = table.Column<string>(maxLength: 2, nullable: true),
                     NombreAgente = table.Column<string>(maxLength: 50, nullable: true),
                     AgenciaId = table.Column<int>(nullable: false),
+                    TtooId = table.Column<int>(nullable: false),
                     CorreoAgencia = table.Column<string>(maxLength: 50, nullable: true),
                     Deposito = table.Column<decimal>(type: "decimal(18, 2)", nullable: false, defaultValue: 0m),
+                    DivisaDeposito = table.Column<int>(nullable: true),
+                    NumHabitacion = table.Column<int>(nullable: false),
+                    BookingReference = table.Column<string>(maxLength: 30, nullable: true),
                     NumReserva = table.Column<string>(maxLength: 25, nullable: true),
                     Promocion = table.Column<string>(maxLength: 20, nullable: true),
                     Comision = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    FechaSelloAuditoria = table.Column<DateTime>(type: "Date", nullable: false),
-                    FechaPago = table.Column<DateTime>(type: "Date", nullable: false),
-                    FechaLlegada = table.Column<DateTime>(type: "Date", nullable: false),
+                    DivisaComision = table.Column<int>(nullable: true),
+                    FechaSelloAuditoria = table.Column<DateTime>(type: "Date", nullable: true),
+                    FechaPago = table.Column<DateTime>(type: "Date", nullable: true),
+                    FechaLlegada = table.Column<DateTime>(type: "Date", nullable: true),
                     HotelId = table.Column<int>(nullable: false),
+                    Activo = table.Column<bool>(nullable: false),
                     UsuarioId = table.Column<int>(nullable: false),
                     FechaReg = table.Column<DateTime>(nullable: false),
-                    UsuarioMod = table.Column<int>(nullable: false),
-                    FechaMod = table.Column<DateTime>(nullable: false),
-                    TipoCeremoniaId = table.Column<int>(nullable: true)
+                    UsuarioMod = table.Column<int>(nullable: true),
+                    FechaMod = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Agendas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Agendas_Agencias_AgenciaId",
-                        column: x => x.AgenciaId,
-                        principalTable: "Agencias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Agendas_BackUps_BackUpId",
                         column: x => x.BackUpId,
@@ -434,7 +537,7 @@ namespace ApiBodas.Migrations
                         column: x => x.TipoCeremoniaId,
                         principalTable: "TiposCeremonia",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -461,11 +564,6 @@ namespace ApiBodas.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Agendas_AgenciaId",
-                table: "Agendas",
-                column: "AgenciaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Agendas_BackUpId",
@@ -513,9 +611,9 @@ namespace ApiBodas.Migrations
                 column: "HotelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MasterFileContenido_DivisaId",
+                name: "IX_MasterFileContenido_ServicioId",
                 table: "MasterFileContenido",
-                column: "DivisaId");
+                column: "ServicioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaqueteServicio_ServicioId",
@@ -523,9 +621,9 @@ namespace ApiBodas.Migrations
                 column: "ServicioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Servicios_CategoriaServicioId",
+                name: "IX_Servicios_CategoriaId",
                 table: "Servicios",
-                column: "CategoriaServicioId");
+                column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Servicios_DivisaId",
@@ -546,13 +644,28 @@ namespace ApiBodas.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Agencias");
+
+            migrationBuilder.DropTable(
                 name: "Agendas");
+
+            migrationBuilder.DropTable(
+                name: "Agentes");
 
             migrationBuilder.DropTable(
                 name: "Comentarios");
 
             migrationBuilder.DropTable(
+                name: "Departamentos");
+
+            migrationBuilder.DropTable(
+                name: "DepartamentosServicios");
+
+            migrationBuilder.DropTable(
                 name: "DiasBloquedo");
+
+            migrationBuilder.DropTable(
+                name: "EstadosAgenda");
 
             migrationBuilder.DropTable(
                 name: "Historial");
@@ -570,10 +683,10 @@ namespace ApiBodas.Migrations
                 name: "PaqueteServicio");
 
             migrationBuilder.DropTable(
-                name: "UsuarioHotel");
+                name: "Ttoos");
 
             migrationBuilder.DropTable(
-                name: "Agencias");
+                name: "UsuarioHotel");
 
             migrationBuilder.DropTable(
                 name: "BackUps");
@@ -600,7 +713,7 @@ namespace ApiBodas.Migrations
                 name: "Hoteles");
 
             migrationBuilder.DropTable(
-                name: "CategoriasServicios");
+                name: "Categorias");
 
             migrationBuilder.DropTable(
                 name: "Divisas");

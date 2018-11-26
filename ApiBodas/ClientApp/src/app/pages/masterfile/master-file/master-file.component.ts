@@ -162,6 +162,7 @@ getAgenda()
           this.paquete = resp.paquete;
           this.master = resp.master;
 
+          console.log('master inicio:', this.master);
           this.setData();
           this.getMasterContent(this.master.id);
         }
@@ -216,6 +217,10 @@ this._servicioGenerico.CrearRegisto(checks,url).subscribe( (resp:any) => {
       {
           this.servicios = resp.contenido;  //JSON.parse(resp.contenido);    
           this.separarIncluidos();
+
+          this.master = resp.master;
+          this.setData();
+          console.log('nuevo master agregar servicios : ',this.master)
       }
 
     }
@@ -304,7 +309,7 @@ item = {
 };
 
 // **************************************** api ***********************************************
-  const url = uriMasterFileContenido + this.frmId;
+  const url = uriMasterFileContenido + this.frmId + '/' + this.master.id;;
 
   this._servicioGenerico.Actualizar(item, url).subscribe( (resp:any) => {
 
@@ -318,6 +323,11 @@ item = {
           this.servicios[pos] = resp.contenido;  
 
           this.separarIncluidos();
+
+          this.master = resp.master;
+          this.setData();
+          console.log('nuevo master actualizar',this.master)
+
         }  
 
   },
@@ -366,7 +376,7 @@ quitarServicio()
 
   if(r)
   {
-        const url = uriMasterFileContenido + this.frmId;  
+        const url = uriMasterFileContenido + this.frmId + '/' + this.master.id;  
         this._servicioGenerico.Borrar(url).subscribe( (resp:any) => {
         
         if(resp.ok === true)
@@ -380,7 +390,10 @@ quitarServicio()
           // hacer la division de tipos 
           this.separarIncluidos();
         
-          //actualizar totales del master        
+          //actualizar totales del master    
+          this.master = resp.master;
+          this.setData();
+          console.log('nuevo master quitar',this.master)
         }
       
         },

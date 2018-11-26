@@ -345,7 +345,7 @@ namespace Repository
 
                 var lista2 = await appDbContext.MasterFileContenido
                           .Include(s => s.Servicio).ThenInclude(x=> x.Categoria)
-                          .Include(d => d.Divisa)
+                          //.Include(d => d.Divisa)
                           .Where(m => m.MasterFileId == mfid)
                           .ToListAsync();
 
@@ -362,7 +362,7 @@ namespace Repository
         {
             var item = await appDbContext.MasterFileContenido
                            .Include(s => s.Servicio).ThenInclude(x => x.Categoria)
-                           .Include(d => d.Divisa)
+                           //.Include(d => d.Divisa)
                            .Where(m => m.Id == id)
                            .FirstOrDefaultAsync();
 
