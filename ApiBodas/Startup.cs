@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Repository;
 using System.Text;
 
+
 namespace ApiBodas
 {
     public class Startup
@@ -53,9 +54,9 @@ namespace ApiBodas
 
                 options.AddPolicy("EnableCORS", builder => {
 
-                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                    //builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
                 });
-
             });
 
 
@@ -108,7 +109,10 @@ namespace ApiBodas
             //app.UseStaticFiles(); //descomentar
             //app.UseSpaStaticFiles(); //descomentar
 
-            app.UseCors("EnableCORS"); // activamos cors para toda la aplicacion
+            //app.UseCors("EnableCORS"); // activamos cors para toda la aplicacion
+            app.UseCors("EnableCORS");
+
+            // 
             app.UseAuthentication();
 
             app.UseMvc(routes =>

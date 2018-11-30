@@ -6,7 +6,7 @@
             <table>
                 <tr>
                     <td><strong> Hotel : </strong>{{strHotel}} </td>
-                    <td><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
+                    <td colspan="2"><strong> Couple's Name :</strong> {{strNombrePareja}}</td>
                 </tr>
                 <tr>
                     <td><strong> Wedding date:  </strong>{{strFechaBoda | date:'dd/MM/yyyy' }}</td>
@@ -23,10 +23,11 @@
                 <tr>
                     <td><strong>Num. Adultos:</strong> {{strTotalPersonas}}</td>
                     <td><strong>Num. Menores:</strong> {{strTotalPersonas}}</td>
+                    <td><strong>Divisa:</strong> {{strDivisa}}</td>
                 </tr>
                 <tr>
-                    <td><strong> Incluido: {{strTotalIncluido | currency}}</strong></td>
-                    <td><strong> Adicional: {{strTotalAdicional | currency}}</strong></td>
+                    <td><strong>Incluido: {{strTotalIncluido | currency}}</strong></td>
+                    <td><strong>Adicional: {{strTotalAdicional | currency}}</strong></td>
                     <td><strong>TOTAL: {{strTotalMaster | currency}}</strong></td>
                 </tr>
             </table>
@@ -158,19 +159,19 @@
                     <li>
                         <div class="divider"></div>
                     </li>
-                    <li><a class="subheader">NOTAS</a></li>
+                    <li><a class="subheader">Descripción del Servicio</a></li>
 
                     <li>
                         <div class="input-field col s12">
                             <input [(ngModel)]="frmNota" name="frmNota" id="frmNota" type="text" class="validate">
-                            <label class="active" for="frmNota">Linea1</label>
+                            <label class="active" for="frmNota">Linea1 - ej horario</label>
                         </div>
                     </li>
 
                     <li>
                         <div class="input-field col s12">
                             <input [(ngModel)]="frmNota2" name="frmNota2" id="frmNota2" type="text" class="validate">
-                            <label class="active" for="frmNota2">Linea2</label>
+                            <label class="active" for="frmNota2">Linea2 - ej lugar</label>
                         </div>
                     </li>
 

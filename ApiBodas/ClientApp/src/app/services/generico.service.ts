@@ -32,6 +32,46 @@ GetRegistros(strApi:string)
     );
 }
 
+GetFile(strApi:string)
+{
+  const url = URL_SERVICIOS + strApi;
+
+  let headerss = new HttpHeaders({ 'Authorization': 'Bearer ' + 'token' });
+   headerss.append("Accept", "vnd.ms-excel, application/json, text/plain, */*");  
+      // headerss.append("Access-Control-Allow-Origin", '*');  
+      // headerss.append("App-Version", '1.0');  
+
+
+return this.http.get(url,{ headers: headerss,  responseType:'blob'}).pipe(
+  map((resp:any) => {
+
+      return resp;
+  })
+);
+
+}
+
+
+GetRegistrosHeaders(strApi:string, headerss:HttpHeaders)
+{
+  const url = URL_SERVICIOS + strApi;
+
+  return this.http.get(url,{headers: headerss}).pipe(
+    map((resp:any) => {
+    
+      this.totalRegistros = resp.total;
+      //return resp.lugarCena;
+      return resp;
+    
+    })
+    
+    );
+}
+
+
+
+
+
 // ***************************************************************************************
 //  POST 
 // ***************************************************************************************

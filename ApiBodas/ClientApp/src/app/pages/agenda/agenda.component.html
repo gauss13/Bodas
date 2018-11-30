@@ -1,11 +1,15 @@
 <!-- <button (click)="IniciarCal()">Iniciar</button> -->
 <!-- <button (click)="GetFecha()">getfecha</button> -->
 
-<a id="inicialcal" name="inicialcal" (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>Iniciar Calendario</a>
+<div>
+    <a id="inicialcal" name="inicialcal" (click)="IniciarCal()" class="waves-effect waves-light btn"><i class="material-icons right">grid_on</i>Iniciar Calendario</a> |
+    <button (click)="GoToday()" class="waves-effect waves-light btn">Hoy</button> |
+    <button (click)="GoAnterior()" class="waves-effect waves-light btn"> <i class="material-icons right">chevron_left</i>   </button>
+    <button (click)="GoSiguiente()" class="waves-effect waves-light btn"> <i class="material-icons right">chevron_right</i>  </button> |
+    <a id="reporteExcel" name="inicialcal" (click)="repExcelMensual()" class="waves-effect waves-light btn"><i class="material-icons right">web</i>Excel</a>
+</div>
 
-<button (click)="GoToday()" class="waves-effect waves-light btn">Hoy</button>
-<button (click)="GoAnterior()" class="waves-effect waves-light btn"> <i class="material-icons right">chevron_left</i>   </button>
-<button (click)="GoSiguiente()" class="waves-effect waves-light btn"> <i class="material-icons right">chevron_right</i>  </button>
+
 
 <!-- Modal Trigger -->
 <button id="btnCrear" hidden data-target="modal1" class=" modal-trigger" (click)="modalCrear()">Abrir</button>
@@ -31,7 +35,7 @@
 
     </li>
     <li><a href="#" data-target="modal1" class=" modal-trigger waves-effect" (click)="modalEdicion()"><i class="material-icons">view_list</i>Ver Detalles</a></li>
-    <li><a href="#" class="waves-effect"><i class="material-icons ">update</i>Historial</a></li>
+    <li><a href="#" class="waves-effect"><i class="material-icons ">update</i>Comentarios</a></li>
 
     <li>
         <div class="divider"></div>

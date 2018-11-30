@@ -8,10 +8,14 @@ using Repository;
 using Entities.Extenciones;
 using Entities.Models.Catalogos;
 using Entities.Models;
+using System.IO;
+using Microsoft.AspNetCore.Cors;
 
 namespace ApiBodas.Controllers
 {
+   
     [Route("api/[controller]")]
+    [EnableCors("EnableCORS")]
     [ApiController]
     public class AgendaController : ControllerBase
     {
@@ -404,6 +408,32 @@ namespace ApiBodas.Controllers
         }
 
         // <<- ACTIONS
+
+        // ARCHIVOS 
+
+        [HttpGet("files/{h:int}/{a:int}/{m:int}")]
+        public IActionResult GetReporteMensual(int h, int a, int m)
+        {
+            try
+            {
+                Reportes.AgendaR ar = new Reportes.AgendaR();
+                var r = ar.Mensual();              
+
+                return File(r, "application/vnd.ms-excel", "holamundo.xlsx");        
+                
+
+
+
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+
+            }
+           
+
+        }
 
 
 

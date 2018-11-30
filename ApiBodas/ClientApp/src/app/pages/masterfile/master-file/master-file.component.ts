@@ -30,6 +30,7 @@ strHoraBoda:string='';
 strTotalIncluido:number = 0;
 strTotalAdicional:number = 0;
 strTotalMaster:number = 0;
+strDivisa:string='';
 
 iniciarMaster:boolean = false;
 
@@ -41,6 +42,7 @@ serviciosInc:any; // separacion de los incluidos
 serviciosAdicionales:any; // separacion de los servicios adicionales
 
 catServicios:any;// catalogo de servicios disponibles para agregar al master
+catDivisa:any;// catalogo de divisas
 
 idAgenda:number = 0;
 idMaster:number =0;
@@ -239,6 +241,8 @@ this._servicioGenerico.CrearRegisto(checks,url).subscribe( (resp:any) => {
 setData()
 {
 
+console.log( 'set data',this.master);
+
     this.strNombrePareja = this.agenda.nombrePareja;
     this.strHotel= this.master.hotel;
     this.strFechaBoda = this.agenda.fechaBoda + ' ' + this.agenda.horaBoda;
@@ -252,6 +256,8 @@ setData()
     this.strTotalIncluido = this.master.totalIncluido;
     this.strTotalAdicional = this.master.totalAdicional;
     this.strTotalMaster = this.master.totalMaster;
+
+    //this.strDivisa = this.a
 
     this.idMaster = this.master.id;
   

@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { uriTtoo} from 'src/app/config/config';
 import { alertSuccess, alertError, alertMessage, alertWarning, alertInfo } from '../../config/config';
 
-import { uriMasterFile } from 'src/app/config/config';
+import { uriMasterFile, uriAgenda } from 'src/app/config/config';
 import { MasterFile } from 'src/app/models/masterfile.model';
 
 declare var $: any;
@@ -1116,6 +1116,58 @@ actualizarEstatus( id:number,tipo:number)
 
 
 }
+
+
+// **************************************** REPORTES ***********************************************
+
+repExcelMensual()
+{
+
+
+  const url = uriAgenda + 'files/' + this._gbl.hotelIdSelected + '/2018/9' ;
+
+this._servicioGenerico.GetFile(url).subscribe( (resp:any) => {
+
+
+  this.showFile(resp._body, 'hello');
+
+},
+(error) => {},
+() => {}
+);
+
+
+}
+// **************************************** Headers ***********************************************
+private showFile(blob: any, filename: string)
+{ 
+  // It is necessary to create a new blob object with mime-type 
+  // explicitly set otherwise only Chrome works like it should
+  let newBlob = new Blob([blob], { type: "application/xlsx" });
+
+  // IE doesn't allow using a blob object directly as link href 
+  // instead it is necessary to use msSaveOrOpenBlob
+  if (window.navigator && window.navigator.msSaveOrOpenBlob)
+  {
+    window.navigator.msSaveOrOpenBlob(newBlob);
+    return;
+  }
+
+  // For other browsers: 
+  // Create a link pointing to the ObjectURL containing the blob.
+  let data = window.URL.createObjectURL(newBlob);
+  let link = document.createElement('a');
+  link.href = data;
+  link.download = filename;
+  link.click();
+  setTimeout(() =>
+  {
+    // For Firefox it is necessary to delay revoking the ObjectURL
+    window.URL.revokeObjectURL(data);
+  }, 100);
+}
+
+
 
 
 }

@@ -1,0 +1,9 @@
+C:\Proyectos\ApiBodas\Reportes\bin\Debug\netcoreapp2.1\Reportes.deps.json
+C:\Proyectos\ApiBodas\Reportes\bin\Debug\netcoreapp2.1\Reportes.dll
+C:\Proyectos\ApiBodas\Reportes\bin\Debug\netcoreapp2.1\Reportes.pdb
+C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.csprojAssemblyReference.cache
+C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.csproj.CoreCompileInputs.cache
+C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.AssemblyInfoInputs.cache
+C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.AssemblyInfo.cs
+C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.dll
+C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.pdb
