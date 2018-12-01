@@ -42,7 +42,7 @@ serviciosInc:any; // separacion de los incluidos
 serviciosAdicionales:any; // separacion de los servicios adicionales
 
 catServicios:any;// catalogo de servicios disponibles para agregar al master
-catDivisa:any;// catalogo de divisas
+//catDivisa:any;// catalogo de divisas
 
 idAgenda:number = 0;
 idMaster:number =0;
@@ -303,7 +303,7 @@ item = {
   cantidad	:	    this.frmCantidad,
   total	:	    this.frmTotal,
   img	:	    null,
-  divisaId	:	    this.master.divisaId,
+  divisa	:	    this.master.divisa,
   tieneImagen	:	    false,//imagen
   ocRealizado	:	    false,
   ocRequerido	:	    false,

@@ -8,7 +8,7 @@ export class MasterFileContenido {
         public cantidad:number =0,
         public total:number =0,
         public img:string,
-        public divisaId:number =0,
+        public divisa:string,
         public tieneImagen:boolean,
         public ocRealizado:boolean,
         public ocRequerido:boolean,

@@ -149,9 +149,9 @@ namespace Repository
     {
     }
 
-    public interface IRepositorioDivisa : IRepositorioBase<Divisa>
-    {
+    //public interface IRepositorioDivisa : IRepositorioBase<Divisa>
+    //{
 
-    }
+    //}
 
 }

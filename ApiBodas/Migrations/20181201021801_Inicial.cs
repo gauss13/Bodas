@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ApiBodas.Migrations
 {
-    public partial class Inicio : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -117,19 +117,6 @@ namespace ApiBodas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Divisas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Clave = table.Column<string>(maxLength: 5, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Divisas", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EstadosAgenda",
                 columns: table => new
                 {
@@ -203,7 +190,7 @@ namespace ApiBodas.Migrations
                     TotalIncluido = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     TotalAdicional = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     TotalMaster = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    DivisaId = table.Column<int>(nullable: false)
+                    Divisa = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,7 +208,7 @@ namespace ApiBodas.Migrations
                     Clave = table.Column<string>(maxLength: 50, nullable: true),
                     Activo = table.Column<bool>(nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    DivisaId = table.Column<int>(nullable: false),
+                    Divisa = table.Column<string>(maxLength: 3, nullable: true),
                     Nota = table.Column<string>(maxLength: 350, nullable: true)
                 },
                 constraints: table =>
@@ -285,7 +272,7 @@ namespace ApiBodas.Migrations
                     Img = table.Column<string>(maxLength: 250, nullable: true),
                     CategoriaId = table.Column<int>(nullable: false),
                     Activo = table.Column<bool>(nullable: false),
-                    DivisaId = table.Column<int>(nullable: false)
+                    Divisa = table.Column<string>(maxLength: 3, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -294,12 +281,6 @@ namespace ApiBodas.Migrations
                         name: "FK_Servicios_Categorias_CategoriaId",
                         column: x => x.CategoriaId,
                         principalTable: "Categorias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Servicios_Divisas_DivisaId",
-                        column: x => x.DivisaId,
-                        principalTable: "Divisas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -482,13 +463,13 @@ namespace ApiBodas.Migrations
                     TtooId = table.Column<int>(nullable: false),
                     CorreoAgencia = table.Column<string>(maxLength: 50, nullable: true),
                     Deposito = table.Column<decimal>(type: "decimal(18, 2)", nullable: false, defaultValue: 0m),
-                    DivisaDeposito = table.Column<int>(nullable: true),
+                    DivisaDeposito = table.Column<string>(nullable: true),
                     NumHabitacion = table.Column<int>(nullable: false),
                     BookingReference = table.Column<string>(maxLength: 30, nullable: true),
                     NumReserva = table.Column<string>(maxLength: 25, nullable: true),
                     Promocion = table.Column<string>(maxLength: 20, nullable: true),
                     Comision = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    DivisaComision = table.Column<int>(nullable: true),
+                    DivisaComision = table.Column<string>(nullable: true),
                     FechaSelloAuditoria = table.Column<DateTime>(type: "Date", nullable: true),
                     FechaPago = table.Column<DateTime>(type: "Date", nullable: true),
                     FechaLlegada = table.Column<DateTime>(type: "Date", nullable: true),
@@ -626,11 +607,6 @@ namespace ApiBodas.Migrations
                 column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Servicios_DivisaId",
-                table: "Servicios",
-                column: "DivisaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UsuarioHotel_HotelId",
                 table: "UsuarioHotel",
                 column: "HotelId");
@@ -714,9 +690,6 @@ namespace ApiBodas.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categorias");
-
-            migrationBuilder.DropTable(
-                name: "Divisas");
 
             migrationBuilder.DropTable(
                 name: "Roles");

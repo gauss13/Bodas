@@ -111,12 +111,12 @@ namespace Entities.Models.Catalogos
         public bool Activo { get; set; }
     }
 
-    public class Divisa
-    {
-        public int Id { get; set; }
-        [StringLength(5)]
-        public string Clave { get; set; }
-    }
+    //public class Divisa
+    //{
+    //    public int Id { get; set; }
+    //    [StringLength(5)]
+    //    public string Clave { get; set; }
+    //}
 
     public class Ttoo
     {

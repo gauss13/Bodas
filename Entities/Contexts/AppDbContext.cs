@@ -72,7 +72,7 @@ namespace Entities.Contexts
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Divisa> Divisas { get; set; }
+        //public DbSet<Divisa> Divisas { get; set; }
         public DbSet<EstadoAgenda> EstadosAgenda { get; set; }
 
         public DbSet<Ttoo> Ttoos { get; set; }

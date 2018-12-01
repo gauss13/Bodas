@@ -9,7 +9,7 @@ export class MasterFile {
         public totalIncuido:number = 0,
         public totalAdicional:number = 0,
         public totalMaster:number = 0,
-        public divisaId:number,
+        public divisa:string,
 
     ){}
     

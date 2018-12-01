@@ -87,7 +87,7 @@ namespace ApiBodas.Controllers
                 var paq = await this.Repositorio.Paquetes.GetByIdAsync(ra.PaqueteId);
 
                 //2) Crear registro de master file
-                item.DivisaId = paq.DivisaId;
+                //item.DivisaId = paq.DivisaId;
                 var m = await this.Repositorio.MasterFile.AddAsync(item);
                 await this.Repositorio.CompleteAsync();                            
 

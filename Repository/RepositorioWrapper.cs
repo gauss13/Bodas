@@ -39,7 +39,7 @@ namespace Repository
             DepartamentosServicio = new RepositorioDepartamentoServicio(_Context);
             Usuarios = new RepositorioUsuario(_Context);
             Roles = new RepositorioRole(_Context);
-            Divisas = new RepositorioDivisa(_Context);
+            //Divisas = new RepositorioDivisa(_Context);
 
 
 
@@ -70,7 +70,7 @@ namespace Repository
 
         public IRepositorioUsuario Usuarios { get; private set; }
         public IRepositorioRole Roles { get; private set; }
-        public IRepositorioDivisa Divisas { get; private set; }
+        //public IRepositorioDivisa Divisas { get; private set; }
 
 
 

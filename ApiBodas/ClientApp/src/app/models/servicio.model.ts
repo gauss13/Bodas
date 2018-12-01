@@ -6,7 +6,7 @@ export class Servicio {
     public descripcion:string,
     public precioSugerido:number,
     public nota:string,
-    public divisaId:number,
+    public divisa:string,
     public activo:boolean,
     public categoriaId:number,
     public strCategoria:string,

@@ -238,11 +238,20 @@ if(hid !== undefined && hid !== null)
 
       // put your options and callbacks here
       locale: 'es',
-      defaultView: 'month',
-    //  weekends: true,
-      
-      header: {left:'title', right:'', center:''},
+      defaultView: 'month',    //  weekends: true,    
+      customButtons: {
+        myCustomButton: {
+          text: 'custom!',
+          click: function() {
+            alert('clicked the custom button!');
+          }
+        }
+      },     
+
+      header: {left:'', right:'', center:'title'},
       disabledDays: [2,30],
+      prev: 'left-single-arrow',
+      next: 'right-single-arrow',
 
       dayClick: function(date, allDay, jsEvent, view) {        
         //Abrir modal 

@@ -66,7 +66,7 @@ export class ServicioComponent implements OnInit {
         descripcion: { required: 'El campo nombre de servicio es <strong>requerido</strong>.'  }  ,
         categoriaId: { required: 'El campo categoria es <strong>requerido</strong>.'  }  ,
         precioSugerido: { required: 'El campo precio Sugerido es <strong>requerido</strong>.'  }  ,
-        divisaId: { required: 'El campo divisa es <strong>requerido</strong>.'  }  ,
+        divisa: { required: 'El campo divisa es <strong>requerido</strong>.'  }  ,
         nota: { required: 'El campo nota es <strong>requerido</strong>.'  }         
 
       } 
@@ -82,7 +82,7 @@ export class ServicioComponent implements OnInit {
         descripcion: '',
         categoriaId: '',
         precioSugerido: '',
-        divisaId: '',
+        divisa: '',
         nota: ''
       }
 
@@ -138,13 +138,12 @@ initSelect()
 
 loadData()
 {
-  if( this.GetDivisas())
-   {
+ 
      if(this.GetCategorias())
      {
        this.cargaServicios();
      }
-   }
+   
 }
 
 
@@ -209,12 +208,12 @@ if(this.categorias.length > 0 && this.divisas.length > 0 && this.registros.lengt
         if(this.categorias.length > 0 && this.divisas.length > 0)
         {          
           let itemCat = this.categorias.find( item => { return  item.id === this.registros[i].categoriaId });
-          let itemDiv = this.divisas.find( item => { return  item.id === this.registros[i].divisaId });
+          // let itemDiv = this.divisas.find( item => { return  item.id === this.registros[i].divisa });
 
              if(itemCat !== 'undefined')
              {
                this.registros[i].strCategoria = itemCat.descripcion;
-               this.registros[i].strDivisa = itemDiv.clave;
+              //  this.registros[i].strDivisa = itemDiv.clave;
              }
 
         }//cat       
@@ -226,21 +225,7 @@ if(this.categorias.length > 0 && this.divisas.length > 0 && this.registros.lengt
 
 }
 
-GetDivisas():boolean
-{
-    this._divisaService.GetDivisas().subscribe( (resp:any) => {
 
-        if(resp.ok)
-        {        
-        this.divisas = resp.divisa;    
-
-      
-        return true;
-        }
-    });
-
-return true;
-}
 
 GetCategorias()
 {
@@ -318,8 +303,8 @@ construirFormulario() {
   this.fg = this.fb.group({
     descripcion: ['', Validators.required],
     categoriaId: ['', Validators.required],
-    precioSugerido: ['', Validators.required],
-    divisaId: ['', Validators.required],
+    precioSugerido: [0, Validators.required],
+    divisa: ['USD', Validators.required],
     nota: ['', Validators.required],
     activo: ['', Validators.required]
     // departamento: ['', Validators.required]
@@ -444,7 +429,7 @@ this.fg.patchValue({
   descripcion:itemE.descripcion ,
   categoriaId:itemE.categoriaId ,
   precioSugerido:itemE.precioSugerido ,
-  divisaId:itemE.divisaId ,
+  divisa:itemE.divisa ,
   nota:itemE.nota ,
   activo:itemE.activo 
 
@@ -492,10 +477,10 @@ if(resp.ok === true)
   itemdb = resp.servicio;
 
   let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
-  let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+  // let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisa });
 
   itemdb.strCategoria = itemCat.descripcion;
-  itemdb.strDivisa = itemDiv.clave;
+  // itemdb.strDivisa = itemDiv.clave;
 
 
   this.registros.push(resp.servicio)
@@ -549,10 +534,10 @@ else // ACTUALIZAR
 
 
              let itemCat = this.categorias.find( item => { return  item.id === itemdb.categoriaId });
-             let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisaId });
+            //  let itemDiv = this.divisas.find( item => { return  item.id === itemdb.divisa });
 
-             itemdb.strCategoria = itemCat.descripcion;
-             itemdb.strDivisa = itemDiv.clave;
+            //  itemdb.strCategoria = itemCat.descripcion;
+            //  itemdb.strDivisa = itemDiv.clave;
 
              this.registros[pos] = itemdb;
 

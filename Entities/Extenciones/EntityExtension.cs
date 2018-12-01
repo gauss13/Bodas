@@ -135,6 +135,7 @@ namespace Entities.Extenciones
             itemDb.Cantidad = item.Cantidad;
             itemDb.Total = item.Total;
             itemDb.Img = item.Img;
+            //itemDb.Divisa = item.Divisa;
             //itemDb.DivisaId = item.DivisaId;
             itemDb.TieneImagen = item.TieneImagen;
             itemDb.OcRealizado = item.OcRealizado;
@@ -171,7 +172,7 @@ namespace Entities.Extenciones
             itemDb.Nota = item.Nota;
             itemDb.Img = item.Img;
             itemDb.CategoriaId = item.CategoriaId;
-            itemDb.DivisaId = item.DivisaId;
+            itemDb.Divisa = item.Divisa;
         }
 
         public static void Map(this Paquete itemDb, Paquete item)

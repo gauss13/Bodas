@@ -19,7 +19,8 @@ namespace Entities.Models.Paquetes
         public List<PaqueteServicio> PaqueteServicios { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Total { get; set; }
-        public int DivisaId { get; set; }
+        [StringLength(3)]
+        public string Divisa { get; set; }
         [StringLength(350)]
         public string Nota { get; set; }
     }
@@ -41,8 +42,9 @@ namespace Entities.Models.Paquetes
         public int CategoriaId { get; set; }
         public bool Activo { get; set; }
         public Categoria Categoria { get; set; }//nav
-        public int DivisaId { get; set; }
-        public Divisa Divisa { get; set; }
+        [StringLength(3)]
+        public string Divisa { get; set; }
+        //public Divisa Divisa { get; set; }
       //  public string Departamentos { get; set; } // un servicio puede estar ligado a uno o varios departamentos
 
     }

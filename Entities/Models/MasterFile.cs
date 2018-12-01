@@ -22,7 +22,7 @@ namespace Entities.Models.Masterfiles
         public decimal TotalAdicional { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalMaster { get; set; } //suma de los totales Inciudos + Adicionales
-        public int DivisaId { get; set; }//divisa principal, cada item tiene su propia divisa, inicialmente no la mostraremos, tomaremos esta la principal
+        public string Divisa { get; set; }//divisa principal, cada item tiene su propia divisa, inicialmente no la mostraremos, tomaremos esta la principal
     }
 
     public class MasterFileContent

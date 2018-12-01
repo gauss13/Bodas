@@ -88,9 +88,17 @@ namespace ApiBodas.Controllers
         {
             try
             {
+                
+                if(item.Divisa.Length > 3)
+                    item.Divisa = item.Divisa.Substring(0, 3);
+
+                item.Divisa = item.Divisa.ToUpper();
 
                 var r = await this.Repositorio.Servicios.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
+
+                var c = await this.Repositorio.Categorias.GetByIdAsync(r.CategoriaId);
+                r.Categoria = c;
 
                 var obj = new
                 {
@@ -124,6 +132,7 @@ namespace ApiBodas.Controllers
             {
                 itemNuevo.Id = id;
 
+                itemNuevo.Divisa = itemNuevo.Divisa.ToUpper().Substring(0,3);
 
                 var itemEncontrado = await this.Repositorio.Servicios.GetByIdAsync(id);
 
@@ -137,10 +146,13 @@ namespace ApiBodas.Controllers
                 var r = this.Repositorio.Servicios.Update(itemEncontrado);
                 await this.Repositorio.CompleteAsync();
 
+                var c = await this.Repositorio.Categorias.GetByIdAsync(r.CategoriaId);
+                r.Categoria = c;
+
                 var obj = new
                 {
                     ok = true,
-                    servicio = itemEncontrado
+                    servicio = r
                 };
 
                 return Created("", obj);

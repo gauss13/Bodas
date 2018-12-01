@@ -405,8 +405,7 @@ namespace Repository
         {
 
             return await appDbContext.Servicios
-                .Include(c => c.Categoria)
-                .Include( d => d.Divisa)
+                .Include(c => c.Categoria)                
                 .Where(s => s.HotelId == h)
                .ToListAsync();
 
@@ -415,8 +414,7 @@ namespace Repository
         public async Task<IEnumerable<Servicio>> GetServicioInclude(int h, int[] ids)
         {
             return await appDbContext.Servicios
-            .Include(c => c.Categoria)
-            .Include(d => d.Divisa)
+            .Include(c => c.Categoria)           
             .Where(s => s.HotelId == h && ids.Contains(s.Id) )
            .ToListAsync();
         }
@@ -499,17 +497,17 @@ namespace Repository
         }
     }
 
-    public class RepositorioDivisa : RepositorioBase<Divisa>, IRepositorioDivisa
-    {
-        public RepositorioDivisa(AppDbContext contexto) : base(contexto)
-        {
-        }
+    //public class RepositorioDivisa : RepositorioBase<Divisa>, IRepositorioDivisa
+    //{
+    //    public RepositorioDivisa(AppDbContext contexto) : base(contexto)
+    //    {
+    //    }
 
-        public AppDbContext appDbContext
-        {
-            get { return Context as AppDbContext; }
-        }
-    }
+    //    public AppDbContext appDbContext
+    //    {
+    //        get { return Context as AppDbContext; }
+    //    }
+    //}
 
 
 }

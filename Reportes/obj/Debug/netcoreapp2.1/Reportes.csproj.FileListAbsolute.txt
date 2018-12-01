@@ -7,3 +7,12 @@ C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.AssemblyInfoInpu
 C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.AssemblyInfo.cs
 C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.dll
 C:\Proyectos\ApiBodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.pdb
+C:\RepoSandos\Bodas\Reportes\bin\Debug\netcoreapp2.1\Reportes.deps.json
+C:\RepoSandos\Bodas\Reportes\bin\Debug\netcoreapp2.1\Reportes.dll
+C:\RepoSandos\Bodas\Reportes\bin\Debug\netcoreapp2.1\Reportes.pdb
+C:\RepoSandos\Bodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.csprojAssemblyReference.cache
+C:\RepoSandos\Bodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.csproj.CoreCompileInputs.cache
+C:\RepoSandos\Bodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.AssemblyInfoInputs.cache
+C:\RepoSandos\Bodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.AssemblyInfo.cs
+C:\RepoSandos\Bodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.dll
+C:\RepoSandos\Bodas\Reportes\obj\Debug\netcoreapp2.1\Reportes.pdb

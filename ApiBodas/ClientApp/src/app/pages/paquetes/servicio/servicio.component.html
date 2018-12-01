@@ -11,7 +11,7 @@
                     <div class="text-right" *ngIf="!cargando">
                         <!-- Modal Trigger -->
                         <button data-target="modals" class="btn modal-trigger" (click)="modalCrear()">Crear Servicio</button>
-                        <button data-target="modalc" class="btn modal-trigger" (click)="modalCrearCat()">Agregar Categoria</button>
+                        <!-- <button data-target="modalc" class="btn modal-trigger" (click)="modalCrearCat()">Agregar Categoria</button> -->
                     </div>
 
                     <h4 class="card-title">Servicios ({{totalRegistros}})</h4>
@@ -22,7 +22,7 @@
                                 <th>Categoria</th>
                                 <th>Precio Sugerido</th>
                                 <th>Divisa</th>
-                                <th>Nota</th>
+                                <!-- <th>Nota</th> -->
                                 <th></th>
                             </tr>
                         </thead>
@@ -30,11 +30,11 @@
                             <tr *ngFor="let reg of registros">
                                 <td>{{ reg.descripcion }}</td>
 
-                                <td>{{ reg.strCategoria }} </td>
+                                <td>{{ reg.categoria.descripcion }} </td>
 
                                 <td>{{ reg.precioSugerido }}</td>
-                                <td>{{ reg.strDivisa}}</td>
-                                <td>{{ reg.nota }}</td>
+                                <td>{{ reg.divisa}}</td>
+                                <!-- <td class="truncate">{{ reg.nota }}</td> -->
                                 <td>
                                     <button (click)="borrar(reg)" class="btn  red  lighten-1">
                                         <i class="material-icons prefix">delete</i>
@@ -85,32 +85,35 @@
 
     <form [formGroup]="fg" (ngSubmit)="save()">
         <div class="modal-content">
-            <h4> {{ modoEdicion ? 'Editar Servicio' : 'Nuevo Servicio'}}</h4>
+            <h4> {{ modoEdicion ? 'Editar Servicio' : 'Nuevo Servicio'}} <button type="button" class="btn grey darken-1 modal-close " data-dismiss="modal">Cerrar </button></h4>
             <div class="row">
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">account_circle</i>
+                <div class="input-field col s10">
+                    <i class="material-icons prefix">thumb_up</i>
                     <input id="descripcionc" type="text" [ngClass]=" errorCampos.descripcion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'descripcion') " formControlName="descripcion" maxlength="120">
 
                     <label for="descripcionc" class="active">Nombre de Servicio</label>
                     <span class="helper-text" *ngIf="errorCampos.descripcion" [innerHTML]="errorCampos.descripcion">Helper text</span>
 
                 </div>
-                <div class="input-field col s6">
-                    <select formControlName="categoriaId">
-                        <option value="" disabled [selected]="!modoEdicion">Seleccionar Cat</option>
-                                <option *ngFor="let cat of categorias " [value]="cat.id"  >{{cat.descripcion}}</option>
-                             </select>
-                    <label class="active">Categoria</label>
-                </div>
+
 
             </div>
-
+            <div class="row">
+                <div class="input-field col s8">
+                    <i class="material-icons prefix">assignment</i>
+                    <select formControlName="categoriaId">
+                                <option value="" disabled [selected]="!modoEdicion">Seleccionar Cat</option>
+                                        <option *ngFor="let cat of categorias " [value]="cat.id"  >{{cat.descripcion}}</option>
+                                     </select>
+                    <label class="active">Categoria</label>
+                </div>
+            </div>
 
             <div class="row">
 
                 <div class="input-field col s6">
                     <i class="material-icons prefix">attach_money</i>
-                    <input id="precioSugeridoc" type="text" [ngClass]=" errorCampos.precioSugerido  ? 'invalid' : 'valid' " (blur)="mostrarError( 'precioSugerido') " formControlName="precioSugerido">
+                    <input id="precioSugeridoc" value="0" type="text" [ngClass]=" errorCampos.precioSugerido  ? 'invalid' : 'valid' " (blur)="mostrarError( 'precioSugerido') " formControlName="precioSugerido">
 
                     <label for="precioSugeridoc" class="active">Precio Sugerido</label>
                     <span class="helper-text" *ngIf="errorCampos.precioSugerido" [innerHTML]="errorCampos.precioSugerido">Helper text</span>
@@ -118,18 +121,21 @@
                 </div>
 
 
-                <div class="input-field col s6">
-                    <select formControlName="divisaId">
-            <option value="" disabled [selected]="!modoEdicion">Seleccionar Divisa</option>
-                    <option *ngFor="let divisa of divisas " [value]="divisa.id"   >{{divisa.clave}}</option>
-                 </select>
-                    <label class="active">Divisa</label>
+                <div class="input-field col s3">
+                    <i class="material-icons prefix">payment</i>
+                    <input id="divisa" type="text" [ngClass]=" errorCampos.divisa  ? 'invalid' : 'valid' " (blur)="mostrarError( 'divisa') " formControlName="divisa" maxlength="3">
+
+                    <label for="divisa" class="active">Divisa</label>
+                    <span class="helper-text" *ngIf="errorCampos.divisa" [innerHTML]="errorCampos.divisa">Helper text</span>
+
                 </div>
+
             </div>
 
 
             <div class="row">
                 <div class="input-field col s12">
+                    <i class="material-icons prefix">assignment</i>
                     <select multiple id="multidepa">
                           <!-- <option value="" disabled [selected]="!modoEdicion">Seleccionar Departamentos</option> -->
                         <option  *ngFor="let dep of departamentos " [selected]="dep.selected"  [value]="dep.id"  >{{dep.nombre}}</option>
@@ -140,11 +146,11 @@
 
 
             <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s12">
                     <i class="material-icons prefix">dehaze</i>
                     <input id="nota" type="text" [ngClass]=" errorCampos.nota  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nota') " formControlName="nota" maxlength="120">
 
-                    <label for="nota" class="active">nota</label>
+                    <label for="nota" class="active">Nota</label>
                     <span class="helper-text" *ngIf="errorCampos.nota" [innerHTML]="errorCampos.nota">Helper text</span>
 
                 </div>

@@ -31,8 +31,8 @@ export class Agenda {
     public pax3raEdad: number,
     public activo: boolean,
 
-    public divisaComision: number,
-    public divisaDeposito: number,
+    public divisaComision: string,
+    public divisaDeposito: string,
     public numHabitacion: number,
 
     public fechaConfirmada?:Date,

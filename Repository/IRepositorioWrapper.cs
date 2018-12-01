@@ -35,7 +35,7 @@ namespace Repository
 
         IRepositorioUsuario Usuarios { get; }
         IRepositorioRole Roles { get; }
-        IRepositorioDivisa Divisas { get; }
+        //IRepositorioDivisa Divisas { get; }
         Task<int> CompleteAsync();
     }
 }

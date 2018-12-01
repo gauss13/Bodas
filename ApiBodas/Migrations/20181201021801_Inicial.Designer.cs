@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBodas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20181126175044_Inicio")]
-    partial class Inicio
+    [Migration("20181201021801_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,9 +52,9 @@ namespace ApiBodas.Migrations
                         .HasColumnType("decimal(18, 2)")
                         .HasDefaultValue(0m);
 
-                    b.Property<int?>("DivisaComision");
+                    b.Property<string>("DivisaComision");
 
-                    b.Property<int?>("DivisaDeposito");
+                    b.Property<string>("DivisaDeposito");
 
                     b.Property<int>("EjecutivoId");
 
@@ -200,20 +200,6 @@ namespace ApiBodas.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("BackUps");
-                });
-
-            modelBuilder.Entity("Entities.Models.Catalogos.Divisa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Clave")
-                        .HasMaxLength(5);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Divisas");
                 });
 
             modelBuilder.Entity("Entities.Models.Catalogos.Horas", b =>
@@ -433,7 +419,7 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
-                    b.Property<int>("DivisaId");
+                    b.Property<string>("Divisa");
 
                     b.Property<string>("Hotel");
 
@@ -552,7 +538,8 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
-                    b.Property<int>("DivisaId");
+                    b.Property<string>("Divisa")
+                        .HasMaxLength(3);
 
                     b.Property<int>("HotelId");
 
@@ -601,7 +588,8 @@ namespace ApiBodas.Migrations
                     b.Property<string>("Descripcion")
                         .HasMaxLength(150);
 
-                    b.Property<int>("DivisaId");
+                    b.Property<string>("Divisa")
+                        .HasMaxLength(3);
 
                     b.Property<int>("HotelId");
 
@@ -617,8 +605,6 @@ namespace ApiBodas.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
-
-                    b.HasIndex("DivisaId");
 
                     b.ToTable("Servicios");
                 });
@@ -776,11 +762,6 @@ namespace ApiBodas.Migrations
                     b.HasOne("Entities.Models.Paquetes.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Entities.Models.Catalogos.Divisa", "Divisa")
-                        .WithMany()
-                        .HasForeignKey("DivisaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

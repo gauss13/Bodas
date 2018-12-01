@@ -8,7 +8,7 @@ export class PaqueteServicio {
      public img:string,            
      public strDivisa:string,
      public strCategoria:string,
-     public divisaId:number,
+     public divisa:string,
      public categoriaId:number,
      public hotelId:number,
      public selected:boolean
