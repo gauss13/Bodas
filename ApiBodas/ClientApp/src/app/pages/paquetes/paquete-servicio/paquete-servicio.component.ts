@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormCon
 import { Globalx } from 'src/app/config/global';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { DivisaService, GenericoService  } from 'src/app/services/service.index';
+import {  GenericoService  } from 'src/app/services/service.index';
 import {mostrarErrorx, onCambioValorx, roundx} from '../../../Utils/formUtils';
 import { Paquete } from 'src/app/models/paquete.model';
 
@@ -36,7 +36,7 @@ export class PaqueteServicioComponent implements OnInit {
   totalPaqueteReal:number = 0;
 
   paquete:any;
-  divisas:any[];
+  // divisas:any[];
   servicios:any[];
   pqserv:PaqueteServicio[]=[];
 
@@ -49,17 +49,19 @@ export class PaqueteServicioComponent implements OnInit {
               private _gbl: Globalx,
               private router:Router, 
               public activatedRoute: ActivatedRoute,
-              private _servicioGenerico: GenericoService,
-              public _divisaService: DivisaService ) {
+              private _servicioGenerico: GenericoService
+               ) {
 
                 this.textoDeValidacion = {       
              
-                  descripcion: { required: 'El campo nombre de servicio es <strong>requerido</strong>.'  }  
+                  descripcion: { required: 'El campo nombre de servicio es <strong>requerido</strong>.'  } , 
+                  divisa: { required: 'El campo divisa  es <strong>requerido</strong>.'  } 
               
                 }
                 
                 this.errorCampos = {                 
-                  descripcion: ''                  
+                  descripcion: '',
+                  divisa:''                 
                 }
           
                 //PARAMS
@@ -90,8 +92,8 @@ export class PaqueteServicioComponent implements OnInit {
   
     this._gbl.tituloModulo ="Categoria de Servicios";
 
-    // GET data init
-      this.GetDivisas();
+      // GET data init
+      // this.GetDivisas();
 
       if(this.modoEdicion )
       {
@@ -135,18 +137,18 @@ initSelect()
 
 // *************************************GET DATOS*****************************************
 
-GetDivisas()
-{
-    this._divisaService.GetDivisas().subscribe( (resp:any) => {
+// GetDivisas()
+// {
+//     this._divisaService.GetDivisas().subscribe( (resp:any) => {
 
-        if(resp.ok)
-        {      
-           this.divisas = resp.divisa;   
-           this.initSelect();
-        }
-    });
+//         if(resp.ok)
+//         {      
+//            this.divisas = resp.divisa;   
+//            this.initSelect();
+//         }
+//     });
 
-}
+// }
 
 GetDatosPaquete(id:number)
 {
@@ -164,7 +166,7 @@ GetDatosPaquete(id:number)
           this.fg.patchValue({    
           descripcion: resp.paquete.descripcion,
           clave: resp.paquete.clave,
-          divisaId: resp.paquete.divisaId,
+          divisa: resp.paquete.divisa,
           total: resp.paquete.total,
           nota: resp.paquete.nota,
         });
@@ -182,7 +184,7 @@ construirFormulario(des:string, clave:string, idd:number, total:number) {
   this.fg = this.fb.group({    
     descripcion: ['', Validators.required],
     clave: ['', Validators.required],
-    divisaId: ['', Validators.required],
+    divisa: ['', Validators.required],
     total: ['0.00', Validators.required],
     nota: ['', Validators.required]    
   });

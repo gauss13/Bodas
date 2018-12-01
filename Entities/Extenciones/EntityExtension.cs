@@ -182,6 +182,7 @@ namespace Entities.Extenciones
             itemDb.Activo = item.Activo;
             itemDb.Total = item.Total;
             itemDb.Nota = item.Nota;
+            itemDb.Divisa = item.Divisa;
 
         }
 

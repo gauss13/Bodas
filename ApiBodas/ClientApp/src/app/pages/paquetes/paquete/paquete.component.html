@@ -14,12 +14,11 @@
                         <a routerLinkActive="active" routerLink="/paqueteservicio/nuevo" class="btn">Crear Paquete</a>
                     </div>
 
-                    <h4 class="card-title">Servicios ({{totalRegistros}})</h4>
+                    <h4 class="card-title">Paquetes ({{totalRegistros}})</h4>
                     <table id="tblRegistros" *ngIf="!cargando" class="striped responsive-table ">
                         <thead>
                             <tr>
-                                <th>Nombre Paquete</th>
-                                <th>Clave</th>
+                                <th>Nombre</th>
                                 <th>Divisa</th>
                                 <th>Total</th>
                                 <th></th>
@@ -28,7 +27,6 @@
                         <tbody>
                             <tr *ngFor="let reg of registros">
                                 <td>{{ reg.descripcion }}</td>
-                                <td>{{ reg.clave }}</td>
                                 <td>{{ reg.divisa }}</td>
                                 <td>{{ reg.total }}</td>
                                 <td>

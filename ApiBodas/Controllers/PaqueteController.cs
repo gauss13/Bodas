@@ -82,7 +82,7 @@ namespace ApiBodas.Controllers
         {
             try
             {
-
+                item.Divisa = item.Divisa.ToUpper();
                 var r = await this.Repositorio.Paquetes.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
 
@@ -118,6 +118,7 @@ namespace ApiBodas.Controllers
             {
                 itemNuevo.Id = id;
 
+                itemNuevo.Divisa = itemNuevo.Divisa.ToUpper();
 
                 var itemEncontrado = await this.Repositorio.Paquetes.GetByIdAsync(id);
 

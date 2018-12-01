@@ -265,10 +265,19 @@ namespace ApiBodas.Controllers
             {
                 item.FechaReg = DateTime.Now;
                 item.Activo = true;
+
+                if(item.Nacionalidad != null)
                 item.Nacionalidad = item.Nacionalidad.ToUpper();
+
+                if(item.DivisaComision != null)
+                item.DivisaComision = item.DivisaComision.ToUpper();
+                if(item.DivisaDeposito != null)
+                item.DivisaDeposito = item.DivisaDeposito.ToUpper();
 
                 var r = await this.Repositorio.Agendas.AddAsync(item);
                 await this.Repositorio.CompleteAsync();
+
+
 
                 var obj = new
                 {

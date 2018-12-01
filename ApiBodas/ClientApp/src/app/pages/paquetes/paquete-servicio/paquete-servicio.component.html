@@ -15,7 +15,7 @@
                             <h4>{{selectedId}} | {{ modoEdicion ? 'Editar Paquete' : 'Nuevo Paquete'}}</h4>
                             <div class="row">
                                 <div class="input-field col s6">
-                                    <i class="material-icons prefix">account_circle</i>
+                                    <i class="material-icons prefix">card_giftcard</i>
                                     <input id="descripcion" type="text" [ngClass]=" errorCampos.descripcion  ? 'invalid' : 'valid' " (blur)="mostrarError( 'descripcion') " formControlName="descripcion" maxlength="120">
 
                                     <label for="descripcion" class="active">Nombre del Paquete</label>
@@ -23,48 +23,41 @@
 
                                 </div>
 
-                                <div class="input-field col s1">
-
-                                    <input id="clave" type="text" [ngClass]=" errorCampos.clave  ? 'invalid' : 'valid' " (blur)="mostrarError( 'clave') " formControlName="clave" maxlength="4">
-
-                                    <label for="clave" class="active">Clave</label>
-                                    <span class="helper-text" *ngIf="errorCampos.clave" [innerHTML]="errorCampos.clave">Helper text</span>
-
+                                <div class="input-field col s3">
+                                    <i class="material-icons prefix">payment</i>
+                                    <input id="divisa" type="text" style="color:black" class="active validate" [ngClass]=" errorCampos.divisa  ? 'invalid' : 'valid' " (blur)="mostrarError( 'divisa') " formControlName="divisa" maxlength="3">
+                                    <label class="active">Divisa</label>
+                                    <span class="helper-text" *ngIf="errorCampos.divisa" [innerHTML]="errorCampos.divisa">Helper text</span>
                                 </div>
+
                                 <div class="input-field col s3">
                                     <i class="material-icons prefix">attach_money</i>
                                     <input id="total" type="text" value="0.00" style="color:black" disabled class="validate" [ngClass]=" errorCampos.total  ? 'invalid' : 'valid' " (blur)="mostrarError( 'total') " formControlName="total" maxlength="120">
 
-                                    <label for="total" class="active">Total Paquete</label>
+                                    <label for="total" class="active">Total</label>
                                     <span class="helper-text" *ngIf="errorCampos.total" [innerHTML]="errorCampos.total">Helper text</span>
 
-                                </div>
-
-                                <div class="input-field col s2">
-                                    <select formControlName="divisaId">                                       
-                                        <option *ngFor="let divisa of divisas; index as i " [selected]=" 0 == i" [value]="divisa.id"   >{{divisa.clave}}</option>
-                                     </select>
-                                    <label class="active">Divisa</label>
                                 </div>
 
                             </div>
                             <div class="row">
                                 <div class="input-field col s10">
-                                    <i class="material-icons prefix">account_circle</i>
+                                    <i class="material-icons prefix">dehaze</i>
                                     <input id="nota" type="text" [ngClass]=" errorCampos.nota  ? 'invalid' : 'valid' " (blur)="mostrarError( 'nota') " formControlName="nota" maxlength="350">
 
                                     <label for="nota" class="active">Nota</label>
                                     <span class="helper-text" *ngIf="errorCampos.nota" [innerHTML]="errorCampos.nota">Helper text</span>
 
                                 </div>
-                                <div class="input-field col s2">
-                                    <button type="submit" [disabled]="!fg.valid" [disabled]="fg.pristine" class="btn modal-close"> Guardar </button>
-                                </div>
+
 
                             </div>
 
-
-
+                            <div class="row">
+                                <div class="input-field col s2">
+                                    <button type="submit" [disabled]="!fg.valid" [disabled]="fg.pristine" class="btn modal-close"> Guardar </button>
+                                </div>
+                            </div>
 
                         </form>
                     </div>

@@ -51,7 +51,7 @@ export class AgendaComponent implements OnInit {
   lugaresBack: any;
   paquetes: any;
   agencias:any;
-  divisas:any;
+  // divisas:any;
   ttoos:any;
 
   fechaSeleccionada: string ='';
@@ -65,17 +65,12 @@ export class AgendaComponent implements OnInit {
   selectedPaquete: number =0;
   selectedAgencia: number =0;
   selectedTtoo: number =0;
-  selectedDivisaCom: number =5;
-  selectedDivisaDepo: number =5;
-
+  
   fechaDato:string='';
   parejaDato:string='';
   correoDato:string='';
   depositoDato:string='';
 
-
-
-  
 
 // FORMULARIO 1
 formG: FormGroup
@@ -87,8 +82,7 @@ formG: FormGroup
     public _tipoCeremoniaService: TipoceremoniaService,
     public _backupService: BackupService,
     public _paqueteService: PaqueteService,
-    public _agenciaService: AgenciaService,
-    public _divisaService: DivisaService,
+    public _agenciaService: AgenciaService,    
     private _servicioGenerico: GenericoService,
     public _gbl:Globalx,
     public activeRoute: ActivatedRoute,
@@ -169,7 +163,7 @@ activeRoute.params.subscribe(
     this.GetBackups();
     this.GetPaquetes();
     //this.GetAgencias();
-    this.GetDivisas();
+    // this.GetDivisas();
     this.GetTtoos();
 
    this.initSelect();
@@ -440,14 +434,14 @@ construirFormulario()
 
 // Fecha de pago =>  pago de la comision
 
-console.log('INICIAL',this.formG);
+
 
 // manejador del evento de cambio de valor en los inputs
 this.formChangesSub = this.formG.valueChanges.subscribe( data => this.onCambioValor());
 this.formG.touched;
 this.formG.markAsTouched();
 
-console.log('TOUCHED' , this.formG);
+
 
 
 
@@ -488,6 +482,7 @@ save(){
   }
 
  let itemAgenda: Agenda = Object.assign({}, this.formG.value)
+console.table(itemAgenda);
 
  itemAgenda.hotelId = this._gbl.hotelIdSelected; 
  itemAgenda.estadoAgendaId = 1;
@@ -521,18 +516,10 @@ if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === n
           this.CargarFechas(moment._i[0], moment._i[1]+1); 
           this.resetFormulario();   
 
-          console.log(resp);
-
-          var mf = new MasterFile(0,this._gbl.hotelSelected,resp.agenda.id,true,"Master File " + resp.agenda.id,0,0,0,0);
-          // mf.id = 0;
-          // mf.hotel = this._gbl.hotelSelected;
-          // mf.agendaId = resp.agenda.id;
-          // mf.activo = true;
-          // mf.descripcion = "Master File " + resp.agenda.id;
-          // mf.totalIncuido = 0;
-          // mf.totalAdicional = 0;
-          // mf.totalMaster = 0;
-          // mf.divisaId = 0;
+   
+//abc corregir divisa
+          var mf = new MasterFile(0,this._gbl.hotelSelected,resp.agenda.id,true,"Master File " + resp.agenda.id,0,0,0,'USD');
+         
 
           this.crearMasterFile(mf);
 
@@ -545,7 +532,7 @@ if(this.formG.value.numHabitacion === "" || this.formG.value.numHabitacion === n
  (err)=>{
 
   M.toast({html: err.mensaje, classes: alertError});
-  console.log(err.errors.mensaje);
+
 
  },
  () => {});
@@ -582,7 +569,7 @@ else
 },
 (err) => {
   M.toast({html: err.mensaje, classes: alertError});
-  console.log(err.errors.mensaje);
+
 },
 () => {});
 
@@ -739,12 +726,7 @@ else
 });
 }
 
-GetDivisas()
-{
-    this._divisaService.GetDivisas().subscribe( (resp:any) => {
-    this.divisas = resp.divisa;
-    });
-}
+
 
 
 GetTtoos()
@@ -841,8 +823,7 @@ modalCrear()
   this.selectedBack  = 0;
   this.selectedPaquete =0;
   this.selectedAgencia =0;
-  this.selectedDivisaCom =0;
-  this.selectedDivisaDepo =0;
+
 
   this.strTipo ='Tentativo';
 
@@ -962,8 +943,7 @@ this._servicioAgenda.GetAgendaById(this._gbl.hotelIdSelected,ida).subscribe(
       this.selectedBack  = agendadb.backUpId;
       this.selectedPaquete  =agendadb.paqueteId;
       this.selectedAgencia  =agendadb.agenciaId;
-      this.selectedDivisaCom  =agendadb.divisaComision == null ? 0 : agendadb.divisaComision;
-      this.selectedDivisaDepo  =agendadb.divisaDeposito == null ? 0 : agendadb.divisaDeposito;
+   
       this.selectedTtoo = agendadb.ttooId == null ? 0 : agendadb.ttooId;
 
 
