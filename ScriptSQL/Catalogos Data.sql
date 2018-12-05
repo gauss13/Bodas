@@ -3,7 +3,7 @@ GO
 
 delete [dbo].[Hoteles]
 delete [dbo].[Horas]
-delete [dbo].[Divisas]
+
 delete [dbo].[Roles]
 delete [dbo].[LugaresCeremonia]
 delete [dbo].[BackUps]
@@ -15,7 +15,7 @@ delete [dbo].[Agentes]
 delete [dbo].[CategoriasServicios]
 delete [dbo].[Comentarios]
 delete [dbo].[DiasBloquedo]
-delete [dbo].[Divisas]
+
 delete [dbo].[EstadosAgenda]
 delete [dbo].[Historial]
 delete [dbo].[Horas]
@@ -114,8 +114,7 @@ INSERT INTO [dbo].[Horas] ([Hora] ,[Tipo])  VALUES    ('16:00',3)
 INSERT INTO [dbo].[Horas] ([Hora] ,[Tipo])  VALUES    ('17:00',3)
 
 
-INSERT INTO [dbo].[Divisas]([Clave])  VALUES ('MX')
-INSERT INTO [dbo].[Divisas]([Clave])  VALUES ('USD')
+
 
 INSERT INTO [dbo].[Roles]([Nombre],[Clave]) VALUES ('Administrador' ,'Ad')
 INSERT INTO [dbo].[Roles]([Nombre],[Clave]) VALUES ('Gerente' ,'Ge')
@@ -145,8 +144,8 @@ INSERT INTO [dbo].[Agencias]([Nombre],[Correo] ,[Activo],[TtooId]) VALUES ('Agen
 
 
 
-INSERT INTO [dbo].[Paquetes] ([Descripcion],[Clave],[Activo]) VALUES ('Paquete uno','AGH',1)
-INSERT INTO [dbo].[Paquetes] ([Descripcion],[Clave],[Activo]) VALUES ('Paquete 2','PK2',1)
+INSERT INTO [dbo].[Paquetes] ([HotelId],[Descripcion],[Clave],[Activo],[Total]) VALUES (1,'Paquete uno','AGH',1,0)
+INSERT INTO [dbo].[Paquetes] ([HotelId],[Descripcion],[Clave],[Activo],[Total]) VALUES (1,'Paquete 2','PK2',1,0)
 
 
 INSERT INTO [dbo].[LugaresCena]([Lugar],[HotelId],[Activo]) VALUES ('Lugar cena 1', 1  ,1)

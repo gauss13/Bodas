@@ -1,8 +1,8 @@
 
 // **************************************** URL WEB API ***********************************************
-//  export const URL_SERVICIOS = 'http://localhost:50271'; // Sandos
+ export const URL_SERVICIOS = 'http://localhost:50271'; // Sandos
  // export const URL_SERVICIOS = 'http://localhost:61741';
- export const URL_SERVICIOS = 'http://localhost:52884'; // sony
+//  export const URL_SERVICIOS = 'http://localhost:52884'; // sony
 
  // **************************************** CSS ALERTS ***********************************************
 export const alertSuccess = ' rounded light-green darken-1';//lime accent-4
