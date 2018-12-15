@@ -1,53 +1,55 @@
-<div class="row">
-    <div class="col-12">
+<div class="card">
+    <div class="card-body">
+        <div class="progress" *ngIf="cargando">
+            <div class="indeterminate"></div>
+        </div>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="progress" *ngIf="cargando">
-                    <div class="indeterminate"></div>
-                </div>
+        <div class="text-right" *ngIf="!cargando">
+            <h4 class="card-title">Lugar Cenas registrados ({{totalRegistros}}) <button data-target="modal1" class="btn modal-trigger" (click)="modalCrear()">Nuevo</button></h4>
+            <!-- Modal Trigger -->
 
-                <div class="text-right" *ngIf="!cargando">
-                    <!-- Modal Trigger -->
-                    <button data-target="modal1" class="btn modal-trigger" (click)="modalCrear()">Crear</button>
-                </div>
+        </div>
 
-                <h4 class="card-title">Lugar Cenas registrados ({{totalRegistros}})</h4>
 
-                <table id="tblLugares" class="striped responsive-table ">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Lugar</th>
-                            <th>Hotel</th>
-                            <th>Activo</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let lugar of lugares">
-                            <td>{{ lugar.id }}</td>
-                            <td>{{ lugar.lugar }}</td>
-                            <td>{{ lugar.hotel.nombre }}</td>
-                            <td>{{ lugar.activo }}</td>
-                            <td>
-                                <button (click)="borrarLugar(lugar)" class="btn  red  lighten-1">
+
+        <table id="tblLugares" class="striped responsive-table ">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Lugar</th>
+                    <th>Hotel</th>
+                    <th>Activo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lugar of lugares">
+                    <td>{{ lugar.id }}</td>
+                    <td>{{ lugar.lugar }}</td>
+                    <td>{{ lugar.hotel.nombre }}</td>
+                    <td>{{ lugar.activo }}</td>
+                    <td>
+                        <button (click)="borrarLugar(lugar)" class="btn  red  lighten-1">
                                         <i class="material-icons prefix">delete</i>
                                 </button>
-                                <button (click)="modalEdicion(lugar)" data-target="modal1" class="btn indigo  lighten-1 modal-trigger">
+                        <button (click)="modalEdicion(lugar)" data-target="modal1" class="btn indigo  lighten-1 modal-trigger">
                                         <i class="material-icons prefix">create</i>
                                 </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
 
 
-            </div>
-        </div>
     </div>
 </div>
+
+
+
+
+
+
 
 
 <!-- Modal Structure -->
