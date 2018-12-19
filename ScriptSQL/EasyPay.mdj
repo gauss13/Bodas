@@ -1360,6 +1360,22 @@
 										},
 										{
 											"_type": "ERDColumnView",
+											"_id": "AAAAAAFnrQIazl+G2Jw=",
+											"_parent": {
+												"$ref": "AAAAAAFnX7gdx+VSk3o="
+											},
+											"model": {
+												"$ref": "AAAAAAFnrQIap1+DnSM="
+											},
+											"fillColor": "#ffd8d8",
+											"font": "Arial;13;0",
+											"left": 421,
+											"top": 514,
+											"width": 367,
+											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
 											"_id": "AAAAAAFnX/DMk+dXDzI=",
 											"_parent": {
 												"$ref": "AAAAAAFnX7gdx+VSk3o="
@@ -1370,7 +1386,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 514,
+											"top": 529,
 											"width": 367,
 											"height": 13
 										},
@@ -1386,7 +1402,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 529,
+											"top": 544,
 											"width": 367,
 											"height": 13
 										},
@@ -1402,7 +1418,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 544,
+											"top": 559,
 											"width": 367,
 											"height": 13
 										},
@@ -1418,7 +1434,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 559,
+											"top": 574,
 											"width": 367,
 											"height": 13
 										},
@@ -1434,7 +1450,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 574,
+											"top": 589,
 											"width": 367,
 											"height": 13
 										},
@@ -1450,7 +1466,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 589,
+											"top": 604,
 											"width": 367,
 											"height": 13
 										},
@@ -1466,7 +1482,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 604,
+											"top": 619,
 											"width": 367,
 											"height": 13
 										},
@@ -1482,7 +1498,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 619,
+											"top": 634,
 											"width": 367,
 											"height": 13
 										},
@@ -1498,7 +1514,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 634,
+											"top": 649,
 											"width": 367,
 											"height": 13
 										},
@@ -1514,7 +1530,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 649,
+											"top": 664,
 											"width": 367,
 											"height": 13
 										},
@@ -1530,7 +1546,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 664,
+											"top": 679,
 											"width": 367,
 											"height": 13
 										},
@@ -1546,7 +1562,7 @@
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
 											"left": 421,
-											"top": 679,
+											"top": 694,
 											"width": 367,
 											"height": 13
 										},
@@ -1558,22 +1574,6 @@
 											},
 											"model": {
 												"$ref": "AAAAAAFnYWLeSOqxN/Q="
-											},
-											"fillColor": "#ffd8d8",
-											"font": "Arial;13;0",
-											"left": 421,
-											"top": 694,
-											"width": 367,
-											"height": 13
-										},
-										{
-											"_type": "ERDColumnView",
-											"_id": "AAAAAAFnrQIazl+G2Jw=",
-											"_parent": {
-												"$ref": "AAAAAAFnX7gdx+VSk3o="
-											},
-											"model": {
-												"$ref": "AAAAAAFnrQIap1+DnSM="
 											},
 											"fillColor": "#ffd8d8",
 											"font": "Arial;13;0",
@@ -3343,6 +3343,107 @@
 							"width": 617,
 							"height": 193,
 							"text": "Regla\n\n- La regla es por entidad, cada entidad tendrá su propia regla de, entidad, grupo y de pais\n\n\n- Regla 1: Default entidad, si grupo es null y pais es null.\n\n- Regla 2: Por Grupo en la entidad, si pais es null.\n\n- Regla 3: Por Pais, cuando el Grupo es null.\n\nEn caso de exister las tres reglas, la prioridad de las reglas es:  3,2,1.\n\n\nPara que una regla de grupo aplique igual a todas las entidades será necesario crear un registro de regla por cada entidad.\n"
+						},
+						{
+							"_type": "ERDEntityView",
+							"_id": "AAAAAAFnxp6xwGq0i1Q=",
+							"_parent": {
+								"$ref": "AAAAAAFLzntJC6ElOqo="
+							},
+							"model": {
+								"$ref": "AAAAAAFnxp6xvmqyTCg="
+							},
+							"subViews": [
+								{
+									"_type": "LabelView",
+									"_id": "AAAAAAFnxp6xwGq14vk=",
+									"_parent": {
+										"$ref": "AAAAAAFnxp6xwGq0i1Q="
+									},
+									"fillColor": "#d8f2ff",
+									"font": "Arial;13;1",
+									"left": 1136,
+									"top": 757,
+									"width": 144.82275390625,
+									"height": 13,
+									"text": "Divisas"
+								},
+								{
+									"_type": "ERDColumnCompartmentView",
+									"_id": "AAAAAAFnxp6xwGq2AOs=",
+									"_parent": {
+										"$ref": "AAAAAAFnxp6xwGq0i1Q="
+									},
+									"model": {
+										"$ref": "AAAAAAFnxp6xvmqyTCg="
+									},
+									"subViews": [
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFnxp7cs2rDgoo=",
+											"_parent": {
+												"$ref": "AAAAAAFnxp6xwGq2AOs="
+											},
+											"model": {
+												"$ref": "AAAAAAFnxp7caGrAAxg="
+											},
+											"fillColor": "#d8f2ff",
+											"font": "Arial;13;0",
+											"left": 1141,
+											"top": 780,
+											"width": 134.82275390625,
+											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFnxp7oImrJCgw=",
+											"_parent": {
+												"$ref": "AAAAAAFnxp6xwGq2AOs="
+											},
+											"model": {
+												"$ref": "AAAAAAFnxp7n4mrGSCQ="
+											},
+											"fillColor": "#d8f2ff",
+											"font": "Arial;13;0",
+											"left": 1141,
+											"top": 795,
+											"width": 134.82275390625,
+											"height": 13
+										}
+									],
+									"fillColor": "#d8f2ff",
+									"font": "Arial;13;0",
+									"left": 1136,
+									"top": 775,
+									"width": 144.82275390625,
+									"height": 38
+								}
+							],
+							"fillColor": "#d8f2ff",
+							"font": "Arial;13;0",
+							"left": 1136,
+							"top": 752,
+							"width": 144.82275390625,
+							"height": 61,
+							"nameLabel": {
+								"$ref": "AAAAAAFnxp6xwGq14vk="
+							},
+							"columnCompartment": {
+								"$ref": "AAAAAAFnxp6xwGq2AOs="
+							}
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAFnxqBehGrTfmo=",
+							"_parent": {
+								"$ref": "AAAAAAFLzntJC6ElOqo="
+							},
+							"font": "Arial;13;0",
+							"left": 1288,
+							"top": 752,
+							"width": 233,
+							"height": 81,
+							"text": "Tabla Divisas se usará para obtner el codigo de la moneda de pago.\n\n\n\nEn las tablas donde se usa divisa se guardará el codigo no el id"
 						}
 					]
 				},
@@ -4254,6 +4355,16 @@
 						},
 						{
 							"_type": "ERDColumn",
+							"_id": "AAAAAAFnrQIap1+DnSM=",
+							"_parent": {
+								"$ref": "AAAAAAFnX7gdx+VO68I="
+							},
+							"name": "Ordenante",
+							"type": "string null",
+							"length": 0
+						},
+						{
+							"_type": "ERDColumn",
 							"_id": "AAAAAAFnX/DMXOdUnfg=",
 							"_parent": {
 								"$ref": "AAAAAAFnX7gdx+VO68I="
@@ -4385,16 +4496,6 @@
 							"type": "int",
 							"length": 0,
 							"foreignKey": true
-						},
-						{
-							"_type": "ERDColumn",
-							"_id": "AAAAAAFnrQIap1+DnSM=",
-							"_parent": {
-								"$ref": "AAAAAAFnX7gdx+VO68I="
-							},
-							"name": "Ordenante",
-							"type": "string",
-							"length": 0
 						},
 						{
 							"_type": "ERDColumn",
@@ -5147,6 +5248,37 @@
 							"name": "FechaReg",
 							"type": "DateTime",
 							"length": 0
+						}
+					]
+				},
+				{
+					"_type": "ERDEntity",
+					"_id": "AAAAAAFnxp6xvmqyTCg=",
+					"_parent": {
+						"$ref": "AAAAAAFLzntJC6EktCk="
+					},
+					"name": "Divisas",
+					"columns": [
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFnxp7caGrAAxg=",
+							"_parent": {
+								"$ref": "AAAAAAFnxp6xvmqyTCg="
+							},
+							"name": "Id",
+							"type": "int",
+							"length": 0,
+							"primaryKey": true
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFnxp7n4mrGSCQ=",
+							"_parent": {
+								"$ref": "AAAAAAFnxp6xvmqyTCg="
+							},
+							"name": "Codigo",
+							"type": "string",
+							"length": "3"
 						}
 					]
 				}
